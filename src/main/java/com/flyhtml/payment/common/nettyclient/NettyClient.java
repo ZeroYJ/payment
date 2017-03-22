@@ -1,10 +1,8 @@
-package com.flyhtml.payment.common.httpclient;
+package com.flyhtml.payment.common.nettyclient;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -20,7 +18,7 @@ import io.netty.handler.codec.http.multipart.HttpPostRequestEncoder.ErrorDataEnc
 /**
  * Created by xiaowei on 17-3-22.
  */
-public class Client {
+public class NettyClient {
 
     public static HttpRequest getRequestMethod(Map<String, String> parameter, String url,
                                                String method) throws ErrorDataEncoderException {
@@ -81,7 +79,7 @@ public class Client {
 
             headers.set(HttpHeaderNames.ACCEPT_CHARSET, "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
             headers.set(HttpHeaderNames.ACCEPT_LANGUAGE, "fr");
-            headers.set(HttpHeaderNames.USER_AGENT, "Netty Simple Http Client side");
+            headers.set(HttpHeaderNames.USER_AGENT, "Netty Simple Http NettyClient side");
             headers.set(HttpHeaderNames.ACCEPT, "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         } else {
             System.err.println("this method is not support!");
@@ -115,7 +113,7 @@ public class Client {
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();
-            b.group(group).channel(NioSocketChannel.class).handler(new HttpClientInitializer(ssl));
+            b.group(group).channel(NioSocketChannel.class).handler(new NettyClientInitializer(ssl));
 
             // Make the connection attempt.
             Channel ch = b.connect(host, port).sync().channel();
@@ -128,12 +126,29 @@ public class Client {
     }
 
     public static void main(String args[]) throws ErrorDataEncoderException, InterruptedException {
-        String url = "http://fuliaoyi.com/flyhtml/systemServices/getJsWeiXinConfig";
-        Map<String, String> getData = new HashMap<String, String>();
-        getData.put("tags", "806:938356;");
-        getData.put("sort", "_p");
+        List<Thread> threads = new ArrayList<Thread>();
+        for (int i = 0; i < 20; i++) {
+            Thread da = new Thread() {
 
-        HttpRequest get = getRequestMethod(null, url, "post");
-        new Client().run(url, get);
+                @Override
+                public void run() {
+                    try {
+                        String url = "http://fuliaoyi.com/flyhtml/systemServices/getJsWeiXinConfig";
+                        Map<String, String> getData = new HashMap<String, String>();
+                        getData.put("tags", "806:938356;");
+                        getData.put("sort", "_p");
+
+                        HttpRequest get = NettyClient.getRequestMethod(null, url, "post");
+                        new NettyClient().run(url, get);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            threads.add(da);
+        }
+        for (Thread thread : threads) {
+            thread.start();
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.flyhtml.payment.common.httpclient;
+package com.flyhtml.payment.common.nettyclient;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -8,7 +8,7 @@ import io.netty.util.CharsetUtil;
 /**
  * Hello world!
  */
-public class HttpClientHandler extends SimpleChannelInboundHandler<HttpObject> {
+public class NettyClientHandler extends SimpleChannelInboundHandler<HttpObject> {
 
     public void messageReceived(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
