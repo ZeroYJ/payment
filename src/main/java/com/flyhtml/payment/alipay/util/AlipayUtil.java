@@ -5,9 +5,6 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.flyhtml.payment.alipay.config.AlipayConfig;
-import io.netty.handler.codec.http.DefaultFullHttpResponse;
-import io.netty.handler.codec.http.HttpResponse;
-import io.netty.handler.codec.http.HttpVersion;
 
 import static com.flyhtml.payment.alipay.config.AlipayConfig.ALIPAY_PUBLIC_KEY;
 import static com.flyhtml.payment.alipay.config.AlipayConfig.APP_PRIVATE_KEY;
@@ -18,6 +15,7 @@ import static com.flyhtml.payment.alipay.config.AlipayConfig.APP_PRIVATE_KEY;
 public class AlipayUtil {
 
     private static AlipayClient alipayClient;
+
     static {
         alipayClient = new DefaultAlipayClient(AlipayConfig.URL, AlipayConfig.APP_ID, APP_PRIVATE_KEY, "json", "UTF-8",
                                                ALIPAY_PUBLIC_KEY, "RSA2");
