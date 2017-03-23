@@ -97,7 +97,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.flyhtml.payment.alipay.util.AlipayUtil</mainClass>
+                            <mainClass>com.flyhtml.payment.channel.alipay.util.AlipayUtil</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

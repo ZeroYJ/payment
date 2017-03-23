@@ -1,12 +1,11 @@
-package com.flyhtml.payment.alipay.util;
+package com.flyhtml.payment.channel.alipay.util;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeWapPayModel;
-import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
-import com.flyhtml.payment.alipay.config.AlipayConfig;
+import com.flyhtml.payment.channel.alipay.AlipayConfig;
 
 /**
  * Created by xiaowei on 17-3-21.

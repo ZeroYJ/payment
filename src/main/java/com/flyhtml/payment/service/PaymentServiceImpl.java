@@ -1,6 +1,6 @@
 package com.flyhtml.payment.service;
 
-import com.flyhtml.payment.alipay.util.AlipayUtil;
+import com.flyhtml.payment.channel.alipay.util.AlipayUtil;
 import io.grpc.payment.*;
 import io.grpc.stub.StreamObserver;
 

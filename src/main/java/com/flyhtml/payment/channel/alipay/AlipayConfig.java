@@ -1,4 +1,4 @@
-package com.flyhtml.payment.alipay.config;
+package com.flyhtml.payment.channel.alipay;
 
 /**
  * Created by xiaowei on 17-3-21. 支付宝配置文件类
