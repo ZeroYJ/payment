@@ -14,6 +14,11 @@ import io.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
 import io.netty.handler.codec.http.multipart.HttpDataFactory;
 import io.netty.handler.codec.http.multipart.HttpPostRequestEncoder;
 import io.netty.handler.codec.http.multipart.HttpPostRequestEncoder.ErrorDataEncoderException;
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
+
+import javax.net.ssl.SSLException;
 
 /**
  * Created by xiaowei on 17-3-22.
@@ -87,7 +92,8 @@ public class NettyClient {
         return request;
     }
 
-    public void run(String url, HttpRequest request) throws ErrorDataEncoderException, InterruptedException {
+    public void run(String url, HttpRequest request) throws ErrorDataEncoderException, InterruptedException,
+                                                     SSLException {
         URI uri;
         try {
             uri = new URI(url);
@@ -109,12 +115,19 @@ public class NettyClient {
             System.err.println("Only HTTP(S) is supported.");
         }
         boolean ssl = "https".equalsIgnoreCase(scheme);
+        SslContext sslCtx;
+        if (ssl) {
+            sslCtx = SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).build();
+        } else {
+            sslCtx = null;
+        }
         // Configure the client.
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();
-            b.group(group).channel(NioSocketChannel.class).handler(new NettyClientInitializer(ssl));
-
+            b.group(group);
+            b.channel(NioSocketChannel.class);
+            b.handler(new NettyClientInitializer(sslCtx));
             // Make the connection attempt.
             Channel ch = b.connect(host, port).sync().channel();
             // send request
@@ -127,7 +140,7 @@ public class NettyClient {
 
     public static void main(String args[]) throws ErrorDataEncoderException, InterruptedException {
         List<Thread> threads = new ArrayList<Thread>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 1; i++) {
             Thread da = new Thread() {
 
                 @Override

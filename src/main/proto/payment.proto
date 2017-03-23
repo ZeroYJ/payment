@@ -1,15 +1,18 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "io.grpc.payment.callback";
-option java_outer_classname = "CallBackProto";
+option java_package = "io.grpc.payment";
+option java_outer_classname = "PaymentProto";
 
-package callback;
+package payment;
 
 // The greeting service definition.
-service CallBack {
+service PaymentService {
     // Sends a greeting
     rpc aliPayNotify (CallBackParam) returns (ReturnParam) {
+    }
+    // Create a AlipayOrder
+    rpc createAlipay (AlipayOrderParam) returns (Result) {
     }
 }
 
@@ -46,6 +49,17 @@ message CallBackParam {
     string fund_bill_list = 29;
     string passback_params = 30;
     string voucher_detail_list = 31;
+}
+
+message AlipayOrderParam {
+    string subject = 1;
+    string body = 2;
+    string out_trade_no = 3;
+    string total_amount = 4;
+}
+
+message Result {
+    string data = 1;
 }
 
 message ReturnParam {
