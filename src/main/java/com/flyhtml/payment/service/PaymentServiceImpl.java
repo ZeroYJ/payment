@@ -23,4 +23,9 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
         responseObserver.onNext(result);
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void createWechat(WechatOrderParam request, StreamObserver<Result> responseObserver) {
+        super.createWechat(request, responseObserver);
+    }
 }

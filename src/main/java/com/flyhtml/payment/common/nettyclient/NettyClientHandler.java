@@ -49,6 +49,7 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<HttpObject> 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, HttpObject httpObject) throws Exception {
         messageReceived(ctx, httpObject);
+//        ctx.writeAndFlush(httpObject);
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.util.*;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -17,6 +18,7 @@ import io.netty.handler.codec.http.multipart.HttpPostRequestEncoder.ErrorDataEnc
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
+import me.hao0.common.http.Http;
 
 import javax.net.ssl.SSLException;
 
@@ -129,39 +131,48 @@ public class NettyClient {
             b.channel(NioSocketChannel.class);
             b.handler(new NettyClientInitializer(sslCtx));
             // Make the connection attempt.
-            Channel ch = b.connect(host, port).sync().channel();
+            ChannelFuture ch = b.connect(host, port).sync();
             // send request
-            ch.writeAndFlush(request).sync();
-            ch.closeFuture().sync();
+            ch.channel().writeAndFlush(request).sync();
+            ch.channel().closeFuture().sync();
         } finally {
             group.shutdownGracefully();
         }
     }
 
-    public static void main(String args[]) throws ErrorDataEncoderException, InterruptedException {
-        List<Thread> threads = new ArrayList<Thread>();
-        for (int i = 0; i < 1; i++) {
-            Thread da = new Thread() {
-
-                @Override
-                public void run() {
-                    try {
-                        String url = "http://fuliaoyi.com/flyhtml/systemServices/getJsWeiXinConfig";
-                        Map<String, String> getData = new HashMap<String, String>();
-                        getData.put("tags", "806:938356;");
-                        getData.put("sort", "_p");
-
-                        HttpRequest get = NettyClient.getRequestMethod(null, url, "post");
-                        new NettyClient().run(url, get);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-            threads.add(da);
-        }
-        for (Thread thread : threads) {
-            thread.start();
-        }
+    public static void main(String args[]) throws ErrorDataEncoderException, InterruptedException, SSLException {
+        String url = "http://fuliaoyi.com/flyhtml/systemServices/getJsWeiXinConfig";
+        String request = Http.get(url).request();
+        System.out.println(request);
+        // Map<String, String> getData = new HashMap<>();
+        // getData.put("tags", "806:938356;");
+        // getData.put("sort", "_p");
+        //
+        // HttpRequest get = NettyClient.getRequestMethod(null, url, "post");
+        // new NettyClient().run(url, get);
+        // List<Thread> threads = new ArrayList<Thread>();
+        // for (int i = 0; i < 1; i++) {
+        // Thread da = new Thread() {
+        //
+        // @Override
+        // public void run() {
+        // try {
+        // String url = "http://fuliaoyi.com/flyhtml/systemServices/getJsWeiXinConfig";
+        // Map<String, String> getData = new HashMap<String, String>();
+        // getData.put("tags", "806:938356;");
+        // getData.put("sort", "_p");
+        //
+        // HttpRequest get = NettyClient.getRequestMethod(null, url, "post");
+        // new NettyClient().run(url, get);
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // }
+        // }
+        // };
+        // threads.add(da);
+        // }
+        // for (Thread thread : threads) {
+        // thread.start();
+        // }
     }
 }
