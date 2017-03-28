@@ -4,12 +4,16 @@ package com.flyhtml.payment.channel.wechatpay;
  * Created by xiaowei on 17-3-23. 微信支付配置类
  * 
  * @author xiaowei
- * @deprecated 微信参考地址 https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
+ * @remarks 微信参考地址 https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
  */
 public class WechatPayConfig {
 
     // APPID
     public static String appid      = "wxc995ba40913d605d";
+    // APPSECRET
+    public static String appsecret  = "add3136cebac319f2ffa4b0e2a95e42b";
+    // APPKEY
+    public static String appKey     = "b81fc761fe654f619f150558c490ea49";
     // 商户号
     public static String mch_id     = "1366385702";
     // URL
