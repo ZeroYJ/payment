@@ -1,7 +1,9 @@
 package com.flyhtml.payment.channel.wechatpay.annotation;
 
 /**
- * 标记字段是可选的
+ * @author xiaowei
+ * @time 17-3-29 上午10:04
+ * @describe 标记字段是可选的
  */
 public @interface Optional {
 

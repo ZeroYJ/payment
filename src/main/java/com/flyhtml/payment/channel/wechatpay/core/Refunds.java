@@ -21,9 +21,9 @@ import com.flyhtml.payment.channel.wechatpay.util.RandomStrs;
 import me.hao0.common.util.Strings;
 
 /**
- * 退款组件 Author: haolin Email: haolin.h0@gmail.com Date: 27/11/15
- * 
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:06
+ * @describe 退款组件
  */
 public final class Refunds extends Component {
 

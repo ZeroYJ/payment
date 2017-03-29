@@ -1,9 +1,9 @@
 package com.flyhtml.payment.channel.wechatpay.core;
 
 /**
- * Wepay构建器 Author: haolin Email: haolin.h0@gmail.com Date: 25/11/15
- * 
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:07
+ * @describe Wepay构造器
  */
 public final class WepayBuilder {
 

@@ -8,9 +8,9 @@ import com.flyhtml.payment.channel.wechatpay.model.enums.RefundChannel;
 import com.flyhtml.payment.channel.wechatpay.model.enums.RefundStatus;
 
 /**
- * 单笔退款
- * 
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:16
+ * @describe 单笔退款
  */
 public class RefundItem implements Serializable {
 

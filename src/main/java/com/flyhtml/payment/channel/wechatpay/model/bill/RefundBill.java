@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.flyhtml.payment.channel.wechatpay.model.enums.WepayField;
 
 /**
- * 退款账单
+ * @author xiaowei
+ * @time 17-3-29 上午10:09
+ * @describe 退款账单
  */
 public class RefundBill extends CommonBill {
 

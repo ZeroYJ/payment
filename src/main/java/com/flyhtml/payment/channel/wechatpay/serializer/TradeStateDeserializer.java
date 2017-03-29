@@ -9,9 +9,9 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.flyhtml.payment.channel.wechatpay.model.enums.TradeState;
 
 /**
- * 交易状态反序列化器
- * 
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:18
+ * @describe 交易状态反序列化器
  */
 public class TradeStateDeserializer extends JsonDeserializer<TradeState> {
 

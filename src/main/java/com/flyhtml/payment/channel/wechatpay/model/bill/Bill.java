@@ -11,9 +11,9 @@ import com.flyhtml.payment.channel.wechatpay.serializer.FeeTypeDeserializer;
 import com.flyhtml.payment.channel.wechatpay.serializer.TradeTypeDeserializer;
 
 /**
- * 交易成功账单
- * 
- * @since 1.1.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:08
+ * @describe 交易成功账单
  */
 public class Bill implements Serializable {
 

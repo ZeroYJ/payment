@@ -6,9 +6,9 @@ import com.flyhtml.payment.channel.wechatpay.annotation.Optional;
 import com.flyhtml.payment.channel.wechatpay.model.enums.FeeType;
 
 /**
- * 支付请求对象
- * 
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:15
+ * @describe 支付请求对象
  */
 public class PayRequest implements Serializable {
 

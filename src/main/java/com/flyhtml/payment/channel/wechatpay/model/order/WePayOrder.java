@@ -16,9 +16,9 @@ import com.flyhtml.payment.channel.wechatpay.model.enums.WepayField;
 import com.flyhtml.payment.channel.wechatpay.serializer.*;
 
 /**
- * 微信查询订单对象
- * 
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:13
+ * @describe 微信查询订单对象
  */
 public class WePayOrder implements Serializable {
 

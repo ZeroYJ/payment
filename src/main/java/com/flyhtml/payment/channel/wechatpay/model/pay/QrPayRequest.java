@@ -3,9 +3,9 @@ package com.flyhtml.payment.channel.wechatpay.model.pay;
 import com.flyhtml.payment.channel.wechatpay.annotation.Optional;
 
 /**
- * 二维码支付请求对象
- * 
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:16
+ * @describe 二维码支付请求对象
  */
 public class QrPayRequest extends PayRequest {
 

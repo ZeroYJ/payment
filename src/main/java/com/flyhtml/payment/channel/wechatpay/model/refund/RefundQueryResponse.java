@@ -6,10 +6,11 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 退款查询对象
- * 
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:17
+ * @describe 退款查询对象
  */
+
 public class RefundQueryResponse implements Serializable {
 
     private static final long serialVersionUID = -3559898607397949643L;

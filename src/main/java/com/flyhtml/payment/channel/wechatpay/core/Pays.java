@@ -17,9 +17,9 @@ import me.hao0.common.date.Dates;
 import me.hao0.common.security.MD5;
 
 /**
- * 支付组件
- * 
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:05
+ * @describe 支付组件
  */
 public final class Pays extends Component {
 

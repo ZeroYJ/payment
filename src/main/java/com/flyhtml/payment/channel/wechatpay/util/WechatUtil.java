@@ -8,7 +8,9 @@ import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayResponse;
 import me.hao0.common.date.Dates;
 
 /**
- * Created by xiaowei on 17-3-24.
+ * @author xiaowei
+ * @time 17-3-29 上午10:02
+ * @describe 支付宝工具类
  */
 public class WechatUtil {
 

@@ -3,10 +3,11 @@ package com.flyhtml.payment.channel.wechatpay.model.enums;
 import com.flyhtml.payment.channel.wechatpay.annotation.Optional;
 
 /**
- * 微信支付字段
- * 
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:12
+ * @describe 微信支付字段
  */
+
 public final class WepayField {
 
     /**

@@ -17,9 +17,9 @@ import me.hao0.common.json.Jsons;
 import me.hao0.common.xml.XmlReaders;
 
 /**
- * 账单组件
- * 
- * @since 1.1.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:04
+ * @describe 账单组件
  */
 public class Bills extends Component {
 

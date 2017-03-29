@@ -3,7 +3,9 @@ package com.flyhtml.payment.channel.wechatpay.model.pay;
 import java.io.Serializable;
 
 /**
- * 公众号支付响应对象
+ * @author xiaowei
+ * @time 17-3-29 上午10:14
+ * @describe 公众号支付响应对象
  */
 public class JsPayResponse implements Serializable {
 

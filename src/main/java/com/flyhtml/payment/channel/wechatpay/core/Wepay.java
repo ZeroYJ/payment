@@ -14,9 +14,9 @@ import com.flyhtml.payment.channel.wechatpay.exception.WepayException;
 import me.hao0.common.util.Strings;
 
 /**
- * 微信支付核心类 Author: haolin Email: haolin.h0@gmail.com Date: 25/11/15
- * 
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:06
+ * @describe 微信支付核心类
  */
 public final class Wepay {
 

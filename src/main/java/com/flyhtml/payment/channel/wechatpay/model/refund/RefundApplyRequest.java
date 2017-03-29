@@ -6,9 +6,9 @@ import com.flyhtml.payment.channel.wechatpay.annotation.Optional;
 import com.flyhtml.payment.channel.wechatpay.model.enums.FeeType;
 
 /**
- * 退款请求对象
- * 
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:16
+ * @describe 退款请求对象
  */
 public class RefundApplyRequest implements Serializable {
 

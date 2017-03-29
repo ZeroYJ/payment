@@ -10,13 +10,14 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import me.hao0.common.date.Dates;
 
 /**
- * 日期反序列化器
+ * @author xiaowei
+ * @time 17-3-29 上午10:18
+ * @describe 日期反序列化器
  */
 public class DateDeserializer extends JsonDeserializer<Date> {
- 
+
     @Override
-    public Date deserialize(JsonParser parser, DeserializationContext context)
-      throws IOException {
+    public Date deserialize(JsonParser parser, DeserializationContext context) throws IOException {
         return Dates.toDate(parser.getValueAsString(), "yyyyMMddHHmmss");
     }
 }

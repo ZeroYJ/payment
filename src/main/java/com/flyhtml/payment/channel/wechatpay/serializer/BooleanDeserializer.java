@@ -7,12 +7,11 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
 /**
- * 布尔反序列化器
- * Author: haolin
- * Email: haolin.h0@gmail.com
- * Date: 27/11/15
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:18
+ * @describe 布尔反序列化器
  */
+
 public class BooleanDeserializer extends JsonDeserializer<Boolean> {
 
     @Override

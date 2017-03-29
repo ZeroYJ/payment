@@ -8,7 +8,9 @@ import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.flyhtml.payment.channel.alipay.AlipayConfig;
 
 /**
- * Created by xiaowei on 17-3-21.
+ * @author xiaowei
+ * @time 17-3-29 上午10:03
+ * @describe 支付宝工具类
  */
 public class AlipayUtil {
 

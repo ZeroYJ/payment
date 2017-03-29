@@ -1,37 +1,35 @@
 package com.flyhtml.payment.channel.wechatpay.model.enums;
 
 /**
- * 退款渠道
- * Author: haolin
- * Email: haolin.h0@gmail.com
- * Date: 26/11/15
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:13
+ * @describe 退款渠道
  */
 public enum RefundChannel {
 
-    /**
-     * 原路退款
-     */
-    ORIGINAL("ORIGINAL"),
+                           /**
+                            * 原路退款
+                            */
+                           ORIGINAL("ORIGINAL"),
 
-    /**
-     * 退款到余额
-     */
-    BALANCE("BALANCE");
+                           /**
+                            * 退款到余额
+                            */
+                           BALANCE("BALANCE");
 
     private String type;
 
-    private RefundChannel(String type){
+    private RefundChannel(String type) {
         this.type = type;
     }
 
-    public String type(){
+    public String type() {
         return type;
     }
 
-    public static RefundChannel from(String t){
-        for (RefundChannel rc : RefundChannel.values()){
-            if (rc.type().equals(t)){
+    public static RefundChannel from(String t) {
+        for (RefundChannel rc : RefundChannel.values()) {
+            if (rc.type().equals(t)) {
                 return rc;
             }
         }

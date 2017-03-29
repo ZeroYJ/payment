@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.flyhtml.payment.channel.wechatpay.model.enums.WepayField;
 
 /**
- * 账单统计
- * 
- * @since 1.1.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:08
+ * @describe 账单统计
  */
 public class BillCount implements Serializable {
 

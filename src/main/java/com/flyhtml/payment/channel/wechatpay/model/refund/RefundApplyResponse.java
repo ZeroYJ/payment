@@ -12,9 +12,9 @@ import com.flyhtml.payment.channel.wechatpay.serializer.FeeTypeDeserializer;
 import com.flyhtml.payment.channel.wechatpay.serializer.RefundChannelDeserializer;
 
 /**
- * 退款结果
- * 
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:16
+ * @describe 退款结果
  */
 public class RefundApplyResponse implements Serializable {
 

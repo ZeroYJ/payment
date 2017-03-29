@@ -10,9 +10,9 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.flyhtml.payment.channel.wechatpay.model.enums.FeeType;
 
 /**
- * 交易类型反序列化器
- * 
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:18
+ * @describe 交易类型反序列化器
  */
 public class FeeTypeDeserializer extends JsonDeserializer<FeeType> {
 

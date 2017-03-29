@@ -1,11 +1,9 @@
 package com.flyhtml.payment.channel.wechatpay.exception;
 
 /**
- * 微信支付异常
- * Author: haolin
- * Email: haolin.h0@gmail.com
- * Date: 26/11/15
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:07
+ * @describe 微信支付异常
  */
 public class WepayException extends RuntimeException {
 
@@ -23,8 +21,8 @@ public class WepayException extends RuntimeException {
         super(cause);
     }
 
-    public WepayException(String errorCode, String errorMsg){
-        super("[" + errorCode + "]"+ errorMsg);
+    public WepayException(String errorCode, String errorMsg) {
+        super("[" + errorCode + "]" + errorMsg);
         this.errorCode = errorCode;
         this.errorMsg = errorMsg;
     }

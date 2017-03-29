@@ -12,7 +12,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Created by xiaowei on 17-3-27.
+ * @author xiaowei
+ * @time 17-3-29 上午10:19
+ * @describe Map,XML转化类
  */
 public class Maps {
 

@@ -10,9 +10,9 @@ import com.flyhtml.payment.channel.wechatpay.model.enums.RefundChannel;
 import me.hao0.common.util.Strings;
 
 /**
- * 退款渠道反序列化器
- * 
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:18
+ * @describe 退款渠道反序列化器
  */
 public class RefundChannelDeserializer extends JsonDeserializer<RefundChannel> {
 

@@ -7,9 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 账单字段
- * 
- * @since 1.1.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:09
+ * @describe 账单字段
  */
 public final class BillFields {
 

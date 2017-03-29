@@ -1,9 +1,9 @@
 package com.flyhtml.payment.channel.wechatpay;
 
 /**
- * Created by xiaowei on 17-3-23. 微信支付配置类
- * 
  * @author xiaowei
+ * @time 17-3-29 上午10:19
+ * @describe 微信支付配置类
  * @remarks 微信参考地址 https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
  */
 public class WechatPayConfig {

@@ -7,9 +7,9 @@ import com.flyhtml.payment.channel.wechatpay.model.enums.WepayField;
 import com.flyhtml.payment.channel.wechatpay.serializer.RefundChannelDeserializer;
 
 /**
- * 普通账单 Author: haolin Email: haolin.h0@gmail.com Date: 4/12/15
- * 
- * @since 1.1.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:10
+ * @describe 普通账单
  */
 public class CommonBill extends Bill {
 

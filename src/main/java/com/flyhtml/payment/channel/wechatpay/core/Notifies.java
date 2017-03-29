@@ -7,9 +7,9 @@ import com.flyhtml.payment.channel.wechatpay.model.enums.WepayField;
 import com.flyhtml.payment.channel.wechatpay.util.Maps;
 
 /**
- * 通知组件 Author: haolin Email: haolin.h0@gmail.com Date: 28/11/15
- * 
- * @since 1.0.0
+ * @author xiaowei
+ * @time 17-3-29 上午10:05
+ * @describe 通知组件
  */
 public class Notifies extends Component {
 
