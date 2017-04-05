@@ -46,8 +46,5 @@ mybatis:
   config-location: classpath:mybatis.xml
 
 grpc:
-  server:
-    address: 0.0.0.0
-    port: 8081
-
+  port:9090
 

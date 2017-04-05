@@ -41,25 +41,27 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+        <!--mybatis-->
         <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
-            <version>1.2.2</version>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>1.2.0</version>
         </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>org.lognet</groupId>
+            <artifactId>grpc-spring-boot-starter</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>me.hao0</groupId>
+            <artifactId>common</artifactId>
+            <version>1.1.2</version>
         </dependency>
         <!--druid-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
             <version>1.0.27</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
@@ -75,16 +77,6 @@
             <groupId>io.grpc</groupId>
             <artifactId>grpc-stub</artifactId>
             <version>${grpc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.lognet</groupId>
-            <artifactId>grpc-spring-boot-starter</artifactId>
-            <version>2.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>me.hao0</groupId>
-            <artifactId>common</artifactId>
-            <version>1.1.2</version>
         </dependency>
     </dependencies>
 
@@ -140,7 +132,7 @@
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
                     <compilerArguments>
-                        <extdirs>src/lib</extdirs>
+                        <extdirs>src/main/resources/lib</extdirs>
                     </compilerArguments>
                 </configuration>
             </plugin>
