@@ -3,13 +3,15 @@ package com.flyhtml.payment;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import com.flyhtml.payment.service.PaymentServiceImpl;
+import com.flyhtml.payment.db.service.PaymentServiceImpl;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
 /**
- * Created by xiaowei on 17-2-20.
+ * @author xiaowei
+ * @time 17-3-29 上午11:04
+ * @describe 服务启动类
  */
 public class PaymentServer {
 

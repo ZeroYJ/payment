@@ -22,9 +22,6 @@ import me.hao0.common.http.Http;
 
 import javax.net.ssl.SSLException;
 
-/**
- * Created by xiaowei on 17-3-22.
- */
 public class NettyClient {
 
     public static HttpRequest getRequestMethod(Map<String, String> parameter, String url,

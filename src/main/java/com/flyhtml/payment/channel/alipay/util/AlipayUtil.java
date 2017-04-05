@@ -5,7 +5,10 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
+import com.alipay.api.response.AlipayTradePayResponse;
 import com.flyhtml.payment.channel.alipay.AlipayConfig;
+
+import java.util.UUID;
 
 /**
  * @author xiaowei
@@ -33,7 +36,7 @@ public class AlipayUtil {
         try {
             AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();// 创建API对应的request
             // 在公共参数中设置回跳和通知地址
-            alipayRequest.setReturnUrl(AlipayConfig.RETURN_URL);
+            alipayRequest.setReturnUrl("http://helloxw.viphk.ngrok.org/alipay/pay/success");
             alipayRequest.setNotifyUrl(AlipayConfig.NOTIFY_URL);
             // 封装请求支付信息
             AlipayTradeWapPayModel model = new AlipayTradeWapPayModel();
@@ -53,6 +56,6 @@ public class AlipayUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(createOrder("Iphone", "16G", "O121212", "6488"));
+        System.out.println(createOrder("Iphone", "16G", UUID.randomUUID().toString().replace("-", ""), "6488"));
     }
 }
