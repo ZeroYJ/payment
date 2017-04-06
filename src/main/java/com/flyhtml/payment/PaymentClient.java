@@ -7,9 +7,8 @@ import java.util.logging.Logger;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
-import io.grpc.payment.AlipayOrderParam;
+import io.grpc.payment.Payment;
 import io.grpc.payment.PaymentServiceGrpc;
-import io.grpc.payment.Result;
 
 /**
  * Created by xiaowei on 17-3-23.
@@ -33,12 +32,12 @@ public class PaymentClient {
     /**
      * Say hello to server.
      */
-    public void createAlipay() {
+    public void create() {
         logger.info("Will try to createAlipay...");
-        AlipayOrderParam param = AlipayOrderParam.newBuilder().setSubject("Iphone").setBody("16G").setOutTradeNo("O1313213").setTotalAmount("6488").build();
-        Result result;
+        Payment payment = Payment.newBuilder().setOrderNo("O101135456").setChannel("alipay").setBody("iphone16G").setAmount("111").setClientIp("127.0.0.1").build();
+        Payment result;
         try {
-            result = blockingStub.createAlipay(param);
+            result = blockingStub.create(payment);
         } catch (StatusRuntimeException e) {
             logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
             return;
@@ -47,9 +46,9 @@ public class PaymentClient {
     }
 
     public static void main(String[] args) throws Exception {
-        PaymentClient client = new PaymentClient("localhost", 50051);
+        PaymentClient client = new PaymentClient("localhost", 9090);
         try {
-            client.createAlipay();
+            client.create();
         } finally {
             client.shutdown();
         }

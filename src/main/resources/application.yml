@@ -1,3 +1,8 @@
+server:
+  port: 8080
+  session:
+    timeout: 30
+
 spring:
   application:
     name: boot
@@ -14,9 +19,9 @@ spring:
 
 datasource:
    druid:
-      url: jdbc:mysql://127.0.0.1:3306/wifi2?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true
-      username: eap
-      password: eap@eap
+      url: jdbc:mysql://fuliaoyi.com:3306/fly_payment?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true
+      username: fly
+      password: fly@2016
       filters: stat,slf4j
       initialSize: 10
       maxActive: 100
@@ -30,21 +35,15 @@ datasource:
       testOnReturn: false
       poolPreparedStatements: true
       maxPoolPreparedStatementPerConnectionSize: 20
+
 logging:
   config: classpath:logback.xml
    #  file: d:/logs/boot.log
 
-server:
-  port: 8080
-  session:
-    timeout: 30
-
 mybatis:
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.xwolf.boot.entity
-  check-config-location: true
-  config-location: classpath:mybatis.xml
+    type-aliases-package: com.flyhtml.payment.db.model
+    mapper-locations: classpath:mapper/*.xml
 
 grpc:
-  port:9090
+  port: 9090
 
