@@ -1,9 +1,9 @@
-package com.flyhtml.payment;
+package com.flyhtml.payment.grpc;
 
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import com.flyhtml.payment.db.service.PaymentServiceImpl;
+import com.flyhtml.payment.grpc.service.PaymentServiceImpl;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;

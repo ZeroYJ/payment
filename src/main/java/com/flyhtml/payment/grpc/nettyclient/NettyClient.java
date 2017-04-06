@@ -1,11 +1,10 @@
-package com.flyhtml.payment.common.nettyclient;
+package com.flyhtml.payment.grpc.nettyclient;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;

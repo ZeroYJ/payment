@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flyhtml.payment.db.mapper.PaymentMapper">
+    <resultMap id="BaseResultMap" type="com.flyhtml.payment.db.model.Payment">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+        <result column="is_pay" jdbcType="TINYINT" property="isPay"/>
+        <result column="has_refund" jdbcType="TINYINT" property="hasRefund"/>
+        <result column="channel" jdbcType="VARCHAR" property="channel"/>
+        <result column="order_no" jdbcType="VARCHAR" property="orderNo"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="amount" jdbcType="DECIMAL" property="amount"/>
+        <result column="currency" jdbcType="VARCHAR" property="currency"/>
+        <result column="subject" jdbcType="VARCHAR" property="subject"/>
+        <result column="body" jdbcType="VARCHAR" property="body"/>
+        <result column="pay_time" jdbcType="TIMESTAMP" property="payTime"/>
+        <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="credential" jdbcType="LONGVARCHAR" property="credential"/>
+        <result column="extra" jdbcType="LONGVARCHAR" property="extra"/>
+    </resultMap>
+</mapper>

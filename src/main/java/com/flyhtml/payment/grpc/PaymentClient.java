@@ -1,4 +1,4 @@
-package com.flyhtml.payment;
+package com.flyhtml.payment.grpc;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;

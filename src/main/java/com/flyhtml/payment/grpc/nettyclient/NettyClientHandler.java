@@ -1,4 +1,4 @@
-package com.flyhtml.payment.common.nettyclient;
+package com.flyhtml.payment.grpc.nettyclient;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

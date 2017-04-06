@@ -17,24 +17,23 @@ spring:
     active: dev
 
 
-datasource:
-   druid:
-      url: jdbc:mysql://fuliaoyi.com:3306/fly_payment?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true
-      username: fly
-      password: fly@2016
-      filters: stat,slf4j
-      initialSize: 10
-      maxActive: 100
-      maxWait: 60000
-      minIdle: 5
-      timeBetweenEvictionRunsMillis: 60000
-      minEvictableIdleTimeMillis: 300000
-      validationQuery: SELECT 'x'
-      testWhileIdle: true
-      testOnBorrow: false
-      testOnReturn: false
-      poolPreparedStatements: true
-      maxPoolPreparedStatementPerConnectionSize: 20
+druid:
+  url: jdbc:mysql://fuliaoyi.com:3306/fly_payment?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true
+  username: fly
+  password: fly@2016
+  filters: stat,slf4j
+  initialSize: 10
+  maxActive: 100
+  maxWait: 60000
+  minIdle: 5
+  timeBetweenEvictionRunsMillis: 60000
+  minEvictableIdleTimeMillis: 300000
+  validationQuery: SELECT 'x'
+  testWhileIdle: true
+  testOnBorrow: false
+  testOnReturn: false
+  poolPreparedStatements: true
+  maxPoolPreparedStatementPerConnectionSize: 20
 
 logging:
   config: classpath:logback.xml

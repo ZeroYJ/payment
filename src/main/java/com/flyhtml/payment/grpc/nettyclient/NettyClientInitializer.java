@@ -1,4 +1,4 @@
-package com.flyhtml.payment.common.nettyclient;
+package com.flyhtml.payment.grpc.nettyclient;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;

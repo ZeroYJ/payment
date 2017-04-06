@@ -1,4 +1,4 @@
-package com.flyhtml.payment.db.service;
+package com.flyhtml.payment.grpc.service;
 
 import io.grpc.payment.Payment;
 import io.grpc.payment.PaymentServiceGrpc;
