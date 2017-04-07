@@ -3,22 +3,8 @@ server:
   session:
     timeout: 30
 
-spring:
-  application:
-    name: boot
-
-  http:
-    encoding:
-      force: true
-      charset: UTF-8
-      enabled: true
- #指定项目的运行环境,可自动启用或停止某些功能
-  profiles:
-    active: dev
-
-
 druid:
-  url: jdbc:mysql://fuliaoyi.com:3306/fly_payment?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true
+  url: jdbc:mysql://fuliaoyi.com:3306/fly_payment?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=true
   username: fly
   password: fly@2016
   filters: stat,slf4j
@@ -46,3 +32,8 @@ mybatis:
 grpc:
   port: 9090
 
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql

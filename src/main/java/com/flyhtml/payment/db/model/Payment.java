@@ -1,5 +1,7 @@
 package com.flyhtml.payment.db.model;
 
+import com.flyhtml.payment.db.base.BaseModel;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.*;
@@ -9,7 +11,7 @@ import javax.persistence.*;
  * @time 17-4-6 下午6:23
  * @describe 支付表
  */
-public class Payment {
+public class Payment extends BaseModel {
 
     /**
      * 主键
