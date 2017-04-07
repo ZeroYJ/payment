@@ -1,5 +1,6 @@
 package com.flyhtml.payment.db.service;
 
+import com.flyhtml.payment.db.base.BaseService;
 import com.flyhtml.payment.db.mapper.PaymentMapper;
 import com.flyhtml.payment.db.model.Payment;
 import com.github.pagehelper.Page;
@@ -15,20 +16,6 @@ import java.util.List;
  * @describe 支付服务类
  */
 @Service
-public class PaymentService {
+public class PaymentService extends BaseService<Payment, PaymentMapper> {
 
-    @Autowired
-    private PaymentMapper paymentMapper;
-
-    public List<Payment> getAll(Payment payment) {
-        if (payment.getPage() != null && payment.getRows() != null) {
-            Page<Object> objectPage = PageHelper.startPage(payment.getPage(), payment.getRows());
-            System.out.println(objectPage);
-        }
-        return paymentMapper.selectAll();
-    }
-
-    public int insert(Payment payment) {
-        return paymentMapper.insert(payment);
-    }
 }

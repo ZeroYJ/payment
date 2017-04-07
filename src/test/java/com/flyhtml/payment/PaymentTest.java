@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.flyhtml.payment.db.model.Payment;
 import com.flyhtml.payment.db.service.PaymentService;
 import com.google.gson.Gson;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author xiaowei
@@ -34,14 +35,14 @@ public class PaymentTest {
         Payment payment = new Payment();
         payment.setPage(1);
         payment.setRows(1);
-        List<Payment> all = paymentService.getAll(payment);
+        List<Payment> all = paymentService.selectAll(payment);
         logger.info(new Gson().toJson(all));
     }
 
     @Test
     public void insert() {
         Payment payment = new Payment();
-        payment.setId("pa12asdfasssss");
+        payment.setId("pa12asdfssssss1");
         payment.setIsPay(true);
         payment.setHasRefund(false);
         payment.setChannel("wx_pub");
@@ -51,6 +52,7 @@ public class PaymentTest {
         payment.setCurrency("cny");
         payment.setSubject("Iphone");
         payment.setBody("16G");
-        paymentService.insert(payment);
+        int id = paymentService.insert(payment);
+        logger.info(id + "");
     }
 }

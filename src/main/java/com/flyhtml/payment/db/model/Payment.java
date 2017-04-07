@@ -16,7 +16,7 @@ public class Payment extends BaseModel {
     /**
      * 主键
      */
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private String     id;
 
     /**
