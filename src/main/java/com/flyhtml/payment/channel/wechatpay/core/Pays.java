@@ -11,7 +11,7 @@ import com.flyhtml.payment.channel.wechatpay.exception.WepayException;
 import com.flyhtml.payment.channel.wechatpay.model.enums.TradeType;
 import com.flyhtml.payment.channel.wechatpay.model.enums.WepayField;
 import com.flyhtml.payment.channel.wechatpay.model.pay.*;
-import com.flyhtml.payment.channel.wechatpay.util.RandomStrs;
+import com.flyhtml.payment.common.RandomStrs;
 
 import me.hao0.common.date.Dates;
 import me.hao0.common.security.MD5;

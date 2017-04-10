@@ -3,6 +3,7 @@ package com.flyhtml.payment;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.flyhtml.payment.common.RandomStrs;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -42,7 +43,8 @@ public class PaymentTest {
     @Test
     public void insert() {
         Payment payment = new Payment();
-        payment.setId("pa12asdfssssss1");
+        String id = "pa_" + RandomStrs.generate(29);
+        payment.setId(id);
         payment.setIsPay(true);
         payment.setHasRefund(false);
         payment.setChannel("wx_pub");
@@ -52,7 +54,7 @@ public class PaymentTest {
         payment.setCurrency("cny");
         payment.setSubject("Iphone");
         payment.setBody("16G");
-        int id = paymentService.insert(payment);
-        logger.info(id + "");
+        paymentService.insertSelective(payment);
+        logger.info(id);
     }
 }

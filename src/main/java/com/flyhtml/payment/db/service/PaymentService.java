@@ -17,5 +17,4 @@ import java.util.List;
  */
 @Service
 public class PaymentService extends BaseService<Payment, PaymentMapper> {
-
 }

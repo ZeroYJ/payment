@@ -10,7 +10,7 @@ import java.util.TreeMap;
 import com.flyhtml.payment.channel.wechatpay.model.common.Coupon;
 import com.flyhtml.payment.channel.wechatpay.model.enums.WepayField;
 import com.flyhtml.payment.channel.wechatpay.model.order.WePayOrder;
-import com.flyhtml.payment.channel.wechatpay.util.RandomStrs;
+import com.flyhtml.payment.common.RandomStrs;
 
 import me.hao0.common.json.Jsons;
 

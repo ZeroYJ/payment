@@ -10,7 +10,7 @@ import com.flyhtml.payment.channel.wechatpay.model.bill.*;
 import com.flyhtml.payment.channel.wechatpay.model.enums.BillType;
 import com.flyhtml.payment.channel.wechatpay.model.enums.WepayField;
 import com.flyhtml.payment.channel.wechatpay.util.Maps;
-import com.flyhtml.payment.channel.wechatpay.util.RandomStrs;
+import com.flyhtml.payment.common.RandomStrs;
 
 import me.hao0.common.http.Http;
 import me.hao0.common.json.Jsons;

@@ -1,4 +1,4 @@
-package com.flyhtml.payment.channel.wechatpay.util;
+package com.flyhtml.payment.common;
 
 import java.util.Random;
 
@@ -9,7 +9,7 @@ import java.util.Random;
  */
 public final class RandomStrs {
 
-    private static final String seed   = "abcdefghijklmnopqrstuvwxyz0123456789";
+    private static final String seed   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     private static final Random random = new Random();
 
