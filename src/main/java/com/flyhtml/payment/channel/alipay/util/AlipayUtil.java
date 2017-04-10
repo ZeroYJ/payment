@@ -1,14 +1,13 @@
 package com.flyhtml.payment.channel.alipay.util;
 
+import java.util.UUID;
+
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
-import com.alipay.api.response.AlipayTradePayResponse;
 import com.flyhtml.payment.channel.alipay.AlipayConfig;
-
-import java.util.UUID;
 
 /**
  * @author xiaowei

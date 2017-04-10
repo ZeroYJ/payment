@@ -9,24 +9,36 @@ package payment;
 // The greeting service definition.
 service PaymentService {
     // Sends a greeting
-    rpc create (Payment) returns (Payment) {
+    rpc create (Make) returns (Voucher) {
     }
 }
 
-message Payment {
+message Make {
     string orderNo = 1;
     string channel = 2;
-    string body = 3;
-    string amount = 4;
-    string clientIp = 5;
-    map<string, string> extra = 6;
-    string description = 7;
+    string subject = 3;
+    string body = 4;
+    int32 amount = 5;
+    string ip = 6;
+    map<string, string> extra = 7;
+    string description = 8;
 }
 
-message Result {
-    string data = 1;
-}
-
-message ReturnParam {
-    string status = 1;
+message Voucher {
+    string id = 1;
+    string gmtCreate = 2;
+    bool isPay = 3;
+    bool hasRefund = 4;
+    string channel = 5;
+    string orderNo = 6;
+    string ip = 7;
+    int32 amount = 8;
+    string currency = 9;
+    string subject = 10;
+    string body = 11;
+    string payTime = 12;
+    string expireTime = 13;
+    string description = 14;
+    map<string, string> credential = 15;
+    map<string, string> extra = 16;
 }

@@ -3,7 +3,6 @@ package com.flyhtml.payment;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.flyhtml.payment.common.RandomStrs;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -12,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.flyhtml.payment.common.util.RandomStrs;
 import com.flyhtml.payment.db.model.Payment;
 import com.flyhtml.payment.db.service.PaymentService;
 import com.google.gson.Gson;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author xiaowei

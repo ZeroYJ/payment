@@ -1,9 +1,9 @@
 package com.flyhtml.payment.channel.wechatpay.model.refund;
 
-import com.flyhtml.payment.channel.wechatpay.model.enums.FeeType;
-
 import java.io.Serializable;
 import java.util.List;
+
+import com.flyhtml.payment.channel.wechatpay.model.enums.FeeType;
 
 /**
  * @author xiaowei

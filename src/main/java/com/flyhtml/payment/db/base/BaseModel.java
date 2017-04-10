@@ -1,6 +1,6 @@
 package com.flyhtml.payment.db.base;
 
-import javax.persistence.*;
+import javax.persistence.Transient;
 
 /**
  * @author xiaowei

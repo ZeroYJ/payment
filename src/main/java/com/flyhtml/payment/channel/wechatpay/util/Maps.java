@@ -4,12 +4,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import me.hao0.common.xml.XmlReaders;
-
-import com.google.common.base.Strings;
-import me.hao0.common.xml.XmlWriters;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.google.common.base.Strings;
+
+import me.hao0.common.xml.XmlReaders;
+import me.hao0.common.xml.XmlWriters;
 
 /**
  * @author xiaowei

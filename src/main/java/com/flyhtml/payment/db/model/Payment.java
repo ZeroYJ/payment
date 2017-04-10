@@ -1,10 +1,12 @@
 package com.flyhtml.payment.db.model;
 
-import com.flyhtml.payment.db.base.BaseModel;
-
 import java.math.BigDecimal;
 import java.util.Date;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+
+import com.flyhtml.payment.db.base.BaseModel;
 
 /**
  * @author xiaowei

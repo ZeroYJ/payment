@@ -1,4 +1,4 @@
-package com.flyhtml.payment.common;
+package com.flyhtml.payment.common.util;
 
 import java.util.Random;
 

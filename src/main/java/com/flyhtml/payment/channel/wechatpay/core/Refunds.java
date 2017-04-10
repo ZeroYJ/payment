@@ -16,7 +16,7 @@ import com.flyhtml.payment.channel.wechatpay.model.refund.RefundApplyRequest;
 import com.flyhtml.payment.channel.wechatpay.model.refund.RefundApplyResponse;
 import com.flyhtml.payment.channel.wechatpay.model.refund.RefundItem;
 import com.flyhtml.payment.channel.wechatpay.model.refund.RefundQueryResponse;
-import com.flyhtml.payment.common.RandomStrs;
+import com.flyhtml.payment.common.util.RandomStrs;
 
 import me.hao0.common.util.Strings;
 

@@ -7,7 +7,6 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import com.flyhtml.payment.channel.wechatpay.model.common.Coupon;
 import com.flyhtml.payment.channel.wechatpay.model.enums.FeeType;
 import com.flyhtml.payment.channel.wechatpay.model.enums.TradeState;

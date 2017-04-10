@@ -1,10 +1,10 @@
 package com.flyhtml.payment.channel.wechatpay.model.bill;
 
-import com.flyhtml.payment.channel.wechatpay.model.enums.WepayField;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import com.flyhtml.payment.channel.wechatpay.model.enums.WepayField;
 
 /**
  * @author xiaowei

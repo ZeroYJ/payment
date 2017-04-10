@@ -2,7 +2,10 @@ package com.flyhtml.payment.grpc.nettyclient;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
+
+import javax.net.ssl.SSLException;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -18,8 +21,6 @@ import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import me.hao0.common.http.Http;
-
-import javax.net.ssl.SSLException;
 
 public class NettyClient {
 
