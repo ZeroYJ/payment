@@ -2,10 +2,12 @@ package com.flyhtml.payment.db.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 
+import com.flyhtml.payment.common.annotation.ProtoType;
 import com.flyhtml.payment.db.base.BaseModel;
 
 /**
@@ -25,12 +27,14 @@ public class Payment extends BaseModel {
      * 创建时间
      */
     @Column(name = "gmt_create")
+    @ProtoType(type = long.class)
     private Date       gmtCreate;
 
     /**
      * 修改时间
      */
     @Column(name = "gmt_modified")
+    @ProtoType(type = long.class)
     private Date       gmtModified;
 
     /**
@@ -64,6 +68,7 @@ public class Payment extends BaseModel {
     /**
      * 订单金额
      */
+    @ProtoType(type = int.class)
     private BigDecimal amount;
 
     /**
@@ -85,12 +90,14 @@ public class Payment extends BaseModel {
      * 支付时间
      */
     @Column(name = "pay_time")
+    @ProtoType(type = long.class)
     private Date       payTime;
 
     /**
      * 失效时间
      */
     @Column(name = "expire_time")
+    @ProtoType(type = long.class)
     private Date       expireTime;
 
     /**
@@ -101,11 +108,13 @@ public class Payment extends BaseModel {
     /**
      * 支付凭证,JSON格式
      */
+    @ProtoType(type = Map.class)
     private String     credential;
 
     /**
      * 额外参数,JSON格式
      */
+    @ProtoType(type = Map.class)
     private String     extra;
 
     /**

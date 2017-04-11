@@ -2,6 +2,7 @@ package com.flyhtml.payment.grpc.service;
 
 import com.flyhtml.payment.channel.BaseConfig;
 import com.flyhtml.payment.channel.alipay.util.AlipayUtil;
+import com.flyhtml.payment.common.util.ProtoUtil;
 import com.flyhtml.payment.common.util.RandomStrs;
 import com.flyhtml.payment.db.model.Payment;
 import com.google.gson.Gson;
@@ -44,7 +45,6 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
 
     @Override
     public void create(Make request, StreamObserver<Voucher> responseObserver) {
-        System.out.println(request.toString());
         // 判断参数
         if (StringUtils.isAnyBlank(request.getOrderNo(), request.getChannel(), request.getSubject(), request.getBody(),
                                    request.getIp())) {
@@ -55,23 +55,17 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
         if (payType == null) {
             responseObserver.onError(new PaymentException("channel not fonud"));
         }
-        String id = "pa_" + RandomStrs.generate(25);
+        String id = "pa_" + RandomStrs.generate(24);
         Payment payment = new Payment();
         payment.setId(id);
-        payment.setGmtCreate(new Date());
-        payment.setGmtModified(new Date());
-        payment.setIsPay(false);
-        payment.setHasRefund(false);
         payment.setChannel(channel);
         payment.setOrderNo(request.getOrderNo());
         payment.setIp(request.getIp());
-        payment.setCurrency("cny");
         payment.setAmount(new BigDecimal(request.getAmount()).divide(new BigDecimal(100)));
         payment.setSubject(request.getSubject());
         payment.setBody(request.getBody());
         payment.setDescription(request.getDescription());
         payment.setExtra(new Gson().toJson(request.getExtraMap()));
-        System.out.println(new Gson().toJson(payment));
         switch (payType) {
             case wx_pub: {
                 String openId = request.getExtraOrThrow("openId");
@@ -88,7 +82,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                 jsPay.setBody(request.getBody());
                 jsPay.setAttach("支付测试");
                 jsPay.setClientId(request.getIp());
-                jsPay.setNotifyUrl(BaseConfig.NOTIFY_URL);
+                jsPay.setNotifyUrl(BaseConfig.NOTIFY_URL + "/" + payment.getId());
                 jsPay.setTimeStart(Dates.now("yyyyMMddHHmmss"));
                 JsPayResponse jsPayResponse = wepay.pay().jsPay(jsPay);
                 Map<String, String> credential = new HashMap<>();
@@ -103,7 +97,8 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                     responseObserver.onError(new RuntimeException("openId is cannot be null"));
                 }
                 String form = AlipayUtil.createOrder(payment.getSubject(), payment.getBody(), payment.getOrderNo(),
-                                                     payment.getAmount().toString(), returnUrl);
+                                                     payment.getAmount().toString(), returnUrl,
+                                                     BaseConfig.NOTIFY_URL + "/" + payment.getId());
                 Map<String, String> credential = new HashMap<>();
                 credential.put("credential", form);
                 payment.setCredential(new Gson().toJson(credential));
@@ -113,31 +108,9 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                 break;
         }
         paymentService.insertSelective(payment);
-        responseObserver.onNext(toVoucher(payment));
+        Voucher voucher = ProtoUtil.toProto(payment, Voucher.class);
+        System.out.println(voucher);
+        responseObserver.onNext(voucher);
         responseObserver.onCompleted();
-    }
-
-    public static Voucher toVoucher(Payment payment) {
-        Voucher.Builder builder = Voucher.newBuilder();
-        builder.setId(payment.getId());
-        builder.setGmtCreate(payment.getGmtCreate().getTime() / 1000);
-        builder.setIsPay(payment.getIsPay());
-        builder.setHasRefund(payment.getHasRefund());
-        builder.setChannel(payment.getChannel());
-        builder.setOrderNo(payment.getOrderNo());
-        builder.setIp(payment.getIp());
-        builder.setAmount(payment.getAmount().intValue() * 100);
-        builder.setCurrency(payment.getCurrency());
-        builder.setSubject(payment.getSubject());
-        builder.setBody(payment.getBody());
-        // builder.setPayTime(payment.getPayTime().getTime());
-        // builder.setExpireTime(payment.getExpireTime().getTime());
-        builder.setDescription(payment.getDescription());
-        builder.putAllCredential(new Gson().fromJson(payment.getCredential(), new TypeToken<Map<String, String>>() {
-        }.getType()));
-        builder.putAllExtra(new Gson().fromJson(payment.getExtra(), new TypeToken<Map<String, String>>() {
-        }.getType()));
-        Voucher voucher = builder.build();
-        return voucher;
     }
 }

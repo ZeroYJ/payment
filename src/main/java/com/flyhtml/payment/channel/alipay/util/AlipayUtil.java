@@ -31,12 +31,13 @@ public class AlipayUtil {
      * @param amount 订单总金额
      * @return
      */
-    public static String createOrder(String subject, String body, String orderNo, String amount, String returnUrl) {
+    public static String createOrder(String subject, String body, String orderNo, String amount, String returnUrl,
+                                     String notifyUrl) {
         try {
             AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();// 创建API对应的request
             // 在公共参数中设置回跳和通知地址
             alipayRequest.setReturnUrl(returnUrl);
-            alipayRequest.setNotifyUrl(AlipayConfig.NOTIFY_URL);
+            alipayRequest.setNotifyUrl(notifyUrl);
             // 封装请求支付信息
             AlipayTradeWapPayModel model = new AlipayTradeWapPayModel();
             model.setSubject(subject);
