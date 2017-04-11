@@ -8,14 +8,21 @@ import java.lang.annotation.Target;
 /**
  * @author xiaowei
  * @time 17-4-11 下午5:17
- * @describe
+ * @describe Proto数据类型注解
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.FIELD })
 public @interface ProtoType {
 
     /**
-     * 是否任何情况下都可选
+     * proto_filed数据类型,
+     * 
+     * <pre>
+     *      目前支持转化类型:
+     *      String --> Map （String型字符串转Map）
+     *      Date --> long (Date转Unix时间戳)
+     *      BigDecimal --> int　(金额元转分)
+     * </pre>
      *
      * @return optional or not
      */
