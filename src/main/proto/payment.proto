@@ -26,7 +26,7 @@ message Make {
 
 message Voucher {
     string id = 1;
-    string gmtCreate = 2;
+    int64 gmtCreate = 2;
     bool isPay = 3;
     bool hasRefund = 4;
     string channel = 5;
@@ -36,8 +36,8 @@ message Voucher {
     string currency = 9;
     string subject = 10;
     string body = 11;
-    string payTime = 12;
-    string expireTime = 13;
+    int64 payTime = 12;
+    int64 expireTime = 13;
     string description = 14;
     map<string, string> credential = 15;
     map<string, string> extra = 16;

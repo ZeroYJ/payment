@@ -27,22 +27,22 @@ public class AlipayUtil {
     /***
      * @param subject 商品标题
      * @param body 商品描述
-     * @param out_trade_no 订单号
-     * @param total_amount 订单总金额
+     * @param returnUrl 订单号
+     * @param amount 订单总金额
      * @return
      */
-    public static String createOrder(String subject, String body, String out_trade_no, String total_amount) {
+    public static String createOrder(String subject, String body, String orderNo, String amount, String returnUrl) {
         try {
             AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();// 创建API对应的request
             // 在公共参数中设置回跳和通知地址
-            alipayRequest.setReturnUrl("http://helloxw.viphk.ngrok.org/alipay/pay/success");
+            alipayRequest.setReturnUrl(returnUrl);
             alipayRequest.setNotifyUrl(AlipayConfig.NOTIFY_URL);
             // 封装请求支付信息
             AlipayTradeWapPayModel model = new AlipayTradeWapPayModel();
             model.setSubject(subject);
             model.setBody(body);
-            model.setOutTradeNo(out_trade_no);
-            model.setTotalAmount(total_amount);
+            model.setOutTradeNo(orderNo);
+            model.setTotalAmount(amount);
             model.setTimeoutExpress(AlipayConfig.TIMEOUT_EXPRESS);
             model.setProductCode("QUICK_WAP_PAY");
             alipayRequest.setBizModel(model);
@@ -55,6 +55,6 @@ public class AlipayUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(createOrder("Iphone", "16G", UUID.randomUUID().toString().replace("-", ""), "6488"));
+        System.out.println();
     }
 }
