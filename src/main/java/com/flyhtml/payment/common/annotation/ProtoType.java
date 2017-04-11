@@ -19,9 +19,10 @@ public @interface ProtoType {
      * 
      * <pre>
      *      目前支持转化类型:
-     *      String --> Map （String型字符串转Map）
+     *      JAVA --> Proto
+     *      String --> map （String型字符串转Map）
      *      Date --> long (Date转Unix时间戳)
-     *      BigDecimal --> int　(金额元转分)
+     *      BigDecimal --> int32　(金额元转分)
      * </pre>
      *
      * @return optional or not
