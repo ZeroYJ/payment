@@ -6,14 +6,7 @@ import com.flyhtml.payment.common.util.RandomStrs;
 import com.flyhtml.payment.db.model.Payment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.google.protobuf.Parser;
 import io.grpc.Status;
-import io.grpc.StatusRuntimeException;
-import io.grpc.protobuf.ProtoUtils;
-import io.netty.handler.codec.protobuf.ProtobufDecoder;
-import io.netty.handler.codec.protobuf.ProtobufEncoder;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +17,7 @@ import com.flyhtml.payment.channel.wechatpay.core.WepayBuilder;
 import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayRequest;
 import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayResponse;
 import com.flyhtml.payment.common.enums.PayTypeEnum;
-import com.flyhtml.payment.common.exception.PayTypeException;
+import com.flyhtml.payment.common.exception.PaymentException;
 import com.flyhtml.payment.db.service.PaymentService;
 
 import io.grpc.payment.Make;
@@ -60,7 +53,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
         String channel = request.getChannel();
         PayTypeEnum payType = PayTypeEnum.getByName(channel);
         if (payType == null) {
-            responseObserver.onError(new PayTypeException());
+            responseObserver.onError(new PaymentException("channel not fonud"));
         }
         String id = "pa_" + RandomStrs.generate(25);
         Payment payment = new Payment();
