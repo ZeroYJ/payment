@@ -4,11 +4,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.flyhtml.payment.channel.alipayw.model.Notify;
+import com.flyhtml.payment.common.util.BeanUtils;
+import com.flyhtml.payment.db.model.Payment;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.google.gson.Gson;
 
 /**
  * @author xiaowei
@@ -17,15 +18,16 @@ import com.google.gson.Gson;
  */
 @RestController
 @RequestMapping("/pay")
-public class CallBackController {
+public class CallBackController extends BaseController {
 
     @RequestMapping("/{id}")
-    public String index(HttpServletRequest request, @PathVariable("id") String id) {
-        request.getHeaderNames();
+    public String index(@PathVariable("id") String id, HttpServletRequest request) {
+        // 验签
+
+        // 获取参数
+        Payment payment = paymentService.selectById(id);
         Map<String, String[]> parameterMap = request.getParameterMap();
-        Gson gson = new Gson();
-        String notify = gson.toJson(parameterMap);
-        System.out.println(notify);
+        Notify notify = BeanUtils.toObject(parameterMap, Notify.class, true);
         return "success";
     }
 

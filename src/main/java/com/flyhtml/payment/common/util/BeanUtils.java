@@ -1,30 +1,66 @@
 package com.flyhtml.payment.common.util;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.util.*;
+
 import com.flyhtml.payment.common.annotation.ProtoType;
 import com.flyhtml.payment.db.model.Payment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.protobuf.Message;
-import io.grpc.payment.Voucher;
 
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import io.grpc.payment.Voucher;
 
 /**
  * @author xiaowei
  * @time 17-4-11 上午10:27
- * @describe
+ * @describe 转化工具类
  */
-public class ProtoUtil {
+public class BeanUtils {
 
+    /***
+     * paramMap转Obejct（仅适用于SpringParameterMap）
+     *
+     * @param paramMap
+     * @param clazz
+     * @param _toCamel 是否需要下划线转驼峰命名
+     * @param <T>
+     * @return
+     */
+    public static <T extends Object> T toObject(Map<String, String[]> paramMap, Class<T> clazz, Boolean _toCamel) {
+        try {
+            if (paramMap.isEmpty()) {
+                return null;
+            }
+            T object = clazz.newInstance();
+            Field[] fields = clazz.getDeclaredFields();
+            for (Field field : fields) {
+                String key = _toCamel ? Underline2Camel.camel2Underline(field.getName()) : field.getName();
+                if (!paramMap.containsKey(key)) {
+                    continue;
+                }
+                String[] values = paramMap.get(key);
+                field.setAccessible(true);
+                field.set(object, values[0]);
+            }
+            return object;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /***
+     * 对象转Proto对象
+     *
+     * @param object
+     * @param clazz
+     * @param <T>
+     * @return
+     */
     public static <T extends Message> T toProto(Object object, Class<T> clazz) {
         try {
             Class<?> objectClass = object.getClass();
@@ -50,7 +86,6 @@ public class ProtoUtil {
                             setMethod = builder.getClass().getDeclaredMethod("putAll" + name, annotation.type());
                             setMethod.invoke(builder, map);
                         }
-
                     } else if (value instanceof Date) {
                         if (annotation.type() == long.class) {
                             long time = ((Date) value).getTime() / 1000;

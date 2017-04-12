@@ -34,8 +34,8 @@ public class BaseService<T extends BaseModel, M extends BaseMapper> {
         return (T) m.selectOne(t);
     }
 
-    public T selectById(T t) {
-        return (T) m.selectByPrimaryKey(t);
+    public T selectById(Object id) {
+        return (T) m.selectByPrimaryKey(id);
     }
 
     /***

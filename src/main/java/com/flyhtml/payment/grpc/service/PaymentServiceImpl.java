@@ -1,12 +1,11 @@
 package com.flyhtml.payment.grpc.service;
 
 import com.flyhtml.payment.channel.BaseConfig;
-import com.flyhtml.payment.channel.alipay.util.AlipayUtil;
-import com.flyhtml.payment.common.util.ProtoUtil;
+import com.flyhtml.payment.channel.alipayw.util.AlipayUtil;
+import com.flyhtml.payment.common.util.BeanUtils;
 import com.flyhtml.payment.common.util.RandomStrs;
 import com.flyhtml.payment.db.model.Payment;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import io.grpc.Status;
 import org.apache.commons.lang3.StringUtils;
 import org.lognet.springboot.grpc.GRpcService;
@@ -28,7 +27,6 @@ import io.grpc.stub.StreamObserver;
 import me.hao0.common.date.Dates;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,7 +78,6 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                 jsPay.setOutTradeNo(request.getOrderNo());
                 jsPay.setTotalFee(request.getAmount());
                 jsPay.setBody(request.getBody());
-                jsPay.setAttach("支付测试");
                 jsPay.setClientId(request.getIp());
                 jsPay.setNotifyUrl(BaseConfig.NOTIFY_URL + "/" + payment.getId());
                 jsPay.setTimeStart(Dates.now("yyyyMMddHHmmss"));
@@ -108,7 +105,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                 break;
         }
         paymentService.insertSelective(payment);
-        Voucher voucher = ProtoUtil.toProto(payment, Voucher.class);
+        Voucher voucher = BeanUtils.toProto(payment, Voucher.class);
         System.out.println(voucher);
         responseObserver.onNext(voucher);
         responseObserver.onCompleted();

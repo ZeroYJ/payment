@@ -1,13 +1,11 @@
-package com.flyhtml.payment.channel.alipay.util;
-
-import java.util.UUID;
+package com.flyhtml.payment.channel.alipayw.util;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
-import com.flyhtml.payment.channel.alipay.AlipayConfig;
+import com.flyhtml.payment.channel.alipayw.AlipayConfig;
 
 /**
  * @author xiaowei
@@ -19,9 +17,9 @@ public class AlipayUtil {
     private static AlipayClient alipayClient;
 
     static {
-        alipayClient = new DefaultAlipayClient(AlipayConfig.URL, AlipayConfig.APPID, AlipayConfig.RSA_PRIVATE_KEY,
+        alipayClient = new DefaultAlipayClient(AlipayConfig.URL, AlipayConfig.APPID, AlipayConfig.RSA2_PRIVATE_KEY,
                                                AlipayConfig.FORMAT, AlipayConfig.CHARSET,
-                                               AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.SIGNTYPE);
+                                               AlipayConfig.ALIPAY_RSA2_PUBLIC_KEY, AlipayConfig.SIGNTYPE);
     }
 
     /***
