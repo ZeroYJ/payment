@@ -22,7 +22,7 @@ import io.grpc.payment.Voucher;
 public class BeanUtils {
 
     /***
-     * paramMap转Obejct（仅适用于SpringParameterMap）
+     * paramMap转Obejct
      *
      * @param paramMap
      * @param clazz
@@ -30,7 +30,7 @@ public class BeanUtils {
      * @param <T>
      * @return
      */
-    public static <T extends Object> T toObject(Map<String, String[]> paramMap, Class<T> clazz, Boolean _toCamel) {
+    public static <T extends Object> T toObject(Map<String, String> paramMap, Class<T> clazz, Boolean _toCamel) {
         try {
             if (paramMap.isEmpty()) {
                 return null;
@@ -42,9 +42,9 @@ public class BeanUtils {
                 if (!paramMap.containsKey(key)) {
                     continue;
                 }
-                String[] values = paramMap.get(key);
+                String value = paramMap.get(key);
                 field.setAccessible(true);
-                field.set(object, values[0]);
+                field.set(object, value);
             }
             return object;
         } catch (Exception e) {
