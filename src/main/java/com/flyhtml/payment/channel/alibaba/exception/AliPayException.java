@@ -3,7 +3,7 @@ package com.flyhtml.payment.channel.alibaba.exception;
 /**
  * @author xiaowei
  * @time 17-4-12 下午3:34
- * @describe Alipay Exception
+ * @describe AlipayUtil Exception
  */
 
 public class AliPayException extends RuntimeException {

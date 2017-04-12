@@ -6,7 +6,7 @@ import com.flyhtml.payment.channel.alibaba.model.enums.PaymentType;
 /**
  * @author xiaowei
  * @time 17-4-12 下午3:27
- * @describe The Alipay builder
+ * @describe The AlipayUtil builder
  */
 
 public final class AlipayBuilder {

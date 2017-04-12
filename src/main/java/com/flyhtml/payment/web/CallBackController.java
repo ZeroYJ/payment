@@ -1,6 +1,5 @@
 package com.flyhtml.payment.web;
 
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,10 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
-import com.alipay.api.internal.util.AlipayUtils;
-import com.flyhtml.payment.channel.alibaba.core.Verifies;
 import com.flyhtml.payment.channel.alipay.AlipayConfig;
-import com.flyhtml.payment.channel.alipay.core.Alipay;
 import com.flyhtml.payment.channel.alipay.model.Notify;
 import com.flyhtml.payment.common.util.BeanUtils;
 import com.flyhtml.payment.db.model.Payment;

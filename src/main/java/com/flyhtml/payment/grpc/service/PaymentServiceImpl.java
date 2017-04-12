@@ -1,7 +1,7 @@
 package com.flyhtml.payment.grpc.service;
 
 import com.flyhtml.payment.channel.BaseConfig;
-import com.flyhtml.payment.channel.alipay.core.Alipay;
+import com.flyhtml.payment.channel.alipay.core.AlipayUtil;
 import com.flyhtml.payment.common.util.BeanUtils;
 import com.flyhtml.payment.common.util.RandomStrs;
 import com.flyhtml.payment.db.model.Payment;
@@ -93,7 +93,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                 if (StringUtils.isAnyBlank(returnUrl, notifyUrl)) {
                     responseObserver.onError(new RuntimeException("openId is cannot be null"));
                 }
-                String form = Alipay.createOrder(payment.getSubject(), payment.getBody(), payment.getOrderNo(),
+                String form = AlipayUtil.createOrder(payment.getSubject(), payment.getBody(), payment.getOrderNo(),
                                                      payment.getAmount().toString(), returnUrl,
                                                      BaseConfig.NOTIFY_URL + "/" + payment.getId());
                 Map<String, String> credential = new HashMap<>();

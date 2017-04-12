@@ -8,7 +8,7 @@ import com.flyhtml.payment.channel.alibaba.model.enums.AlipayField;
 /**
  * @author xiaowei
  * @time 17-4-12 下午3:42
- * @describe Alipay field collection
+ * @describe AlipayUtil field collection
  */
 public class AlipayFields {
 

@@ -132,7 +132,7 @@ public final class Alipay {
 
     @Override
     public String toString() {
-        return "Alipay{" + "merchantId='" + merchantId + '\'' + ", secret='" + secret + '\'' + ", inputCharset='"
+        return "AlipayUtil{" + "merchantId='" + merchantId + '\'' + ", secret='" + secret + '\'' + ", inputCharset='"
                + inputCharset + '\'' + ", paymentType='" + paymentType + '\'' + ", payMethod='" + payMethod + '\''
                + ", expired='" + expired + '\'' + ", appPriKey='" + appPriKey + '\'' + ", appPubKey='" + appPubKey
                + '\'' + ", qrPriKey='" + qrPriKey + '\'' + ", qrPubKey='" + qrPubKey + '\'' + '}';
