@@ -12,8 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.flyhtml.payment.common.util.RandomStrs;
-import com.flyhtml.payment.db.model.Payment;
-import com.flyhtml.payment.db.service.PaymentService;
+import com.flyhtml.payment.db.service.PayService;
 import com.google.gson.Gson;
 
 /**
@@ -28,7 +27,7 @@ public class PaymentTest {
     // 在Java类中创建 logger 实例
     private Logger         logger = LoggerFactory.getLogger(PaymentTest.class);
     @Autowired
-    private PaymentService paymentService;
+    private PayService paymentService;
 
     @Test
     public void getAll() {

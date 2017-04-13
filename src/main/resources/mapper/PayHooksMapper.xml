@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flyhtml.payment.db.mapper.PayHooksMapper">
+    <resultMap id="BaseResultMap" type="com.flyhtml.payment.db.model.PayHooks">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+        <result column="hooks_url" property="hooksUrl" jdbcType="VARCHAR"/>
+        <result column="hooks_time" property="hooksTime" jdbcType="TIMESTAMP"/>
+        <result column="hooks_count" property="hooksCount" jdbcType="INTEGER"/>
+        <result column="response_data" property="responseData" jdbcType="VARCHAR"/>
+        <result column="hooks_param" property="hooksParam" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+</mapper>

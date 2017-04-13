@@ -1,16 +1,15 @@
 package com.flyhtml.payment.grpc.service;
 
-import com.flyhtml.payment.channel.BaseConfig;
-import com.flyhtml.payment.channel.alipay.core.AlipayUtil;
-import com.flyhtml.payment.common.util.BeanUtils;
-import com.flyhtml.payment.common.util.RandomStrs;
-import com.flyhtml.payment.db.model.Payment;
-import com.google.gson.Gson;
-import io.grpc.Status;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.flyhtml.payment.channel.BaseConfig;
+import com.flyhtml.payment.channel.alipay.core.AlipayUtil;
 import com.flyhtml.payment.channel.wechatpay.WechatPayConfig;
 import com.flyhtml.payment.channel.wechatpay.core.Wepay;
 import com.flyhtml.payment.channel.wechatpay.core.WepayBuilder;
@@ -18,17 +17,18 @@ import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayRequest;
 import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayResponse;
 import com.flyhtml.payment.common.enums.PayTypeEnum;
 import com.flyhtml.payment.common.exception.PaymentException;
-import com.flyhtml.payment.db.service.PaymentService;
+import com.flyhtml.payment.common.util.BeanUtils;
+import com.flyhtml.payment.common.util.RandomStrs;
+import com.flyhtml.payment.db.model.Pay;
+import com.flyhtml.payment.db.service.PayService;
+import com.google.gson.Gson;
 
+import io.grpc.Status;
 import io.grpc.payment.Make;
 import io.grpc.payment.PaymentServiceGrpc;
 import io.grpc.payment.Voucher;
 import io.grpc.stub.StreamObserver;
 import me.hao0.common.date.Dates;
-
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author xiaowei
@@ -39,7 +39,7 @@ import java.util.Map;
 public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBase {
 
     @Autowired
-    private PaymentService paymentService;
+    private PayService paymentService;
 
     @Override
     public void create(Make request, StreamObserver<Voucher> responseObserver) {
@@ -54,7 +54,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
             responseObserver.onError(new PaymentException("channel not fonud"));
         }
         String id = "pa_" + RandomStrs.generate(24);
-        Payment payment = new Payment();
+        Pay payment = new Pay();
         payment.setId(id);
         payment.setChannel(channel);
         payment.setOrderNo(request.getOrderNo());

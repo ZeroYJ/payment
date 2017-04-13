@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import com.flyhtml.payment.common.annotation.ProtoType;
-import com.flyhtml.payment.db.model.Payment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.protobuf.Message;

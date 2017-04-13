@@ -1,21 +1,20 @@
 package com.flyhtml.payment.db.model;
 
+import com.flyhtml.payment.common.annotation.ProtoType;
+import com.flyhtml.payment.db.base.BaseModel;
+import com.sun.xml.internal.rngom.parse.host.Base;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
-
-import javax.persistence.Column;
-import javax.persistence.Id;
-
-import com.flyhtml.payment.common.annotation.ProtoType;
-import com.flyhtml.payment.db.base.BaseModel;
+import javax.persistence.*;
 
 /**
  * @author xiaowei
- * @time 17-4-6 下午6:23
+ * @time 17-4-13 下午12:52
  * @describe 支付表
  */
-public class Payment extends BaseModel {
+public class Pay extends BaseModel {
 
     /**
      * 主键
@@ -50,7 +49,7 @@ public class Payment extends BaseModel {
     private Boolean    hasRefund;
 
     /**
-     * 付款渠道
+     * 支付渠道
      */
     private String     channel;
 
@@ -85,6 +84,12 @@ public class Payment extends BaseModel {
      * 商品描述信息
      */
     private String     body;
+
+    /**
+     * 支付渠道交易号
+     */
+    @Column(name = "channel_no")
+    private String     channelNo;
 
     /**
      * 支付时间
@@ -208,18 +213,18 @@ public class Payment extends BaseModel {
     }
 
     /**
-     * 获取付款渠道
+     * 获取支付渠道
      *
-     * @return channel - 付款渠道
+     * @return channel - 支付渠道
      */
     public String getChannel() {
         return channel;
     }
 
     /**
-     * 设置付款渠道
+     * 设置支付渠道
      *
-     * @param channel 付款渠道
+     * @param channel 支付渠道
      */
     public void setChannel(String channel) {
         this.channel = channel;
@@ -331,6 +336,24 @@ public class Payment extends BaseModel {
      */
     public void setBody(String body) {
         this.body = body;
+    }
+
+    /**
+     * 获取支付渠道交易号
+     *
+     * @return channel_no - 支付渠道交易号
+     */
+    public String getChannelNo() {
+        return channelNo;
+    }
+
+    /**
+     * 设置支付渠道交易号
+     *
+     * @param channelNo 支付渠道交易号
+     */
+    public void setChannelNo(String channelNo) {
+        this.channelNo = channelNo;
     }
 
     /**

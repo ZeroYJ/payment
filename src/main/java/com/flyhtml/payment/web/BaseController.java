@@ -1,6 +1,8 @@
 package com.flyhtml.payment.web;
 
-import com.flyhtml.payment.db.service.PaymentService;
+import com.flyhtml.payment.db.service.PayHooksService;
+import com.flyhtml.payment.db.service.PayNotifyService;
+import com.flyhtml.payment.db.service.PayService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -11,5 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class BaseController {
 
     @Autowired
-    protected PaymentService paymentService;
+    protected PayService       payService;
+    @Autowired
+    protected PayNotifyService payNotifyService;
+    @Autowired
+    protected PayHooksService  payHooksService;
 }
