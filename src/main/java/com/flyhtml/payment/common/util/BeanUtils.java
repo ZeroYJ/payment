@@ -4,9 +4,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.flyhtml.payment.common.annotation.ProtoType;
+import com.flyhtml.payment.db.model.Pay;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.protobuf.Message;
@@ -127,7 +131,7 @@ public class BeanUtils {
 
     public static void main(String[] args) {
         // io.grpc.payment.Voucher$Builder.setId()
-        Payment payment = new Payment();
+        Pay payment = new Pay();
         payment.setId("pa_" + RandomStrs.generate(24));
         payment.setGmtCreate(new Date());
         payment.setBody("abasdfas");

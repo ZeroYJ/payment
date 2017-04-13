@@ -1,18 +1,25 @@
 package com.flyhtml.payment.channel.alipay.core;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeWapPayModel;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.flyhtml.payment.channel.alibaba.model.enums.AlipayField;
 import com.flyhtml.payment.channel.alibaba.model.enums.SignType;
 import com.flyhtml.payment.channel.alipay.AlipayConfig;
 
+import com.flyhtml.payment.channel.alipay.enums.Validate;
+import com.flyhtml.payment.channel.alipay.model.Notify;
+import com.flyhtml.payment.common.util.BeanUtils;
+import com.flyhtml.payment.db.model.Pay;
 import me.hao0.common.security.MD5;
 import me.hao0.common.util.Strings;
+import org.apache.el.parser.BooleanNode;
 
 /**
  * @author xiaowei
@@ -55,6 +62,59 @@ public class AlipayUtil {
             String form = alipayClient.pageExecute(alipayRequest).getBody();
             return form;
         } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /***
+     * 签名检查
+     * 
+     * @param paramMap 参数
+     * @return
+     */
+    public static Boolean signCheck(Map<String, String> paramMap) {
+        try {
+            boolean bool = AlipaySignature.rsaCheckV1(paramMap, AlipayConfig.ALIPAY_RSA2_PUBLIC_KEY,
+                                                      AlipayConfig.CHARSET, AlipayConfig.SIGNTYPE);
+            return bool;
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /***
+     * 验证订单准确性
+     * 
+     * @param notify 支付宝通知对象
+     * @param pay 支付对象
+     * @return
+     */
+    public static String notifyCheck(Notify notify, Pay pay) {
+        try {
+            // 订单号
+            if (!pay.getOrderNo().equals(notify.getOutTradeNo())) {
+                return Validate.INVALID_OUT_TRADE_NO.getName();
+            }
+            // 金额
+            if (pay.getAmount().compareTo(new BigDecimal(notify.getTotalAmount())) != 0) {
+                return Validate.INACCURATE_AMOUNT.getName();
+            }
+            // seller_id
+            if (!notify.getSellerId().equals(AlipayConfig.merchantId)) {
+                return Validate.INACCURATE_SELLER_ID.getName();
+            }
+            // APPID
+            if (!notify.getAppId().equals(AlipayConfig.APPID)) {
+                return Validate.INACCURATE_APPID.getName();
+            }
+            // 判断是否付款成功
+            if (!notify.getTradeStatus().equals("TRADE_SUCCESS")) {
+                return Validate.INACCURATE_TRADE_STATUS.getName();
+            }
+            return Validate.SUCCESS.getName();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

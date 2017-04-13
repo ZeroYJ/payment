@@ -1,8 +1,13 @@
 package com.flyhtml.payment;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
+import com.flyhtml.payment.db.model.PayHooks;
+import com.flyhtml.payment.db.model.PayNotify;
+import com.flyhtml.payment.db.service.PayHooksService;
+import com.flyhtml.payment.db.service.PayNotifyService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -12,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.flyhtml.payment.common.util.RandomStrs;
+import com.flyhtml.payment.db.model.Pay;
 import com.flyhtml.payment.db.service.PayService;
 import com.google.gson.Gson;
 
@@ -25,22 +31,26 @@ import com.google.gson.Gson;
 public class PaymentTest {
 
     // 在Java类中创建 logger 实例
-    private Logger         logger = LoggerFactory.getLogger(PaymentTest.class);
+    private Logger           logger = LoggerFactory.getLogger(PaymentTest.class);
     @Autowired
-    private PayService paymentService;
+    private PayService       paymentService;
+    @Autowired
+    private PayNotifyService payNotifyService;
+    @Autowired
+    private PayHooksService  payHooksService;
 
     @Test
     public void getAll() {
-        Payment payment = new Payment();
+        Pay payment = new Pay();
         payment.setPage(1);
         payment.setRows(1);
-        List<Payment> all = paymentService.selectAll(payment);
+        List<Pay> all = paymentService.selectAll(payment);
         logger.info(new Gson().toJson(all));
     }
 
     @Test
     public void insert() {
-        Payment payment = new Payment();
+        Pay payment = new Pay();
         String id = "pa_" + RandomStrs.generate(29);
         payment.setId(id);
         payment.setIsPay(true);
@@ -54,5 +64,25 @@ public class PaymentTest {
         payment.setBody("16G");
         paymentService.insertSelective(payment);
         logger.info(id);
+    }
+
+    @Test
+    public void insertNotify() {
+        PayNotify payNotify = new PayNotify();
+        payNotify.setResponseData("success");
+        payNotify.setNotifyUrl("/v1/12");
+        payNotify.setNotifyParam("sadasd");
+        int i = payNotifyService.insertSelective(payNotify);
+        logger.warn(i + "");
+    }
+
+    @Test
+    public void insertHooks() {
+        PayHooks hooks = new PayHooks();
+        hooks.setId(RandomStrs.generate(20));
+        hooks.setHooksUrl("localhost");
+        hooks.setHooksParam("");
+        hooks.setHooksTime(new Date());
+        payHooksService.insertSelective(hooks);
     }
 }

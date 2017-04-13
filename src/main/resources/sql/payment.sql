@@ -27,8 +27,8 @@ CREATE TABLE `pay` (
 ##支付通知表
 DROP TABLE IF EXISTS `pay_notify`;
 CREATE TABLE `pay_notify` (
-  `id`            INT(9)      NOT NULL COMMENT '主键',
-  `gmt_create`    DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `id`            INT(9)      NOT NULL  AUTO_INCREMENT COMMENT '主键',
+  `gmt_create`    DATETIME              DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `notify_url`    VARCHAR(50) NOT NULL COMMENT '通知地址',
   `notify_param`  TEXT        NOT NULL COMMENT '通知参数',
   `response_data` VARCHAR(30) NOT NULL COMMENT '响应数据',

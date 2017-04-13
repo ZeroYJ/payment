@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 /**
  * @author xiaowei
- * @time 17-4-13 下午12:52
+ * @time 17-4-13 下午2:25
  * @describe 支付通知表
  */
 @Table(name = "pay_notify")

@@ -30,4 +30,5 @@ public class WechatUtil {
         JsPayResponse jsPayResponse = wepay.pay().jsPay(jsPayRequest);
         System.out.println(jsPayResponse);
     }
+
 }
