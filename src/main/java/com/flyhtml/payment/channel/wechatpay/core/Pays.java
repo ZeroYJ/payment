@@ -26,7 +26,8 @@ public final class Pays extends Component {
     /**
      * 统一下单接口
      */
-    private static final String PAY_URL    = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+    // private static final String PAY_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+    private static final String PAY_URL    = "https://api.mch.weixin.qq.com/sandboxnew/pay/unifiedorder";
 
     /**
      * 联图二维码转换

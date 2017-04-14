@@ -91,29 +91,33 @@ public class AlipayUtil {
      * @param pay 支付对象
      * @return
      */
-    public static String notifyCheck(Notify notify, Pay pay) {
+    public static Validate notifyCheck(Notify notify, Pay pay) {
         try {
             // 订单号
             if (!pay.getOrderNo().equals(notify.getOutTradeNo())) {
-                return Validate.INVALID_OUT_TRADE_NO.getName();
+                return Validate.INVALID_OUT_TRADE_NO;
             }
             // 金额
             if (pay.getAmount().compareTo(new BigDecimal(notify.getTotalAmount())) != 0) {
-                return Validate.INACCURATE_AMOUNT.getName();
+                return Validate.INACCURATE_AMOUNT;
             }
             // seller_id
             if (!notify.getSellerId().equals(AlipayConfig.merchantId)) {
-                return Validate.INACCURATE_SELLER_ID.getName();
+                return Validate.INACCURATE_SELLER_ID;
             }
             // APPID
             if (!notify.getAppId().equals(AlipayConfig.APPID)) {
-                return Validate.INACCURATE_APPID.getName();
+                return Validate.INACCURATE_APPID;
             }
             // 判断是否付款成功
             if (!notify.getTradeStatus().equals("TRADE_SUCCESS")) {
-                return Validate.INACCURATE_TRADE_STATUS.getName();
+                return Validate.INACCURATE_TRADE_STATUS;
             }
-            return Validate.SUCCESS.getName();
+            // 通知重复发送
+            if (pay.getIsPay()) {
+                return Validate.NOTIFY_REPEAT;
+            }
+            return Validate.SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
         }

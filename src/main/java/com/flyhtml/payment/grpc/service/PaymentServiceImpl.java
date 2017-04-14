@@ -71,7 +71,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                 if (StringUtils.isAnyBlank(openId, notifyUrl)) {
                     responseObserver.onError(new RuntimeException("openId is cannot be null"));
                 }
-                Wepay wepay = WepayBuilder.newBuilder(WechatPayConfig.appid, WechatPayConfig.appKey,
+                Wepay wepay = WepayBuilder.newBuilder(WechatPayConfig.appid, WechatPayConfig.appTestKey,
                                                       WechatPayConfig.mch_id).build();
                 JsPayRequest jsPay = new JsPayRequest();
                 jsPay.setOpenId(openId);
@@ -79,7 +79,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                 jsPay.setTotalFee(request.getAmount());
                 jsPay.setBody(request.getBody());
                 jsPay.setClientId(request.getIp());
-                jsPay.setNotifyUrl(BaseConfig.NOTIFY_URL + "/" + payment.getId());
+                jsPay.setNotifyUrl(BaseConfig.WECHAT_NOTIFY_URL + "/" + payment.getId());
                 jsPay.setTimeStart(Dates.now("yyyyMMddHHmmss"));
                 JsPayResponse jsPayResponse = wepay.pay().jsPay(jsPay);
                 Map<String, String> credential = new HashMap<>();
@@ -95,7 +95,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                 }
                 String form = AlipayUtil.createOrder(payment.getSubject(), payment.getBody(), payment.getOrderNo(),
                                                      payment.getAmount().toString(), returnUrl,
-                                                     BaseConfig.NOTIFY_URL + "/" + payment.getId());
+                                                     BaseConfig.ALIPAY_NOTIFY_URL + "/" + payment.getId());
                 Map<String, String> credential = new HashMap<>();
                 credential.put("credential", form);
                 payment.setCredential(new Gson().toJson(credential));

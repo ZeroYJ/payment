@@ -10,7 +10,7 @@ public enum Validate {
                       INVALID_OUT_TRADE_NO("invalid_out_trade_no", "无效订单号"),
                       INACCURATE_AMOUNT("inaccurate_amount", "金额不准确"), INACCURATE_APPID("inaccurate_appid", "APPID不准确"),
                       INACCURATE_TRADE_STATUS("inaccurate_trade_status", "交易状态不准确"),
-                      INACCURATE_SELLER_ID("inaccurate_seller_id", "seller_id不准确");
+                      INACCURATE_SELLER_ID("inaccurate_seller_id", "seller_id不准确"), NOTIFY_REPEAT("success", "通知重复");
 
     private String name;
     private String desc;

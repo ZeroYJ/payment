@@ -1,4 +1,4 @@
-package com.flyhtml.payment.config.druid;
+package com.flyhtml.payment.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;

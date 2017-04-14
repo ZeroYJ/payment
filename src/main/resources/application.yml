@@ -37,3 +37,12 @@ pagehelper:
     reasonable: true
     supportMethodsArguments: true
     params: count=countSql
+
+spring:
+    mvc:
+        view:
+            prefix: /templates/
+            suffix: .ftl
+    freemarker:
+        cache: false
+        request-context-attribute: request

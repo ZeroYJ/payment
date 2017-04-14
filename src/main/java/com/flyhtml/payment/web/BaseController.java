@@ -6,6 +6,11 @@ import com.flyhtml.payment.db.service.PayService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author xiaowei
@@ -15,12 +20,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class BaseController {
 
     // 在Java类中创建 logger 实例
-    protected Logger           logger = LoggerFactory.getLogger(BaseController.class);
+    protected static Logger       logger = LoggerFactory.getLogger(BaseController.class);
+    // request,response 不可随意使用
+    protected HttpServletRequest  request;
+    protected HttpServletResponse response;
+    protected HttpSession         session;
 
     @Autowired
-    protected PayService       payService;
+    protected PayService          payService;
     @Autowired
-    protected PayNotifyService payNotifyService;
+    protected PayNotifyService    payNotifyService;
     @Autowired
-    protected PayHooksService  payHooksService;
+    protected PayHooksService     payHooksService;
+
+    @ModelAttribute
+    public void setReqAndResp(HttpServletRequest request, HttpServletResponse response) {
+        this.request = request;
+        this.response = response;
+        this.session = request.getSession();
+    }
 }

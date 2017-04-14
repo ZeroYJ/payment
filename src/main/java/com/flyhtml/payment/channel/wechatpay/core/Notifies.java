@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.flyhtml.payment.channel.wechatpay.model.enums.WepayField;
-import com.flyhtml.payment.channel.wechatpay.util.Maps;
+import com.flyhtml.payment.common.util.Maps;
 
 /**
  * @author xiaowei
@@ -25,6 +25,16 @@ public class Notifies extends Component {
      */
     public Boolean verifySign(Map<String, ?> params) {
         return doVerifySign(params);
+    }
+
+    /****
+     * 签名效验
+     * 
+     * @param xml 微信xml内容
+     * @return
+     */
+    public Boolean verifySign(String xml) {
+        return doVerifySign(xml);
     }
 
     /**

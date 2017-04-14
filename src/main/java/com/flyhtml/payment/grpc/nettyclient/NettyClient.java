@@ -2,6 +2,7 @@ package com.flyhtml.payment.grpc.nettyclient;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,6 +22,8 @@ import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import me.hao0.common.http.Http;
+
+import static com.flyhtml.payment.channel.wechatpay.WechatPayConfig.url;
 
 public class NettyClient {
 
@@ -138,15 +141,15 @@ public class NettyClient {
     }
 
     public static void main(String args[]) throws ErrorDataEncoderException, InterruptedException, SSLException {
-        String url = "http://fuliaoyi.com/flyhtml/systemServices/getJsWeiXinConfig";
-        String request = Http.get(url).request();
-        System.out.println(request);
-        // Map<String, String> getData = new HashMap<>();
-        // getData.put("tags", "806:938356;");
-        // getData.put("sort", "_p");
-        //
-        // HttpRequest get = NettyClient.getRequestMethod(null, url, "post");
-        // new NettyClient().run(url, get);
+        // String url = "http://fuliaoyi.com/flyhtml/systemServices/getJsWeiXinConfig";
+        // String request = Http.get(url).request();
+        // System.out.println(request);
+        Map<String, String> getData = new HashMap<>();
+        getData.put("tags", "806:938356;");
+        getData.put("sort", "_p");
+
+        HttpRequest get = NettyClient.getRequestMethod(null, url, "post");
+        new NettyClient().run(url, get);
         // List<Thread> threads = new ArrayList<Thread>();
         // for (int i = 0; i < 1; i++) {
         // Thread da = new Thread() {

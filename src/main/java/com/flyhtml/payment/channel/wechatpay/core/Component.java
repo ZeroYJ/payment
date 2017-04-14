@@ -5,7 +5,7 @@ import java.util.TreeMap;
 
 import com.flyhtml.payment.channel.wechatpay.exception.WepayException;
 import com.flyhtml.payment.channel.wechatpay.model.enums.WepayField;
-import com.flyhtml.payment.channel.wechatpay.util.Maps;
+import com.flyhtml.payment.common.util.Maps;
 
 import me.hao0.common.http.Http;
 import me.hao0.common.http.Https;

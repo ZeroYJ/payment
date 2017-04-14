@@ -22,4 +22,6 @@ public class WechatPayConfig extends BaseConfig {
     public static String url        = "https://api.mch.weixin.qq.com/pay/unifiedorder";
     // 交易类型JSAPI--公众号支付、NATIVE--原生扫码支付、APP--app支付，统一下单接口trade_type的传参
     public static String trade_type = "JSAPI";
+    // 沙箱APPKEY
+    public static String appTestKey = "4ac80d775cdf572097129c16563ae968";
 }

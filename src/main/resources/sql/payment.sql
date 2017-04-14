@@ -39,12 +39,12 @@ CREATE TABLE `pay_notify` (
 DROP TABLE IF EXISTS `pay_hooks`;
 CREATE TABLE `pay_hooks` (
   `id`            VARCHAR(32) NOT NULL COMMENT '主键,同pay_id',
-  `gmt_create`    DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `gmt_modified`  DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `gmt_create`    DATETIME         DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified`  DATETIME         DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `hooks_url`     VARCHAR(50) NOT NULL COMMENT '回调地址',
   `hooks_param`   TEXT        NOT NULL COMMENT '回调参数',
   `hooks_time`    DATETIME    NULL COMMENT '最新回调时间',
-  `hooks_count`   INT(2)      NULL COMMENT '已回调次数',
+  `hooks_count`   INT(2)      NULL DEFAULT 0 COMMENT '已回调次数',
   `response_data` VARCHAR(30) NULL COMMENT '响应数据',
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = `utf8mb4` COMMENT '支付回调表';

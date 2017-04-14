@@ -1,9 +1,10 @@
-package com.flyhtml.payment.channel.wechatpay.util;
+package com.flyhtml.payment.common.util;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -26,7 +27,7 @@ public class Maps {
      * @return Map对象
      */
     public static Map<String, Object> toMap(String xml) {
-        xml = xml.replaceAll("(\\r|\\n)", "");
+        xml = StringUtils.deleteWhitespace(xml);
         if (Strings.isNullOrEmpty(xml)) {
             return Collections.emptyMap();
         }
