@@ -21,9 +21,6 @@ import io.netty.handler.codec.http.multipart.HttpPostRequestEncoder.ErrorDataEnc
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
-import me.hao0.common.http.Http;
-
-import static com.flyhtml.payment.channel.wechatpay.WechatPayConfig.url;
 
 public class NettyClient {
 
@@ -141,7 +138,7 @@ public class NettyClient {
     }
 
     public static void main(String args[]) throws ErrorDataEncoderException, InterruptedException, SSLException {
-        // String url = "http://fuliaoyi.com/flyhtml/systemServices/getJsWeiXinConfig";
+        String url = "http://fuliaoyi.com/flyhtml/systemServices/getJsWeiXinConfig";
         // String request = Http.get(url).request();
         // System.out.println(request);
         Map<String, String> getData = new HashMap<>();

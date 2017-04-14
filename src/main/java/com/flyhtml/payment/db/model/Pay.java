@@ -25,15 +25,15 @@ public class Pay extends BaseModel {
     /**
      * 创建时间
      */
-    @Column(name = "gmt_create")
     @ProtoType(type = long.class)
+    @Column(name = "gmt_create")
     private Date       gmtCreate;
 
     /**
      * 修改时间
      */
-    @Column(name = "gmt_modified")
     @ProtoType(type = long.class)
+    @Column(name = "gmt_modified")
     private Date       gmtModified;
 
     /**
@@ -94,15 +94,15 @@ public class Pay extends BaseModel {
     /**
      * 支付时间
      */
-    @Column(name = "pay_time")
     @ProtoType(type = long.class)
+    @Column(name = "pay_time")
     private Date       payTime;
 
     /**
      * 失效时间
      */
-    @Column(name = "expire_time")
     @ProtoType(type = long.class)
+    @Column(name = "expire_time")
     private Date       expireTime;
 
     /**

@@ -20,6 +20,7 @@ import com.flyhtml.payment.common.util.RandomStrs;
 import com.flyhtml.payment.db.model.Pay;
 import com.flyhtml.payment.db.service.PayService;
 import com.google.gson.Gson;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author xiaowei
@@ -41,11 +42,13 @@ public class PaymentTest {
 
     @Test
     public void getAll() {
-        Pay payment = new Pay();
-        payment.setPage(1);
-        payment.setRows(1);
-        List<Pay> all = paymentService.selectAll(payment);
-        logger.info(new Gson().toJson(all));
+        // Pay payment = new Pay();
+        // payment.setPage(1);
+        // payment.setRows(1);
+        // List<Pay> all = paymentService.selectAll(payment);
+        // logger.info(new Gson().toJson(all));
+        Pay pa_rT9U8qfROsvGGmA8ODuUESHY = paymentService.selectById("pa_OrI24xAZjsnrzVpMj3B5ljHW");
+        System.out.println(new Gson().toJson(pa_rT9U8qfROsvGGmA8ODuUESHY));
     }
 
     @Test

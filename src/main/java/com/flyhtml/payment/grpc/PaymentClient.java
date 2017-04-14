@@ -40,14 +40,14 @@ public class PaymentClient {
         logger.info("Will try to createAlipay...");
         Make.Builder make = Make.newBuilder();
         make.setOrderNo("O" + RandomStrs.generate(30));
-        make.setChannel("wx_pub");
+        make.setChannel("alipay_wap");
         make.setSubject("iphone 7 plus");
         make.setBody("256G,蓝色");
         make.setAmount(101);
         make.setIp("127.0.0.1");
-        make.putExtra("openId", "o0iNcxLAfNPc5rz-2u2-u1D9BauA");
+        // make.putExtra("openId", "o0iNcxLAfNPc5rz-2u2-u1D9BauA");
         make.putExtra("notifyUrl", "http://fuliaoyi.com:8082/flyhtml/sds");
-        // make.putExtra("returnUrl", "http://helloxw.viphk.ngrok.org/pay/pay/success");
+        make.putExtra("returnUrl", "http://helloxw.viphk.ngrok.org/pay/pay/success");
         Make payment = make.build();
         Voucher result;
         try {

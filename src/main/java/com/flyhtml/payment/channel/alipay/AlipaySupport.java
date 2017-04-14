@@ -15,7 +15,7 @@ import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.flyhtml.payment.common.enums.Validate;
-import com.flyhtml.payment.channel.alipay.model.Notify;
+import com.flyhtml.payment.channel.alipay.model.AlipayNotify;
 import com.flyhtml.payment.db.model.Pay;
 
 /**
@@ -26,25 +26,25 @@ import com.flyhtml.payment.db.model.Pay;
 @Component
 public class AlipaySupport {
 
-    @Value("alipay.gateway")
+    @Value("${alipay.gateway}")
     private String       gateway;
-    @Value("alipay.appId")
+    @Value("${alipay.appId}")
     private String       appId;
-    @Value("alipay.privateKey")
+    @Value("${alipay.privateKey}")
     private String       privateKey;
-    @Value("alipay.publicKey")
+    @Value("${alipay.publicKey}")
     private String       publicKey;
-    @Value("alipay.mchId")
+    @Value("${alipay.mchId}")
     private String       mchId;
-    @Value("alipay.notifyUrl")
+    @Value("${alipay.notifyUrl}")
     private String       notifyUrl;
-    @Value("alipay.signType")
+    @Value("${alipay.signType}")
     private String       signType;
-    @Value("alipay.charset")
+    @Value("${alipay.charset}")
     private String       charset;
-    @Value("alipay.format")
+    @Value("${alipay.format}")
     private String       format;
-    @Value("alipay.timeout")
+    @Value("${alipay.timeout}")
     private String       timeout;
 
     private AlipayClient alipayClient;
@@ -91,7 +91,7 @@ public class AlipaySupport {
      * @param paramMap 参数
      * @return
      */
-    public Boolean signCheck(Map<String, String> paramMap) {
+    public Boolean verifySign(Map<String, String> paramMap) {
         try {
             boolean bool = AlipaySignature.rsaCheckV1(paramMap, publicKey, charset, signType);
             return bool;
@@ -108,7 +108,7 @@ public class AlipaySupport {
      * @param pay 支付对象
      * @return
      */
-    public Validate notifyCheck(Notify notify, Pay pay) {
+    public Validate verifyNotify(AlipayNotify notify, Pay pay) {
         try {
             // 订单号
             if (!pay.getOrderNo().equals(notify.getOutTradeNo())) {

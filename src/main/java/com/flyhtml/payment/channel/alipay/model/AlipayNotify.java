@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @time 17-3-31 下午2:50
  * @describe 手机网站支付结果异步通知
  */
-public class Notify implements Serializable {
+public class AlipayNotify implements Serializable {
 
     private static final long serialVersionUID = 5380675398077433915L;
     private String            notifyTime;                             // 通知时间

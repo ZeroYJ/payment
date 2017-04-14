@@ -33,7 +33,7 @@ public class BeanUtils {
      * @param <T>
      * @return
      */
-    public static <T extends Object> T toObject(Map<String, String> paramMap, Class<T> clazz, Boolean _toCamel) {
+    public static <T extends Object> T toObject(Map<String, ?> paramMap, Class<T> clazz, Boolean _toCamel) {
         try {
             if (paramMap.isEmpty()) {
                 return null;
@@ -45,7 +45,7 @@ public class BeanUtils {
                 if (!paramMap.containsKey(key)) {
                     continue;
                 }
-                String value = paramMap.get(key);
+                String value = paramMap.get(key).toString();
                 field.setAccessible(true);
                 field.set(object, value);
             }
