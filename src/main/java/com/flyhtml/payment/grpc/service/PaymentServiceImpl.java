@@ -8,12 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.flyhtml.payment.channel.BaseConfig;
-import com.flyhtml.payment.channel.alipay.core.AlipayUtil;
-import com.flyhtml.payment.channel.wechatpay.WechatPayConfig;
-import com.flyhtml.payment.channel.wechatpay.core.Wepay;
-import com.flyhtml.payment.channel.wechatpay.core.WepayBuilder;
-import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayRequest;
+import com.flyhtml.payment.channel.alipay.AlipaySupport;
+import com.flyhtml.payment.channel.wechatpay.WechatSupport;
 import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayResponse;
 import com.flyhtml.payment.common.enums.PayTypeEnum;
 import com.flyhtml.payment.common.exception.PaymentException;
@@ -28,7 +24,6 @@ import io.grpc.payment.Make;
 import io.grpc.payment.PaymentServiceGrpc;
 import io.grpc.payment.Voucher;
 import io.grpc.stub.StreamObserver;
-import me.hao0.common.date.Dates;
 
 /**
  * @author xiaowei
@@ -39,7 +34,11 @@ import me.hao0.common.date.Dates;
 public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBase {
 
     @Autowired
-    private PayService paymentService;
+    private PayService    paymentService;
+    @Autowired
+    private WechatSupport wechatPay;
+    @Autowired
+    private AlipaySupport alipay;
 
     @Override
     public void create(Make request, StreamObserver<Voucher> responseObserver) {
@@ -71,19 +70,11 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                 if (StringUtils.isAnyBlank(openId, notifyUrl)) {
                     responseObserver.onError(new RuntimeException("openId is cannot be null"));
                 }
-                Wepay wepay = WepayBuilder.newBuilder(WechatPayConfig.appid, WechatPayConfig.appTestKey,
-                                                      WechatPayConfig.mch_id).build();
-                JsPayRequest jsPay = new JsPayRequest();
-                jsPay.setOpenId(openId);
-                jsPay.setOutTradeNo(request.getOrderNo());
-                jsPay.setTotalFee(request.getAmount());
-                jsPay.setBody(request.getBody());
-                jsPay.setClientId(request.getIp());
-                jsPay.setNotifyUrl(BaseConfig.WECHAT_NOTIFY_URL + "/" + payment.getId());
-                jsPay.setTimeStart(Dates.now("yyyyMMddHHmmss"));
-                JsPayResponse jsPayResponse = wepay.pay().jsPay(jsPay);
+                JsPayResponse payResponse = wechatPay.jsPay(openId, request.getOrderNo(), request.getAmount(),
+                                                            request.getBody(), null, request.getIp(), payment.getId());
+
                 Map<String, String> credential = new HashMap<>();
-                credential.put("credential", new Gson().toJson(jsPayResponse));
+                credential.put("credential", new Gson().toJson(payResponse));
                 payment.setCredential(new Gson().toJson(credential));
                 break;
             }
@@ -93,9 +84,8 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                 if (StringUtils.isAnyBlank(returnUrl, notifyUrl)) {
                     responseObserver.onError(new RuntimeException("openId is cannot be null"));
                 }
-                String form = AlipayUtil.createOrder(payment.getSubject(), payment.getBody(), payment.getOrderNo(),
-                                                     payment.getAmount().toString(), returnUrl,
-                                                     BaseConfig.ALIPAY_NOTIFY_URL + "/" + payment.getId());
+                String form = alipay.mobilePay(payment.getSubject(), payment.getBody(), payment.getOrderNo(),
+                                               payment.getAmount().toString(), returnUrl, payment.getId());
                 Map<String, String> credential = new HashMap<>();
                 credential.put("credential", form);
                 payment.setCredential(new Gson().toJson(credential));

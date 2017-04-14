@@ -1,5 +1,7 @@
 package com.flyhtml.payment.web;
 
+import com.flyhtml.payment.channel.alipay.AlipaySupport;
+import com.flyhtml.payment.channel.wechatpay.WechatSupport;
 import com.flyhtml.payment.db.service.PayHooksService;
 import com.flyhtml.payment.db.service.PayNotifyService;
 import com.flyhtml.payment.db.service.PayService;
@@ -32,6 +34,10 @@ public class BaseController {
     protected PayNotifyService    payNotifyService;
     @Autowired
     protected PayHooksService     payHooksService;
+    @Autowired
+    protected AlipaySupport       alipay;
+    @Autowired
+    protected WechatSupport       wechatPay;
 
     @ModelAttribute
     public void setReqAndResp(HttpServletRequest request, HttpServletResponse response) {

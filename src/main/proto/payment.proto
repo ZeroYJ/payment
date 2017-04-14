@@ -6,7 +6,7 @@ option java_outer_classname = "PaymentProto";
 
 package payment;
 
-// The greeting service definition.
+// The greeting support definition.
 service PaymentService {
     // Sends a greeting
     rpc create (Make) returns (Voucher) {

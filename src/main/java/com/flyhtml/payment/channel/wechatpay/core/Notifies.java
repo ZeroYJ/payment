@@ -27,16 +27,6 @@ public class Notifies extends Component {
         return doVerifySign(params);
     }
 
-    /****
-     * 签名效验
-     * 
-     * @param xml 微信xml内容
-     * @return
-     */
-    public Boolean verifySign(String xml) {
-        return doVerifySign(xml);
-    }
-
     /**
      * 通知成功
      * 

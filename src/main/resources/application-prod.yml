@@ -1,0 +1,32 @@
+server:
+  port: 8080
+  session:
+    timeout: 30
+
+druid:
+  url: jdbc:mysql://fuliaoyi.com:3306/fly_payment?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=true
+  username: fly
+  password: fly@2016
+  filters: stat,slf4j
+  initialSize: 10
+  maxActive: 100
+  maxWait: 60000
+  minIdle: 5
+  timeBetweenEvictionRunsMillis: 60000
+  minEvictableIdleTimeMillis: 300000
+  validationQuery: SELECT 'x'
+  testWhileIdle: true
+  testOnBorrow: false
+  testOnReturn: false
+  poolPreparedStatements: true
+  maxPoolPreparedStatementPerConnectionSize: 20
+
+grpc:
+  port: 9090
+
+wechat:
+  appId: wxc995ba40913d605d
+  appSecret: add3136cebac319f2ffa4b0e2a95e42b
+  appKey: b81fc761fe654f619f150558c490ea49
+  mchId: 1366385702
+

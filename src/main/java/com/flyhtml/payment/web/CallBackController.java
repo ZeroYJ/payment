@@ -6,17 +6,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.flyhtml.payment.channel.wechatpay.WechatPayConfig;
-import com.flyhtml.payment.channel.wechatpay.core.Wepay;
-import com.flyhtml.payment.channel.wechatpay.core.WepayBuilder;
 import com.google.common.base.Throwables;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alipay.api.AlipayApiException;
-import com.flyhtml.payment.channel.alipay.core.AlipayUtil;
-import com.flyhtml.payment.channel.alipay.enums.Validate;
+import com.flyhtml.payment.common.enums.Validate;
 import com.flyhtml.payment.channel.alipay.model.Notify;
 import com.flyhtml.payment.common.util.Maps;
 import com.flyhtml.payment.common.util.BeanUtils;
@@ -47,17 +43,19 @@ public class CallBackController extends BaseController {
         for (String key : parameterMap.keySet()) {
             paramMap.put(key, parameterMap.get(key)[0]);
         }
-        Boolean signCheck = AlipayUtil.signCheck(paramMap);
+        Boolean signCheck = alipay.signCheck(paramMap);
         if (!signCheck) {
-            return Validate.INVALID_SIGNATURE.getName();
+            return alipay.notOk(Validate.invalid_signature);
         }
         // 验证订单准确性
         Pay pay = payService.selectById(id);
         Notify notify = BeanUtils.toObject(paramMap, Notify.class, true);
-        Validate validate = AlipayUtil.notifyCheck(notify, pay);
-        if (!validate.equals(Validate.SUCCESS)) {
-            return validate.getName();
+        Validate validate = alipay.notifyCheck(notify, pay);
+        if (!validate.equals(Validate.success)) {
+            return alipay.notOk(validate);
         }
+        // TODO business logic
+
         // 插入通知对象
         PayNotify payNotify = new PayNotify();
         payNotify.setNotifyParam(new Gson().toJson(parameterMap));
@@ -87,27 +85,22 @@ public class CallBackController extends BaseController {
 
     @RequestMapping("/wechat/{id}")
     public String wechat(@PathVariable("id") String id) throws IOException {
-        // 验签
-        Wepay wepay = WepayBuilder.newBuilder(WechatPayConfig.appid, WechatPayConfig.appTestKey,
-                                              WechatPayConfig.mch_id).build();
+        // 接收参数
         String notifyXml = getPostRequestBody(request);
         if (notifyXml.isEmpty()) {
-            return wepay.notifies().notOk("body为空");
+            return wechatPay.notOk(Validate.invalid_body);
         }
-
+        // 验签
         Map<String, Object> notifyParams = Maps.toMap(notifyXml);
-        if (wepay.notifies().verifySign(notifyParams)) {
-
-            // TODO business logic
-
-            logger.info("verify sign success: {}", notifyParams);
-
-            return wepay.notifies().ok();
-        } else {
-
+        if (!wechatPay.verifySign(notifyParams)) {
             logger.error("verify sign failed: {}", notifyParams);
-            return wepay.notifies().notOk("签名失败");
+            return wechatPay.notOk(Validate.invalid_signature);
         }
+        // TODO business logic
+
+        logger.info("verify sign success: {}", notifyParams);
+
+        return wechatPay.ok();
     }
 
     public static String getPostRequestBody(HttpServletRequest request) {

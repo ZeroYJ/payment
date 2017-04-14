@@ -200,7 +200,7 @@ public enum AlipayField {
                          /**
                           * 标志调用哪个接口返回的链接，如alipay.wap.create.direct.pay.by.user
                           */
-                         SERVICE("service", "接口名称"),
+                         SERVICE("support", "接口名称"),
 
                          /**
                           * 本参数用于信用支付。它代表执行支付操作的操作员账号所属的代理人的支付宝唯一用户号。以2088开头的纯16位数字。

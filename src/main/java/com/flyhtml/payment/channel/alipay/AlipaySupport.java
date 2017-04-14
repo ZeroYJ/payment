@@ -1,7 +1,12 @@
-package com.flyhtml.payment.channel.alipay.core;
+package com.flyhtml.payment.channel.alipay;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
@@ -9,31 +14,44 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
-import com.flyhtml.payment.channel.alibaba.model.enums.AlipayField;
-import com.flyhtml.payment.channel.alibaba.model.enums.SignType;
-import com.flyhtml.payment.channel.alipay.AlipayConfig;
-
-import com.flyhtml.payment.channel.alipay.enums.Validate;
+import com.flyhtml.payment.common.enums.Validate;
 import com.flyhtml.payment.channel.alipay.model.Notify;
-import com.flyhtml.payment.common.util.BeanUtils;
 import com.flyhtml.payment.db.model.Pay;
-import me.hao0.common.security.MD5;
-import me.hao0.common.util.Strings;
-import org.apache.el.parser.BooleanNode;
 
 /**
  * @author xiaowei
- * @time 17-3-29 上午10:03
- * @describe 支付宝工具类
+ * @time 17-4-14 下午2:34
+ * @describe 支付宝服务类
  */
-public class AlipayUtil {
+@Component
+public class AlipaySupport {
 
-    private static AlipayClient alipayClient;
+    @Value("alipay.gateway")
+    private String       gateway;
+    @Value("alipay.appId")
+    private String       appId;
+    @Value("alipay.privateKey")
+    private String       privateKey;
+    @Value("alipay.publicKey")
+    private String       publicKey;
+    @Value("alipay.mchId")
+    private String       mchId;
+    @Value("alipay.notifyUrl")
+    private String       notifyUrl;
+    @Value("alipay.signType")
+    private String       signType;
+    @Value("alipay.charset")
+    private String       charset;
+    @Value("alipay.format")
+    private String       format;
+    @Value("alipay.timeout")
+    private String       timeout;
 
-    static {
-        alipayClient = new DefaultAlipayClient(AlipayConfig.URL, AlipayConfig.APPID, AlipayConfig.RSA2_PRIVATE_KEY,
-                                               AlipayConfig.FORMAT, AlipayConfig.CHARSET,
-                                               AlipayConfig.ALIPAY_RSA2_PUBLIC_KEY, AlipayConfig.SIGNTYPE);
+    private AlipayClient alipayClient;
+
+    @PostConstruct
+    private void init() {
+        alipayClient = new DefaultAlipayClient(gateway, appId, privateKey, format, charset, publicKey, signType);
     }
 
     /***
@@ -43,20 +61,20 @@ public class AlipayUtil {
      * @param amount 订单总金额
      * @return
      */
-    public static String createOrder(String subject, String body, String orderNo, String amount, String returnUrl,
-                                     String notifyUrl) {
+    public String mobilePay(String subject, String body, String orderId, String amount, String returnUrl,
+                            String payId) {
         try {
             AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();// 创建API对应的request
             // 在公共参数中设置回跳和通知地址
             alipayRequest.setReturnUrl(returnUrl);
-            alipayRequest.setNotifyUrl(notifyUrl);
+            alipayRequest.setNotifyUrl(notifyUrl + "/" + payId);
             // 封装请求支付信息
             AlipayTradeWapPayModel model = new AlipayTradeWapPayModel();
             model.setSubject(subject);
             model.setBody(body);
-            model.setOutTradeNo(orderNo);
+            model.setOutTradeNo(orderId);
             model.setTotalAmount(amount);
-            model.setTimeoutExpress(AlipayConfig.TIMEOUT_EXPRESS);
+            model.setTimeoutExpress(timeout);
             model.setProductCode("QUICK_WAP_PAY");
             alipayRequest.setBizModel(model);
             String form = alipayClient.pageExecute(alipayRequest).getBody();
@@ -69,14 +87,13 @@ public class AlipayUtil {
 
     /***
      * 签名检查
-     * 
+     *
      * @param paramMap 参数
      * @return
      */
-    public static Boolean signCheck(Map<String, String> paramMap) {
+    public Boolean signCheck(Map<String, String> paramMap) {
         try {
-            boolean bool = AlipaySignature.rsaCheckV1(paramMap, AlipayConfig.ALIPAY_RSA2_PUBLIC_KEY,
-                                                      AlipayConfig.CHARSET, AlipayConfig.SIGNTYPE);
+            boolean bool = AlipaySignature.rsaCheckV1(paramMap, publicKey, charset, signType);
             return bool;
         } catch (AlipayApiException e) {
             e.printStackTrace();
@@ -86,41 +103,52 @@ public class AlipayUtil {
 
     /***
      * 验证订单准确性
-     * 
+     *
      * @param notify 支付宝通知对象
      * @param pay 支付对象
      * @return
      */
-    public static Validate notifyCheck(Notify notify, Pay pay) {
+    public Validate notifyCheck(Notify notify, Pay pay) {
         try {
             // 订单号
             if (!pay.getOrderNo().equals(notify.getOutTradeNo())) {
-                return Validate.INVALID_OUT_TRADE_NO;
+                return Validate.invalid_out_trade_no;
             }
             // 金额
             if (pay.getAmount().compareTo(new BigDecimal(notify.getTotalAmount())) != 0) {
-                return Validate.INACCURATE_AMOUNT;
+                return Validate.inaccurate_amount;
             }
             // seller_id
-            if (!notify.getSellerId().equals(AlipayConfig.merchantId)) {
-                return Validate.INACCURATE_SELLER_ID;
+            if (!notify.getSellerId().equals(mchId)) {
+                return Validate.inaccurate_seller_id;
             }
             // APPID
-            if (!notify.getAppId().equals(AlipayConfig.APPID)) {
-                return Validate.INACCURATE_APPID;
+            if (!notify.getAppId().equals(appId)) {
+                return Validate.inaccurate_appid;
             }
             // 判断是否付款成功
             if (!notify.getTradeStatus().equals("TRADE_SUCCESS")) {
-                return Validate.INACCURATE_TRADE_STATUS;
+                return Validate.inaccurate_trade_status;
             }
             // 通知重复发送
             if (pay.getIsPay()) {
-                return Validate.NOTIFY_REPEAT;
+                return Validate.notify_repeat;
             }
-            return Validate.SUCCESS;
+            return Validate.success;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
+
+    /***
+     * 返回支付宝失败信息
+     * 
+     * @param validate
+     * @return
+     */
+    public String notOk(Validate validate) {
+        return validate.getName();
+    }
+
 }

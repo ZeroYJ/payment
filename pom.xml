@@ -58,6 +58,11 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
         <!--mybatis-->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
@@ -185,7 +190,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.flyhtml.payment.channel.wechatpay.util.WechatUtil</mainClass>
+                            <mainClass>com.flyhtml.payment.channel.wechatpay.WechatSupport</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
