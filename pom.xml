@@ -124,9 +124,17 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
+                <targetPath>BOOT-INF/classes/</targetPath>
             </resource>
             <resource>
                 <directory>src/main/proto</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources/lib</directory>
+                <targetPath>BOOT-INF/lib/</targetPath>
+                <includes>
+                    <include>**/*.jar</include>
+                </includes>
             </resource>
         </resources>
         <extensions>
@@ -140,6 +148,16 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.flyhtml.payment.Application</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
@@ -172,32 +190,9 @@
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
                     <compilerArguments>
-                        <extdirs>src/main/resources/lib</extdirs>
+                        <extdirs>${basedir}/src/main/resources/lib</extdirs>
                     </compilerArguments>
                 </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.flyhtml.payment.channel.wechatpay.WechatSupport</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.mybatis.generator</groupId>

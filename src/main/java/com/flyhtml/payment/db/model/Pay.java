@@ -2,7 +2,6 @@ package com.flyhtml.payment.db.model;
 
 import com.flyhtml.payment.common.annotation.ProtoType;
 import com.flyhtml.payment.db.base.BaseModel;
-import com.sun.xml.internal.rngom.parse.host.Base;
 
 import java.math.BigDecimal;
 import java.util.Date;

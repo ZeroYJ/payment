@@ -31,7 +31,7 @@ CREATE TABLE `pay_notify` (
   `gmt_create`    DATETIME              DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `notify_url`    VARCHAR(50) NOT NULL COMMENT '通知地址',
   `notify_param`  TEXT        NOT NULL COMMENT '通知参数',
-  `response_data` VARCHAR(30) NOT NULL COMMENT '响应数据',
+  `response_data` VARCHAR(200) NOT NULL COMMENT '响应数据',
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = `utf8mb4` COMMENT '支付通知表';
 
@@ -45,6 +45,6 @@ CREATE TABLE `pay_hooks` (
   `hooks_param`   TEXT        NOT NULL COMMENT '回调参数',
   `hooks_time`    DATETIME    NULL COMMENT '最新回调时间',
   `hooks_count`   INT(2)      NULL DEFAULT 0 COMMENT '已回调次数',
-  `response_data` VARCHAR(30) NULL COMMENT '响应数据',
+  `response_data` VARCHAR(200) NULL COMMENT '响应数据',
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = `utf8mb4` COMMENT '支付回调表';
