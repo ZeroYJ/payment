@@ -5,33 +5,13 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %c{2} - %m%n</pattern>
         </encoder>
     </appender>
-    <appender name="logFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${user.dir}/logs/flyManageWeb.log</File>
-        <Append>true</Append>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %c{2} - %m%n</pattern>
-        </encoder>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>DEBUG</level>
-        </filter>
-    </appender>
-    <appender name="errorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${user.dir}/logs/error.log</File>
-        <Append>true</Append>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %c{2} - %m%n</pattern>
-        </encoder>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>ERROR</level>
-        </filter>
-    </appender>
-    <logger name="org.springframework" level="OFF"/>
-    <logger name="java.sql.PreparedStatement" level="DEBUG"/>
-    <logger name="java.sql.Statement" level="DEBUG"/>
-    <logger name="druid.sql.Statement" level="DEBUG"/>
+    <logger name="org.springframework" level="ERROR"/>
+    <logger name="druid.sql" level="ERROR"/>
+    <logger name="druid.sql.DataSource" level="ERROR"/>
+    <logger name="druid.sql.Connection" level="ERROR"/>
+    <logger name="druid.sql.Statement" level="ERROR"/>
+    <logger name="druid.sql.ResultSet" level="ERROR"/>
     <root level="DEBUG">
         <appender-ref ref="console"/>
-        <appender-ref ref="logFile"/>
-        <appender-ref ref="errorFile"/>
     </root>
 </configuration>

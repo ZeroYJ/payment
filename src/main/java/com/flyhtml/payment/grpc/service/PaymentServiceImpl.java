@@ -96,7 +96,6 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
         }
         paymentService.insertSelective(payment);
         Voucher voucher = BeanUtils.toProto(payment, Voucher.class);
-        System.out.println(voucher);
         responseObserver.onNext(voucher);
         responseObserver.onCompleted();
     }

@@ -7,7 +7,7 @@ druid:
   url: jdbc:mysql://fuliaoyi.com:3306/fly_payment?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=true
   username: fly
   password: fly@2016
-  filters: stat,slf4j
+  filters: stat,wall,slf4j
   initialSize: 10
   maxActive: 100
   maxWait: 60000

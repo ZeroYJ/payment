@@ -124,17 +124,9 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <targetPath>BOOT-INF/classes/</targetPath>
             </resource>
             <resource>
                 <directory>src/main/proto</directory>
-            </resource>
-            <resource>
-                <directory>src/main/resources/lib</directory>
-                <targetPath>BOOT-INF/lib/</targetPath>
-                <includes>
-                    <include>**/*.jar</include>
-                </includes>
             </resource>
         </resources>
         <extensions>
