@@ -204,4 +204,17 @@ public class PayHooks extends BaseModel {
     public void setHooksParam(String hooksParam) {
         this.hooksParam = hooksParam;
     }
+
+    public PayHooks(String id, String hooksUrl, Date hooksTime, Integer hooksCount, String responseData,
+                    String hooksParam) {
+        this.id = id;
+        this.hooksUrl = hooksUrl;
+        this.hooksTime = hooksTime;
+        this.hooksCount = hooksCount;
+        this.responseData = responseData;
+        this.hooksParam = hooksParam;
+    }
+
+    public PayHooks() {
+    }
 }

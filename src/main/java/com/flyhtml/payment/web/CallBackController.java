@@ -58,28 +58,18 @@ public class CallBackController extends BaseController {
         // TODO business logic
 
         // 插入通知对象
-        PayNotify payNotify = new PayNotify();
-        payNotify.setNotifyParam(new Gson().toJson(parameterMap));
-        payNotify.setNotifyUrl(request.getRequestURI());
-        payNotify.setResponseData(validate.getName());
+        PayNotify payNotify = new PayNotify(request.getRequestURI(), gson.toJson(paramMap), wechatPay.ok());
         payNotifyService.insertSelective(payNotify);
         // 更新支付对象为已支付状态
-        Pay upPay = new Pay();
-        upPay.setId(pay.getId());
-        upPay.setIsPay(true);
-        upPay.setPayTime(Dates.toDate(notify.getGmtPayment()));
-        upPay.setChannelNo(notify.getTradeNo());
+        Pay upPay = new Pay(pay.getId(), true, notify.getTradeNo(),
+                            Dates.toDate(notify.getGmtPayment(), "yyyyMMddHHmmss"));
         payService.update(upPay);
         // 回调
         logger.debug("start payhooks....");
         String extra = pay.getExtra();
-        Map<String, String> extraMap = new Gson().fromJson(extra, new TypeToken<Map<String, String>>() {
+        Map<String, String> extraMap = gson.fromJson(extra, new TypeToken<Map<String, String>>() {
         }.getType());
-        PayHooks hooks = new PayHooks();
-        hooks.setId(pay.getId());
-        hooks.setHooksUrl(extraMap.get("notifyUrl"));
-        hooks.setHooksParam(new Gson().toJson(pay));
-        hooks.setHooksTime(new Date());
+        PayHooks hooks = new PayHooks(pay.getId(), extraMap.get("notifyUrl"), new Date(), 1, gson.toJson(pay), null);
         payHooksService.insertSelective(hooks);
         return validate.getName();
     }
@@ -108,28 +98,18 @@ public class CallBackController extends BaseController {
         logger.info("verify sign success: {}", notifyParams);
 
         // 插入通知对象
-        PayNotify payNotify = new PayNotify();
-        payNotify.setNotifyParam(new Gson().toJson(notifyParams));
-        payNotify.setNotifyUrl(request.getRequestURI());
-        payNotify.setResponseData(wechatPay.ok());
+        PayNotify payNotify = new PayNotify(request.getRequestURI(), gson.toJson(notifyParams), wechatPay.ok());
         payNotifyService.insertSelective(payNotify);
         // 更新支付对象为已支付状态
-        Pay upPay = new Pay();
-        upPay.setId(pay.getId());
-        upPay.setIsPay(true);
-        upPay.setPayTime(Dates.toDate(notify.getTimeEnd(), "yyyyMMddHHmmss"));
-        upPay.setChannelNo(notify.getTransactionId());
+        Pay upPay = new Pay(pay.getId(), true, notify.getTransactionId(),
+                            Dates.toDate(notify.getTimeEnd(), "yyyyMMddHHmmss"));
         payService.update(upPay);
         // 回调
         logger.debug("start payhooks....");
         String extra = pay.getExtra();
-        Map<String, String> extraMap = new Gson().fromJson(extra, new TypeToken<Map<String, String>>() {
+        Map<String, String> extraMap = gson.fromJson(extra, new TypeToken<Map<String, String>>() {
         }.getType());
-        PayHooks hooks = new PayHooks();
-        hooks.setId(pay.getId());
-        hooks.setHooksUrl(extraMap.get("notifyUrl"));
-        hooks.setHooksParam(new Gson().toJson(pay));
-        hooks.setHooksTime(new Date());
+        PayHooks hooks = new PayHooks(pay.getId(), extraMap.get("notifyUrl"), new Date(), 1, gson.toJson(pay), null);
         payHooksService.insertSelective(hooks);
         return wechatPay.ok();
     }

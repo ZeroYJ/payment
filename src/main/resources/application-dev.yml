@@ -29,7 +29,7 @@ localhost: http://helloxw.viphk.ngrok.org
 wechat:
   appId: wxc995ba40913d605d
   appSecret: add3136cebac319f2ffa4b0e2a95e42b
-  appKey: 4ac80d775cdf572097129c16563ae968
+  appKey: 76d57c18096b236cc0426eb4b1638afb
   mchId: 1366385702
   notifyUrl: ${localhost}/notify/wechat
 

@@ -3,7 +3,9 @@ package com.flyhtml.payment.common.util;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
+import me.hao0.common.security.MD5;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -73,5 +75,25 @@ public class Maps {
             }
         }
         return writers.build();
+    }
+
+    /**
+     * 支付请求前签名
+     *
+     * @param params 参数(已经升序, 排出非空值和sign)
+     * @return MD5的签名字符串(大写)
+     */
+    public static String toString(final Map<String, String> params) {
+        Map<String, String> validParams = new TreeMap<>();
+        validParams.putAll(params);
+        StringBuilder signing = new StringBuilder();
+
+        for (Map.Entry<String, String> entry : validParams.entrySet()) {
+            if (!me.hao0.common.util.Strings.isNullOrEmpty(entry.getValue())) {
+                signing.append(entry.getKey()).append('=').append(entry.getValue()).append("&");
+            }
+        }
+
+        return signing.toString().substring(0, signing.length() - 1);
     }
 }

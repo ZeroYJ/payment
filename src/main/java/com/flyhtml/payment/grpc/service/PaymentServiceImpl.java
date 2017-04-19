@@ -91,6 +91,17 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                 payment.setCredential(new Gson().toJson(credential));
                 break;
             }
+            case wx_qr:
+                String productId = request.getExtraOrThrow("productId");
+                String notifyUrl = request.getExtraOrThrow("notifyUrl");
+                if (StringUtils.isAnyBlank(productId, notifyUrl)) {
+                    responseObserver.onError(new RuntimeException("openId is cannot be null"));
+                }
+                String qrUrl = wechatPay.qrPay(productId, request.getOrderNo(), request.getAmount(), request.getBody(),
+                                               null, request.getIp(), payment.getId());
+                Map<String, String> credential = new HashMap<>();
+                credential.put("credential", qrUrl);
+                payment.setCredential(new Gson().toJson(credential));
             default:
                 break;
         }

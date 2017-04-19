@@ -4,8 +4,13 @@ import javax.annotation.PostConstruct;
 
 import com.flyhtml.payment.channel.alipay.model.AlipayNotify;
 import com.flyhtml.payment.channel.wechatpay.model.notify.WechatNotify;
+import com.flyhtml.payment.channel.wechatpay.model.pay.QrPayRequest;
 import com.flyhtml.payment.common.enums.Validate;
+import com.flyhtml.payment.common.util.Maps;
+import com.flyhtml.payment.common.util.RandomStrs;
 import com.flyhtml.payment.db.model.Pay;
+import me.hao0.common.http.Http;
+import me.hao0.common.security.MD5;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +22,7 @@ import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayResponse;
 import me.hao0.common.date.Dates;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -65,14 +71,36 @@ public class WechatSupport {
         jsPay.setAttach(attach);
         jsPay.setClientId(clientIp);
         jsPay.setNotifyUrl(notifyUrl + "/" + payId);
-        jsPay.setTimeStart(Dates.now("yyyyMMddHHmmss"));
         JsPayResponse payResponse = wepay.pay().jsPay(jsPay);
         return payResponse;
     }
 
+    public String qrPay(String productId, String orderId, Integer totalFee, String body, String attach, String clientIp,
+                        String payId) {
+        QrPayRequest qrPay = new QrPayRequest();
+        qrPay.setProductId(productId);
+        qrPay.setOutTradeNo(orderId);
+        qrPay.setTotalFee(totalFee);
+        qrPay.setBody(body);
+        qrPay.setAttach(attach);
+        qrPay.setClientId(clientIp);
+        qrPay.setNotifyUrl(notifyUrl + "/" + payId);
+        String qrUrl = wepay.pay().qrPay(qrPay,false);
+        return qrUrl;
+    }
+
+    public static void main(String[] args) {
+        Map<String, String> param = new HashMap<>();
+        param.put("mch_id", "1366385702");
+        param.put("nonce_str", RandomStrs.generate(20));
+        param.put("sign", MD5.generate(Maps.toString(param) + "&key=b81fc761fe654f619f150558c490ea49", false));
+        String request = Http.post("https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey").body(Maps.toXml(param)).request();
+        System.out.println(request);
+    }
+
     /***
      * 微信签名效验
-     * 
+     *
      * @param paramMap
      * @return
      */
@@ -122,7 +150,7 @@ public class WechatSupport {
 
     /***
      * 返回微信失败信息
-     * 
+     *
      * @param validate 效验枚举
      * @return
      */
@@ -132,7 +160,7 @@ public class WechatSupport {
 
     /***
      * 返回微信成功信息
-     * 
+     *
      * @return
      */
     public String ok() {

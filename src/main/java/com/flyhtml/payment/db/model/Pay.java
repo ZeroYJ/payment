@@ -444,4 +444,29 @@ public class Pay extends BaseModel {
     public void setExtra(String extra) {
         this.extra = extra;
     }
+
+    public Pay(String id, String channel, String orderNo, String ip, BigDecimal amount, String currency, String subject,
+               String body, String description, String credential, String extra) {
+        this.id = id;
+        this.channel = channel;
+        this.orderNo = orderNo;
+        this.ip = ip;
+        this.amount = amount;
+        this.currency = currency;
+        this.subject = subject;
+        this.body = body;
+        this.description = description;
+        this.credential = credential;
+        this.extra = extra;
+    }
+
+    public Pay() {
+    }
+
+    public Pay(String id, Boolean isPay, String channelNo, Date payTime) {
+        this.id = id;
+        this.isPay = isPay;
+        this.channelNo = channelNo;
+        this.payTime = payTime;
+    }
 }

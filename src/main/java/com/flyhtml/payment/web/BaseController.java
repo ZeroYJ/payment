@@ -5,6 +5,8 @@ import com.flyhtml.payment.channel.wechatpay.WechatSupport;
 import com.flyhtml.payment.db.service.PayHooksService;
 import com.flyhtml.payment.db.service.PayNotifyService;
 import com.flyhtml.payment.db.service.PayService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,8 @@ public class BaseController {
     protected AlipaySupport       alipay;
     @Autowired
     protected WechatSupport       wechatPay;
+
+    protected Gson                gson   = new GsonBuilder().serializeNulls().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
     @ModelAttribute
     public void setReqAndResp(HttpServletRequest request, HttpServletResponse response) {

@@ -6,7 +6,8 @@ package com.flyhtml.payment.common.enums;
  * @describe 支付方式枚举类
  */
 public enum PayTypeEnum {
-                         wx_pub(0, "微信公众号支付", "wx_pub"), alipay_wap(1, "支付宝手机网站支付", "alipay_wap");
+                         wx_pub(0, "微信公众号支付", "wx_pub"), alipay_wap(1, "支付宝手机网站支付", "alipay_wap"),
+                         wx_qr(2, "微信扫码支付", "wx_qr");
 
     private int    value;
     private String desc;

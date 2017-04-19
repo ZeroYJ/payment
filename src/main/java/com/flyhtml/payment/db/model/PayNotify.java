@@ -133,4 +133,13 @@ public class PayNotify extends BaseModel {
     public void setNotifyParam(String notifyParam) {
         this.notifyParam = notifyParam;
     }
+
+    public PayNotify(String notifyUrl, String responseData, String notifyParam) {
+        this.notifyUrl = notifyUrl;
+        this.responseData = responseData;
+        this.notifyParam = notifyParam;
+    }
+
+    public PayNotify() {
+    }
 }

@@ -5,6 +5,10 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import com.flyhtml.payment.channel.alipay.mapi.core.Alipay;
+import com.flyhtml.payment.channel.alipay.mapi.core.AlipayBuilder;
+import com.flyhtml.payment.channel.alipay.mapi.model.pay.WebPayDetail;
+import com.flyhtml.payment.common.util.RandomStrs;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -52,6 +56,17 @@ public class AlipaySupport {
     @PostConstruct
     private void init() {
         alipayClient = new DefaultAlipayClient(gateway, appId, privateKey, format, charset, publicKey, signType);
+    }
+
+    public static void main(String[] args) {
+        Alipay alipay = AlipayBuilder.newBuilder("2088421837490657", "zsustkn9wuwrhymh3omn07ohbnudxpl4").build();
+        WebPayDetail payDetail = new WebPayDetail("O" + RandomStrs.generate(20), "Samsung galxy S8", "6888.20");
+        payDetail.setNotifyUrl("http://localhost:8080");
+        payDetail.setReturnUrl("http://localhost:8080");
+        payDetail.setExterInvokeIp("127.0.0.1");
+        System.out.println(payDetail.toString());
+        String form = alipay.pay().webPay(payDetail);
+        System.out.println(form);
     }
 
     /***
