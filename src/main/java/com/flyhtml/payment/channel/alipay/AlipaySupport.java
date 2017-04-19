@@ -63,9 +63,12 @@ public class AlipaySupport {
 
     private AlipayClient alipayClient;
 
+    private Alipay       alipay;
+
     @PostConstruct
     private void init() {
         alipayClient = new DefaultAlipayClient(gateway, appId, privateKey, format, charset, publicKey, signType);
+        alipay = AlipayBuilder.newBuilder(pId, md5).build();
     }
 
     public static void main(String[] args) {
@@ -77,6 +80,25 @@ public class AlipaySupport {
         System.out.println(payDetail.toString());
         String form = alipay.pay().webPay(payDetail);
         System.out.println(form);
+    }
+
+    /***
+     * @param subject 商品标题
+     * @param body 商品描述
+     * @param orderId 订单编号
+     * @param amount 订单金额
+     * @param returnUrl 交易成功地址
+     * @param errorUrl 交易失败地址
+     * @param payId 对应平台ID
+     * @return
+     */
+    public String webPay(String subject, String body, String orderId, String amount, String returnUrl, String errorUrl,
+                         String payId) {
+        WebPayDetail payDetail = new WebPayDetail(orderId, subject, amount);
+        payDetail.setReturnUrl(returnUrl);
+        payDetail.setNotifyUrl(notifyUrl + "/" + payId);
+        payDetail.setErrorNotifyUrl(errorUrl);
+        return alipay.pay().webPay(payDetail);
     }
 
     /***

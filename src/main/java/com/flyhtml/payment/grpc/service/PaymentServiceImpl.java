@@ -34,7 +34,7 @@ import io.grpc.stub.StreamObserver;
 public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBase {
 
     @Autowired
-    private PayService    paymentService;
+    private PayService paymentService;
     @Autowired
     private WechatSupport wechatPay;
     @Autowired
@@ -44,7 +44,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
     public void create(Make request, StreamObserver<Voucher> responseObserver) {
         // 判断参数
         if (StringUtils.isAnyBlank(request.getOrderNo(), request.getChannel(), request.getSubject(), request.getBody(),
-                                   request.getIp())) {
+                request.getIp())) {
             responseObserver.onError(Status.DATA_LOSS.asRuntimeException());
         }
         String channel = request.getChannel();
@@ -71,7 +71,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                     responseObserver.onError(new RuntimeException("openId is cannot be null"));
                 }
                 JsPayResponse payResponse = wechatPay.jsPay(openId, request.getOrderNo(), request.getAmount(),
-                                                            request.getBody(), null, request.getIp(), payment.getId());
+                        request.getBody(), null, request.getIp(), payment.getId());
 
                 Map<String, String> credential = new HashMap<>();
                 credential.put("credential", new Gson().toJson(payResponse));
@@ -85,23 +85,39 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                     responseObserver.onError(new RuntimeException("openId is cannot be null"));
                 }
                 String form = alipay.mobilePay(payment.getSubject(), payment.getBody(), payment.getOrderNo(),
-                                               payment.getAmount().toString(), returnUrl, payment.getId());
+                        payment.getAmount().toString(), returnUrl, payment.getId());
                 Map<String, String> credential = new HashMap<>();
                 credential.put("credential", form);
                 payment.setCredential(new Gson().toJson(credential));
                 break;
             }
-            case wx_qr:
+            case wx_qr: {
                 String productId = request.getExtraOrThrow("productId");
                 String notifyUrl = request.getExtraOrThrow("notifyUrl");
                 if (StringUtils.isAnyBlank(productId, notifyUrl)) {
                     responseObserver.onError(new RuntimeException("openId is cannot be null"));
                 }
                 String qrUrl = wechatPay.qrPay(productId, request.getOrderNo(), request.getAmount(), request.getBody(),
-                                               null, request.getIp(), payment.getId());
+                        null, request.getIp(), payment.getId());
                 Map<String, String> credential = new HashMap<>();
                 credential.put("credential", qrUrl);
                 payment.setCredential(new Gson().toJson(credential));
+                break;
+            }
+            case alipay_web: {
+                String returnUrl = request.getExtraOrThrow("returnUrl");
+                String notifyUrl = request.getExtraOrThrow("notifyUrl");
+                String errorUrl = request.getExtraOrThrow("errorUrl");
+                if (StringUtils.isAnyBlank(returnUrl, notifyUrl)) {
+                    responseObserver.onError(new RuntimeException("openId is cannot be null"));
+                }
+                String form = alipay.webPay(payment.getSubject(), payment.getBody(), payment.getOrderNo(),
+                        payment.getAmount().toString(), returnUrl, errorUrl, payment.getId());
+                Map<String, String> credential = new HashMap<>();
+                credential.put("credential", form);
+                payment.setCredential(new Gson().toJson(credential));
+                break;
+            }
             default:
                 break;
         }
