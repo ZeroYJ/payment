@@ -1,4 +1,4 @@
-package com.flyhtml.payment.channel.alipay.mapi.model.pay;
+package com.flyhtml.payment.channel.alipay.model.pay;
 
 /**
  * @author xiaowei

@@ -44,3 +44,6 @@ alipay:
   charset: UTF-8
   format: json
   timeout: 1d
+  mapi:
+    pId: 2088421837490657
+    md5: zsustkn9wuwrhymh3omn07ohbnudxpl4

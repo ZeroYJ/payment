@@ -1,4 +1,4 @@
-package com.flyhtml.payment.channel.alipay.mapi.exception;
+package com.flyhtml.payment.channel.alipay.exception;
 
 /**
  * @author xiaowei

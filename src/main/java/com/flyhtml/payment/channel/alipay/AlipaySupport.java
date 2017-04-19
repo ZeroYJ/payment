@@ -5,9 +5,9 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import com.flyhtml.payment.channel.alipay.mapi.core.Alipay;
-import com.flyhtml.payment.channel.alipay.mapi.core.AlipayBuilder;
-import com.flyhtml.payment.channel.alipay.mapi.model.pay.WebPayDetail;
+import com.flyhtml.payment.channel.alipay.core.Alipay;
+import com.flyhtml.payment.channel.alipay.core.AlipayBuilder;
+import com.flyhtml.payment.channel.alipay.model.pay.WebPayDetail;
 import com.flyhtml.payment.common.util.RandomStrs;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.flyhtml.payment.common.enums.Validate;
-import com.flyhtml.payment.channel.alipay.model.AlipayNotify;
+import com.flyhtml.payment.channel.alipay.model.notify.AlipayNotify;
 import com.flyhtml.payment.db.model.Pay;
 
 /**
@@ -30,6 +30,9 @@ import com.flyhtml.payment.db.model.Pay;
 @Component
 public class AlipaySupport {
 
+    /***
+     * 以下参数是使用alipayClient所需要
+     */
     @Value("${alipay.gateway}")
     private String       gateway;
     @Value("${alipay.appId}")
@@ -50,6 +53,13 @@ public class AlipaySupport {
     private String       format;
     @Value("${alipay.timeout}")
     private String       timeout;
+    /***
+     * 以下是使用mapi网关所需要
+     */
+    @Value("${alipay.mapi.pId}")
+    private String       pId;
+    @Value("${alipay.mapi.md5}")
+    private String       md5;
 
     private AlipayClient alipayClient;
 

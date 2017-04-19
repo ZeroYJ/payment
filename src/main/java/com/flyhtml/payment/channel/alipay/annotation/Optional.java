@@ -1,4 +1,4 @@
-package com.flyhtml.payment.channel.alipay.mapi.annotation;
+package com.flyhtml.payment.channel.alipay.annotation;
 
 /**
  * @author xiaowei

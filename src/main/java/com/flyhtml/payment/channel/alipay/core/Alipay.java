@@ -1,11 +1,11 @@
-package com.flyhtml.payment.channel.alipay.mapi.core;
+package com.flyhtml.payment.channel.alipay.core;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.flyhtml.payment.channel.alipay.mapi.model.enums.AlipayField;
-import com.flyhtml.payment.channel.alipay.mapi.model.enums.PayMethod;
-import com.flyhtml.payment.channel.alipay.mapi.model.enums.PaymentType;
+import com.flyhtml.payment.channel.alipay.model.enums.AlipayField;
+import com.flyhtml.payment.channel.alipay.model.enums.PayMethod;
+import com.flyhtml.payment.channel.alipay.model.enums.PaymentType;
 
 /**
  * @author xiaowei

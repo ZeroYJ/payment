@@ -1,4 +1,4 @@
-package com.flyhtml.payment.channel.alipay.mapi.model.refund;
+package com.flyhtml.payment.channel.alipay.model.refund;
 
 import java.io.Serializable;
 

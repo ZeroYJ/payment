@@ -1,4 +1,4 @@
-package com.flyhtml.payment.channel.alipay.mapi.core;
+package com.flyhtml.payment.channel.alipay.core;
 
 import static me.hao0.common.util.Preconditions.checkNotNullAndEmpty;
 
@@ -7,14 +7,14 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.flyhtml.payment.channel.alipay.mapi.exception.AliPayException;
-import com.flyhtml.payment.channel.alipay.mapi.model.enums.AlipayField;
-import com.flyhtml.payment.channel.alipay.mapi.model.enums.Service;
-import com.flyhtml.payment.channel.alipay.mapi.model.enums.SignType;
-import com.flyhtml.payment.channel.alipay.mapi.model.pay.AppPayDetail;
-import com.flyhtml.payment.channel.alipay.mapi.model.pay.PayDetail;
-import com.flyhtml.payment.channel.alipay.mapi.model.pay.WapPayDetail;
-import com.flyhtml.payment.channel.alipay.mapi.model.pay.WebPayDetail;
+import com.flyhtml.payment.channel.alipay.exception.AliPayException;
+import com.flyhtml.payment.channel.alipay.model.enums.AlipayField;
+import com.flyhtml.payment.channel.alipay.model.enums.Service;
+import com.flyhtml.payment.channel.alipay.model.enums.SignType;
+import com.flyhtml.payment.channel.alipay.model.pay.AppPayDetail;
+import com.flyhtml.payment.channel.alipay.model.pay.PayDetail;
+import com.flyhtml.payment.channel.alipay.model.pay.WapPayDetail;
+import com.flyhtml.payment.channel.alipay.model.pay.WebPayDetail;
 import me.hao0.common.security.RSA;
 
 /**

@@ -1,9 +1,9 @@
-package com.flyhtml.payment.channel.alipay.mapi.model;
+package com.flyhtml.payment.channel.alipay.model;
 
 import java.util.Arrays;
 import java.util.List;
 
-import com.flyhtml.payment.channel.alipay.mapi.model.enums.AlipayField;
+import com.flyhtml.payment.channel.alipay.model.enums.AlipayField;
 
 /**
  * @author xiaowei

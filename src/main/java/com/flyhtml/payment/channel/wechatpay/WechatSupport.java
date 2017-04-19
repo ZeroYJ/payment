@@ -2,7 +2,6 @@ package com.flyhtml.payment.channel.wechatpay;
 
 import javax.annotation.PostConstruct;
 
-import com.flyhtml.payment.channel.alipay.model.AlipayNotify;
 import com.flyhtml.payment.channel.wechatpay.model.notify.WechatNotify;
 import com.flyhtml.payment.channel.wechatpay.model.pay.QrPayRequest;
 import com.flyhtml.payment.common.enums.Validate;
@@ -18,8 +17,6 @@ import com.flyhtml.payment.channel.wechatpay.core.Wepay;
 import com.flyhtml.payment.channel.wechatpay.core.WepayBuilder;
 import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayRequest;
 import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayResponse;
-
-import me.hao0.common.date.Dates;
 
 import java.math.BigDecimal;
 import java.util.HashMap;

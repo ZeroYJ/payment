@@ -1,4 +1,4 @@
-package com.flyhtml.payment.channel.alipay.model;
+package com.flyhtml.payment.channel.alipay.model.notify;
 
 import java.io.Serializable;
 

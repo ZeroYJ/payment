@@ -1,13 +1,13 @@
-package com.flyhtml.payment.channel.alipay.mapi.core;
+package com.flyhtml.payment.channel.alipay.core;
 
 import static me.hao0.common.util.Preconditions.checkNotNullAndEmpty;
 
 import java.util.Map;
 import java.util.Objects;
 
-import com.flyhtml.payment.channel.alipay.mapi.model.enums.AlipayField;
+import com.flyhtml.payment.channel.alipay.model.enums.AlipayField;
 
-import com.flyhtml.payment.channel.alipay.mapi.model.enums.Service;
+import com.flyhtml.payment.channel.alipay.model.enums.Service;
 import me.hao0.common.http.Http;
 import me.hao0.common.security.RSA;
 

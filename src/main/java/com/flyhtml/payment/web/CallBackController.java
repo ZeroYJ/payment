@@ -14,13 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alipay.api.AlipayApiException;
 import com.flyhtml.payment.common.enums.Validate;
-import com.flyhtml.payment.channel.alipay.model.AlipayNotify;
+import com.flyhtml.payment.channel.alipay.model.notify.AlipayNotify;
 import com.flyhtml.payment.common.util.Maps;
 import com.flyhtml.payment.common.util.BeanUtils;
 import com.flyhtml.payment.db.model.Pay;
 import com.flyhtml.payment.db.model.PayHooks;
 import com.flyhtml.payment.db.model.PayNotify;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import me.hao0.common.date.Dates;

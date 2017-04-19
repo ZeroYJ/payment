@@ -1,6 +1,6 @@
-package com.flyhtml.payment.channel.alipay.mapi.model.pay;
+package com.flyhtml.payment.channel.alipay.model.pay;
 
-import com.flyhtml.payment.channel.alipay.mapi.model.enums.GoodsType;
+import com.flyhtml.payment.channel.alipay.model.enums.GoodsType;
 import com.flyhtml.payment.channel.wechatpay.annotation.Optional;
 
 /**

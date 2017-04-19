@@ -1,6 +1,6 @@
-package com.flyhtml.payment.channel.alipay.mapi.model.pay;
+package com.flyhtml.payment.channel.alipay.model.pay;
 
-import com.flyhtml.payment.channel.alipay.mapi.annotation.Optional;
+import com.flyhtml.payment.channel.alipay.annotation.Optional;
 
 /**
  * @author xiaowei

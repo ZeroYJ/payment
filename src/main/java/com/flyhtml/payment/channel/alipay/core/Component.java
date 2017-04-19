@@ -1,9 +1,9 @@
-package com.flyhtml.payment.channel.alipay.mapi.core;
+package com.flyhtml.payment.channel.alipay.core;
 
 import java.util.*;
 
-import com.flyhtml.payment.channel.alipay.mapi.model.enums.AlipayField;
-import com.flyhtml.payment.channel.alipay.mapi.model.enums.SignType;
+import com.flyhtml.payment.channel.alipay.model.enums.AlipayField;
+import com.flyhtml.payment.channel.alipay.model.enums.SignType;
 import me.hao0.common.security.MD5;
 import me.hao0.common.util.Strings;
 

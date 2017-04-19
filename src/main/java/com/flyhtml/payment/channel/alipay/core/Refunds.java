@@ -1,4 +1,4 @@
-package com.flyhtml.payment.channel.alipay.mapi.core;
+package com.flyhtml.payment.channel.alipay.core;
 
 import static me.hao0.common.util.Preconditions.checkNotNullAndEmpty;
 
@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.flyhtml.payment.channel.alipay.mapi.exception.AliPayException;
-import com.flyhtml.payment.channel.alipay.mapi.model.enums.AlipayField;
-import com.flyhtml.payment.channel.alipay.mapi.model.enums.Service;
-import com.flyhtml.payment.channel.alipay.mapi.model.refund.RefundDetail;
-import com.flyhtml.payment.channel.alipay.mapi.model.refund.RefundDetailData;
+import com.flyhtml.payment.channel.alipay.exception.AliPayException;
+import com.flyhtml.payment.channel.alipay.model.enums.AlipayField;
+import com.flyhtml.payment.channel.alipay.model.enums.Service;
+import com.flyhtml.payment.channel.alipay.model.refund.RefundDetail;
+import com.flyhtml.payment.channel.alipay.model.refund.RefundDetailData;
 
 import me.hao0.common.date.Dates;
 import me.hao0.common.exception.XmlException;

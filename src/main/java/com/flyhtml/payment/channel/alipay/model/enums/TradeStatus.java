@@ -1,4 +1,4 @@
-package com.flyhtml.payment.channel.alipay.mapi.model.enums;
+package com.flyhtml.payment.channel.alipay.model.enums;
 
 /**
  * @author xiaowei
