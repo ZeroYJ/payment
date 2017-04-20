@@ -51,6 +51,7 @@ public class PaymentClient {
         make.putExtra("notifyUrl", "http://fuliaoyi.com:8082/flyhtml/sds");
         make.putExtra("returnUrl", "http://helloxw.viphk.ngrok.org/pay/pay/success");
         make.putExtra("errorUrl", "http://helloxw.viphk.ngrok.org/pay/pay/error");
+        make.setCustom("custom param");
         Make payment = make.build();
         Voucher result;
         try {

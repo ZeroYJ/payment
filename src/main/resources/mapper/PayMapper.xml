@@ -20,7 +20,7 @@
         <result column="channel_no" property="channelNo" jdbcType="VARCHAR"/>
         <result column="pay_time" property="payTime" jdbcType="TIMESTAMP"/>
         <result column="expire_time" property="expireTime" jdbcType="TIMESTAMP"/>
-        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="custom" property="custom" jdbcType="VARCHAR"/>
         <result column="credential" property="credential" jdbcType="LONGVARCHAR"/>
         <result column="extra" property="extra" jdbcType="LONGVARCHAR"/>
     </resultMap>

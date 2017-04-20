@@ -61,7 +61,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
         payment.setAmount(new BigDecimal(request.getAmount()).divide(new BigDecimal(100)));
         payment.setSubject(request.getSubject());
         payment.setBody(request.getBody());
-        payment.setDescription(request.getDescription());
+        payment.setCustom(request.getCustom());
         payment.setExtra(new Gson().toJson(request.getExtraMap()));
         switch (payType) {
             case wx_pub: {
@@ -71,7 +71,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                     responseObserver.onError(new RuntimeException("openId is cannot be null"));
                 }
                 JsPayResponse payResponse = wechatPay.jsPay(openId, request.getOrderNo(), request.getAmount(),
-                        request.getBody(), null, request.getIp(), payment.getId());
+                        request.getBody(),request.getCustom(), request.getIp(), payment.getId());
 
                 Map<String, String> credential = new HashMap<>();
                 credential.put("credential", new Gson().toJson(payResponse));
@@ -98,7 +98,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                     responseObserver.onError(new RuntimeException("openId is cannot be null"));
                 }
                 String qrUrl = wechatPay.qrPay(productId, request.getOrderNo(), request.getAmount(), request.getBody(),
-                        null, request.getIp(), payment.getId());
+                        request.getCustom(), request.getIp(), payment.getId());
                 Map<String, String> credential = new HashMap<>();
                 credential.put("credential", qrUrl);
                 payment.setCredential(new Gson().toJson(credential));
@@ -111,7 +111,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                 if (StringUtils.isAnyBlank(returnUrl, notifyUrl)) {
                     responseObserver.onError(new RuntimeException("openId is cannot be null"));
                 }
-                String form = alipay.webPay(payment.getSubject(), payment.getBody(), payment.getOrderNo(),
+                String form = alipay.webPay(payment.getSubject(), payment.getBody(),payment.getCustom(), payment.getOrderNo(),
                         payment.getAmount().toString(), returnUrl, errorUrl, payment.getId());
                 Map<String, String> credential = new HashMap<>();
                 credential.put("credential", form);

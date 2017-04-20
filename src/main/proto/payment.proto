@@ -21,7 +21,7 @@ message Make {
     int32 amount = 5;
     string ip = 6;
     map<string, string> extra = 7;
-    string description = 8;
+    string custom = 8;
 }
 
 message Voucher {
@@ -38,7 +38,7 @@ message Voucher {
     string body = 11;
     int64 payTime = 12;
     int64 expireTime = 13;
-    string description = 14;
+    string custom = 14;
     map<string, string> credential = 15;
     map<string, string> extra = 16;
 }

@@ -20,7 +20,7 @@ CREATE TABLE `pay` (
   `expire_time`  DATETIME      NULL COMMENT '失效时间',
   `credential`   TEXT          NULL COMMENT '支付凭证,JSON格式',
   `extra`        TEXT          NULL COMMENT '额外参数,JSON格式',
-  `description`  VARCHAR(100)  NULL COMMENT '描述',
+  `custom`  VARCHAR(100)  NULL COMMENT '自定义数据',
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = `utf8mb4` COMMENT '支付表';
 

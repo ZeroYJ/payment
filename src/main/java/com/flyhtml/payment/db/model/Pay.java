@@ -105,9 +105,9 @@ public class Pay extends BaseModel {
     private Date       expireTime;
 
     /**
-     * 描述
+     * 自定义数据
      */
-    private String     description;
+    private String     custom;
 
     /**
      * 支付凭证,JSON格式
@@ -394,19 +394,19 @@ public class Pay extends BaseModel {
     /**
      * 获取描述
      *
-     * @return description - 描述
+     * @return custom - 描述
      */
-    public String getDescription() {
-        return description;
+    public String getCustom() {
+        return custom;
     }
 
     /**
      * 设置描述
      *
-     * @param description 描述
+     * @param custom 描述
      */
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCustom(String custom) {
+        this.custom = custom;
     }
 
     /**
@@ -446,7 +446,7 @@ public class Pay extends BaseModel {
     }
 
     public Pay(String id, String channel, String orderNo, String ip, BigDecimal amount, String currency, String subject,
-               String body, String description, String credential, String extra) {
+               String body, String custom, String credential, String extra) {
         this.id = id;
         this.channel = channel;
         this.orderNo = orderNo;
@@ -455,7 +455,7 @@ public class Pay extends BaseModel {
         this.currency = currency;
         this.subject = subject;
         this.body = body;
-        this.description = description;
+        this.custom = custom;
         this.credential = credential;
         this.extra = extra;
     }
