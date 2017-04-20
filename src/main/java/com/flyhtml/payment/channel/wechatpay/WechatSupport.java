@@ -50,6 +50,8 @@ public class WechatSupport {
     }
 
     /***
+     * 微信公众号支付
+     * 
      * @param openId OpenId
      * @param orderId 订单编号
      * @param totalFee 订单金额（分）
@@ -72,6 +74,18 @@ public class WechatSupport {
         return payResponse;
     }
 
+    /***
+     * 微信二维码支付
+     * 
+     * @param productId 商品ID
+     * @param orderId 订单ID
+     * @param totalFee 总金额
+     * @param body 商品描述
+     * @param attach 附加参数
+     * @param clientIp ip
+     * @param payId 对应平台支付ID
+     * @return
+     */
     public String qrPay(String productId, String orderId, Integer totalFee, String body, String attach, String clientIp,
                         String payId) {
         QrPayRequest qrPay = new QrPayRequest();
@@ -82,7 +96,7 @@ public class WechatSupport {
         qrPay.setAttach(attach);
         qrPay.setClientId(clientIp);
         qrPay.setNotifyUrl(notifyUrl + "/" + payId);
-        String qrUrl = wepay.pay().qrPay(qrPay,false);
+        String qrUrl = wepay.pay().qrPay(qrPay, false);
         return qrUrl;
     }
 

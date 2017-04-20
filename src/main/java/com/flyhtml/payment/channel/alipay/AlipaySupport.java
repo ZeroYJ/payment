@@ -71,18 +71,9 @@ public class AlipaySupport {
         alipay = AlipayBuilder.newBuilder(pId, md5).build();
     }
 
-    public static void main(String[] args) {
-        Alipay alipay = AlipayBuilder.newBuilder("2088421837490657", "zsustkn9wuwrhymh3omn07ohbnudxpl4").build();
-        WebPayDetail payDetail = new WebPayDetail("O" + RandomStrs.generate(20), "Samsung galxy S8", "6888.20");
-        payDetail.setNotifyUrl("http://localhost:8080");
-        payDetail.setReturnUrl("http://localhost:8080");
-        payDetail.setExterInvokeIp("127.0.0.1");
-        System.out.println(payDetail.toString());
-        String form = alipay.pay().webPay(payDetail);
-        System.out.println(form);
-    }
-
     /***
+     * 支付宝即时到帐
+     * 
      * @param subject 商品标题
      * @param body 商品描述
      * @param orderId 订单编号
@@ -102,6 +93,8 @@ public class AlipaySupport {
     }
 
     /***
+     * 支付宝H5支付
+     * 
      * @param subject 商品标题
      * @param body 商品描述
      * @param returnUrl 订单号
