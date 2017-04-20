@@ -7,8 +7,8 @@ import javax.annotation.PostConstruct;
 
 import com.flyhtml.payment.channel.alipay.core.Alipay;
 import com.flyhtml.payment.channel.alipay.core.AlipayBuilder;
+import com.flyhtml.payment.channel.alipay.model.notify.AlipayNotify;
 import com.flyhtml.payment.channel.alipay.model.pay.WebPayDetail;
-import com.flyhtml.payment.common.util.RandomStrs;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,10 +16,9 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeWapPayModel;
-import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.flyhtml.payment.common.enums.Validate;
-import com.flyhtml.payment.channel.alipay.model.notify.AlipayNotify;
+import com.flyhtml.payment.channel.alipay.model.notify.Notify;
 import com.flyhtml.payment.db.model.Pay;
 
 /**
@@ -73,7 +72,7 @@ public class AlipaySupport {
 
     /***
      * 支付宝即时到帐
-     * 
+     *
      * @param subject 商品标题
      * @param body 商品描述
      * @param orderId 订单编号
@@ -94,7 +93,7 @@ public class AlipaySupport {
 
     /***
      * 支付宝H5支付
-     * 
+     *
      * @param subject 商品标题
      * @param body 商品描述
      * @param returnUrl 订单号
@@ -132,13 +131,8 @@ public class AlipaySupport {
      * @return
      */
     public Boolean verifySign(Map<String, String> paramMap) {
-        try {
-            boolean bool = AlipaySignature.rsaCheckV1(paramMap, publicKey, charset, signType);
-            return bool;
-        } catch (AlipayApiException e) {
-            e.printStackTrace();
-        }
-        return false;
+        boolean bool = alipay.verify().md5(paramMap);
+        return bool;
     }
 
     /***
@@ -155,16 +149,12 @@ public class AlipaySupport {
                 return Validate.invalid_out_trade_no;
             }
             // 金额
-            if (pay.getAmount().compareTo(new BigDecimal(notify.getTotalAmount())) != 0) {
+            if (pay.getAmount().compareTo(new BigDecimal(notify.getTotalFee())) != 0) {
                 return Validate.inaccurate_amount;
             }
             // seller_id
-            if (!notify.getSellerId().equals(mchId)) {
+            if (!notify.getSellerId().equals(pId)) {
                 return Validate.inaccurate_seller_id;
-            }
-            // APPID
-            if (!notify.getAppId().equals(appId)) {
-                return Validate.inaccurate_appid;
             }
             // 判断是否付款成功
             if (!notify.getTradeStatus().equals("TRADE_SUCCESS")) {
@@ -183,12 +173,21 @@ public class AlipaySupport {
 
     /***
      * 返回支付宝失败信息
-     * 
+     *
      * @param validate
      * @return
      */
     public String notOk(Validate validate) {
         return validate.getName();
+    }
+
+    /***
+     * 返回支付宝success信息
+     *
+     * @return
+     */
+    public String ok() {
+        return "success";
     }
 
 }

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.flyhtml.payment.channel.alipay.model.notify.AlipayNotify;
 import com.flyhtml.payment.channel.wechatpay.model.notify.WechatNotify;
 import com.google.common.base.Throwables;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alipay.api.AlipayApiException;
 import com.flyhtml.payment.common.enums.Validate;
-import com.flyhtml.payment.channel.alipay.model.notify.AlipayNotify;
 import com.flyhtml.payment.common.util.Maps;
 import com.flyhtml.payment.common.util.BeanUtils;
 import com.flyhtml.payment.db.model.Pay;
@@ -57,18 +57,17 @@ public class CallBackController extends BaseController {
         // TODO business logic
 
         // 插入通知对象
-        PayNotify payNotify = new PayNotify(request.getRequestURI(), gson.toJson(paramMap), wechatPay.ok());
+        PayNotify payNotify = new PayNotify(request.getRequestURI(),alipay.ok(),gson.toJson(paramMap));
         payNotifyService.insertSelective(payNotify);
         // 更新支付对象为已支付状态
-        Pay upPay = new Pay(pay.getId(), true, notify.getTradeNo(),
-                            Dates.toDate(notify.getGmtPayment(), "yyyyMMddHHmmss"));
+        Pay upPay = new Pay(pay.getId(), true, notify.getTradeNo(),Dates.toDate(notify.getGmtPayment()));
         payService.update(upPay);
         // 回调
         logger.debug("start payhooks....");
         String extra = pay.getExtra();
         Map<String, String> extraMap = gson.fromJson(extra, new TypeToken<Map<String, String>>() {
         }.getType());
-        PayHooks hooks = new PayHooks(pay.getId(), extraMap.get("notifyUrl"), new Date(), 1, gson.toJson(pay), null);
+        PayHooks hooks = new PayHooks(pay.getId(), extraMap.get("notifyUrl"), new Date(), 1,null, gson.toJson(pay));
         payHooksService.insertSelective(hooks);
         return validate.getName();
     }
@@ -97,7 +96,7 @@ public class CallBackController extends BaseController {
         logger.info("verify sign success: {}", notifyParams);
 
         // 插入通知对象
-        PayNotify payNotify = new PayNotify(request.getRequestURI(), gson.toJson(notifyParams), wechatPay.ok());
+        PayNotify payNotify = new PayNotify(request.getRequestURI(),wechatPay.ok(),gson.toJson(notifyParams));
         payNotifyService.insertSelective(payNotify);
         // 更新支付对象为已支付状态
         Pay upPay = new Pay(pay.getId(), true, notify.getTransactionId(),
@@ -108,7 +107,7 @@ public class CallBackController extends BaseController {
         String extra = pay.getExtra();
         Map<String, String> extraMap = gson.fromJson(extra, new TypeToken<Map<String, String>>() {
         }.getType());
-        PayHooks hooks = new PayHooks(pay.getId(), extraMap.get("notifyUrl"), new Date(), 1, gson.toJson(pay), null);
+        PayHooks hooks = new PayHooks(pay.getId(), extraMap.get("notifyUrl"), new Date(), 1, null,gson.toJson(pay) );
         payHooksService.insertSelective(hooks);
         return wechatPay.ok();
     }

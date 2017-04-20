@@ -44,7 +44,7 @@ public class PaymentClient {
         make.setChannel(PayTypeEnum.alipay_web.getName());
         make.setSubject("iphone 7 plus");
         make.setBody("256G,蓝色");
-        make.setAmount(101);
+        make.setAmount(1);
         make.setIp("127.0.0.1");
         // make.putExtra("openId", "o0iNcxLAfNPc5rz-2u2-u1D9BauA");
         // make.putExtra("productId", "9as12sdfasd");
