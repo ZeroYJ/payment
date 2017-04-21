@@ -24,7 +24,7 @@ druid:
 grpc:
   port: 9090
 
-localhost: http://helloxw.viphk.ngrok.org
+localhost: http://fuliaoyi.com:8080
 
 wechat:
   appId: wxc995ba40913d605d

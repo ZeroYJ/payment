@@ -86,6 +86,7 @@ public class PaymentTest {
         hooks.setHooksUrl("localhost");
         hooks.setHooksParam("");
         hooks.setHooksTime(new Date());
+        hooks.setHooksCount(0);
         payHooksService.insertSelective(hooks);
     }
 }

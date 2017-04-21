@@ -9,6 +9,8 @@ import com.flyhtml.payment.common.enums.Validate;
 import com.flyhtml.payment.common.util.Maps;
 import com.flyhtml.payment.common.util.RandomStrs;
 import com.flyhtml.payment.db.model.Pay;
+import com.flyhtml.payment.grpc.PaymentClient;
+import io.grpc.payment.Voucher;
 import me.hao0.common.date.Dates;
 import me.hao0.common.http.Http;
 import me.hao0.common.security.MD5;
@@ -115,12 +117,17 @@ public class WechatSupport {
     }
 
     public static void main(String[] args) {
-        Map<String, String> param = new HashMap<>();
-        param.put("mch_id", "1366385702");
-        param.put("nonce_str", RandomStrs.generate(20));
-        param.put("sign", MD5.generate(Maps.toString(param) + "&key=b81fc761fe654f619f150558c490ea49", false));
-        String request = Http.post("https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey").body(Maps.toXml(param)).request();
-        System.out.println(request);
+        PaymentClient client = new PaymentClient("fuliaoyi.com", 9090);
+        try {
+            Voucher voucher = client.create();
+            System.out.println(voucher);
+        } finally {
+            try {
+                client.shutdown();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /***
