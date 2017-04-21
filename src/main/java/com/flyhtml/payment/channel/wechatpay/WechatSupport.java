@@ -3,13 +3,17 @@ package com.flyhtml.payment.channel.wechatpay;
 import javax.annotation.PostConstruct;
 
 import com.flyhtml.payment.channel.wechatpay.model.notify.WechatNotify;
+import com.flyhtml.payment.channel.wechatpay.model.pay.PayRequest;
 import com.flyhtml.payment.channel.wechatpay.model.pay.QrPayRequest;
 import com.flyhtml.payment.common.enums.Validate;
 import com.flyhtml.payment.common.util.Maps;
 import com.flyhtml.payment.common.util.RandomStrs;
 import com.flyhtml.payment.db.model.Pay;
+import me.hao0.common.date.Dates;
 import me.hao0.common.http.Http;
 import me.hao0.common.security.MD5;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +23,7 @@ import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayRequest;
 import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayResponse;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,14 +69,8 @@ public class WechatSupport {
                                String clientIp, String payId) {
         JsPayRequest jsPay = new JsPayRequest();
         jsPay.setOpenId(openId);
-        jsPay.setOutTradeNo(orderId);
-        jsPay.setTotalFee(totalFee);
-        jsPay.setBody(body);
-        jsPay.setAttach(attach);
-        jsPay.setClientId(clientIp);
-        jsPay.setNotifyUrl(notifyUrl + "/" + payId);
-        JsPayResponse payResponse = wepay.pay().jsPay(jsPay);
-        return payResponse;
+        buildPayRequest(jsPay, orderId, totalFee, body, attach, clientIp, payId);
+        return wepay.pay().jsPay(jsPay);
     }
 
     /***
@@ -90,14 +89,29 @@ public class WechatSupport {
                         String payId) {
         QrPayRequest qrPay = new QrPayRequest();
         qrPay.setProductId(productId);
-        qrPay.setOutTradeNo(orderId);
-        qrPay.setTotalFee(totalFee);
-        qrPay.setBody(body);
-        qrPay.setAttach(attach);
-        qrPay.setClientId(clientIp);
-        qrPay.setNotifyUrl(notifyUrl + "/" + payId);
-        String qrUrl = wepay.pay().qrPay(qrPay, false);
-        return qrUrl;
+        buildPayRequest(qrPay, orderId, totalFee, body, attach, clientIp, payId);
+        return wepay.pay().qrPay(qrPay, false);
+    }
+
+    /***
+     * 设置一些支付公共参数
+     * 
+     * @param request 支付对象
+     * @param orderId 订单ID
+     * @param totalFee 总金额
+     * @param body 商品描述
+     * @param attach 附加参数
+     * @param clientIp ip
+     * @param payId 对应平台支付ID
+     */
+    private void buildPayRequest(PayRequest request, String orderId, Integer totalFee, String body, String attach,
+                                 String clientIp, String payId) {
+        request.setOutTradeNo(orderId);
+        request.setTotalFee(totalFee);
+        request.setBody(body);
+        request.setAttach(attach);
+        request.setClientId(clientIp);
+        request.setNotifyUrl(notifyUrl + "/" + payId);
     }
 
     public static void main(String[] args) {

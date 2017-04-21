@@ -82,8 +82,8 @@ public class AlipaySupport {
      * @param payId 对应平台ID
      * @return
      */
-    public String webPay(String subject, String body,String custom, String orderId, String amount, String returnUrl, String errorUrl,
-                         String payId) {
+    public String webPay(String subject, String body, String custom, String orderId, String amount, String returnUrl,
+                         String errorUrl, String payId) {
         WebPayDetail payDetail = new WebPayDetail(orderId, subject, amount);
         payDetail.setReturnUrl(returnUrl);
         payDetail.setNotifyUrl(notifyUrl + "/" + payId);

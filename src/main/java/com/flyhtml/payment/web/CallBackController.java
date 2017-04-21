@@ -57,17 +57,17 @@ public class CallBackController extends BaseController {
         // TODO business logic
 
         // 插入通知对象
-        PayNotify payNotify = new PayNotify(request.getRequestURI(),alipay.ok(),gson.toJson(paramMap));
+        PayNotify payNotify = new PayNotify(request.getRequestURI(), alipay.ok(), gson.toJson(paramMap));
         payNotifyService.insertSelective(payNotify);
         // 更新支付对象为已支付状态
-        Pay upPay = new Pay(pay.getId(), true, notify.getTradeNo(),Dates.toDate(notify.getGmtPayment()));
+        Pay upPay = new Pay(pay.getId(), true, notify.getTradeNo(), Dates.toDate(notify.getGmtPayment()));
         payService.update(upPay);
         // 回调
         logger.debug("start payhooks....");
         String extra = pay.getExtra();
         Map<String, String> extraMap = gson.fromJson(extra, new TypeToken<Map<String, String>>() {
         }.getType());
-        PayHooks hooks = new PayHooks(pay.getId(), extraMap.get("notifyUrl"), new Date(), 1,null, gson.toJson(pay));
+        PayHooks hooks = new PayHooks(pay.getId(), extraMap.get("notifyUrl"), new Date(), 1, null, gson.toJson(pay));
         payHooksService.insertSelective(hooks);
         return validate.getName();
     }
@@ -87,6 +87,9 @@ public class CallBackController extends BaseController {
         }
         // 验证订单准确性
         Pay pay = payService.selectById(id);
+        if (pay == null) {
+            return wechatPay.notOk(Validate.invalid_out_trade_no);
+        }
         WechatNotify notify = BeanUtils.toObject(notifyParams, WechatNotify.class, true);
         Validate validate = wechatPay.verifyNotify(notify, pay);
         if (!validate.equals(Validate.success)) {
@@ -96,7 +99,7 @@ public class CallBackController extends BaseController {
         logger.info("verify sign success: {}", notifyParams);
 
         // 插入通知对象
-        PayNotify payNotify = new PayNotify(request.getRequestURI(),wechatPay.ok(),gson.toJson(notifyParams));
+        PayNotify payNotify = new PayNotify(request.getRequestURI(), wechatPay.ok(), gson.toJson(notifyParams));
         payNotifyService.insertSelective(payNotify);
         // 更新支付对象为已支付状态
         Pay upPay = new Pay(pay.getId(), true, notify.getTransactionId(),
@@ -107,7 +110,7 @@ public class CallBackController extends BaseController {
         String extra = pay.getExtra();
         Map<String, String> extraMap = gson.fromJson(extra, new TypeToken<Map<String, String>>() {
         }.getType());
-        PayHooks hooks = new PayHooks(pay.getId(), extraMap.get("notifyUrl"), new Date(), 1, null,gson.toJson(pay) );
+        PayHooks hooks = new PayHooks(pay.getId(), extraMap.get("notifyUrl"), new Date(), 1, null, gson.toJson(pay));
         payHooksService.insertSelective(hooks);
         return wechatPay.ok();
     }

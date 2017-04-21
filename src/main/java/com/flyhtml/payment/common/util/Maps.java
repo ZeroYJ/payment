@@ -29,7 +29,7 @@ public class Maps {
      * @return Map对象
      */
     public static Map<String, Object> toMap(String xml) {
-        xml = StringUtils.deleteWhitespace(xml);
+        xml = xml.replaceAll("(\\r|\\n)", "");
         if (Strings.isNullOrEmpty(xml)) {
             return Collections.emptyMap();
         }
@@ -58,6 +58,7 @@ public class Maps {
             n = children.item(i);
             data.put(n.getNodeName(), n.getTextContent());
         }
+        data.remove("#text");
         return data;
     }
 

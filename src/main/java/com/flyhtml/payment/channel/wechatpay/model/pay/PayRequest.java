@@ -1,9 +1,12 @@
 package com.flyhtml.payment.channel.wechatpay.model.pay;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.flyhtml.payment.channel.wechatpay.annotation.Optional;
 import com.flyhtml.payment.channel.wechatpay.model.enums.FeeType;
+import me.hao0.common.date.Dates;
+import org.apache.commons.lang3.time.DateUtils;
 
 /**
  * @author xiaowei
@@ -58,7 +61,7 @@ public class PayRequest implements Serializable {
     /**
      * 货币类型
      */
-    private FeeType feeType = FeeType.CNY;
+    private FeeType feeType    = FeeType.CNY;
 
     /**
      * 交易开始时间
@@ -69,7 +72,7 @@ public class PayRequest implements Serializable {
      * 交易结束时间
      */
     @Optional
-    private String  timeExpire;
+    private String  timeExpire = Dates.format(DateUtils.addHours(new Date(), 48), "yyyyMMddHHmmss");
 
     /**
      * 商品标记
