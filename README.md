@@ -3,7 +3,9 @@
 
 辅料易支付GRPC服务,用于对接MRP2系统以及辅料易平台支付环节，包括支付宝，微信以及银联支付。
 
-####相关
+相关
+--------------------------------
+* 测试地址：fuliaoyi.com:9090
 * <a href="https://github.com/fuliaoyi/Zed/blob/master/src/main/proto/payment.proto">proto文件</a>
 * 创建订单[create]
 ```$xslt
