@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.flyhtml.payment.channel.alipay.model.notify.AlipayNotify;
 import com.flyhtml.payment.channel.wechatpay.model.notify.WechatNotify;
+import com.flyhtml.payment.common.task.PayHooksTask;
 import com.google.common.base.Throwables;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -105,13 +106,15 @@ public class CallBackController extends BaseController {
         Pay upPay = new Pay(pay.getId(), true, notify.getTransactionId(),
                             Dates.toDate(notify.getTimeEnd(), "yyyyMMddHHmmss"));
         payService.update(upPay);
-        // 回调
-        logger.debug("start payhooks....");
+        // 插入回调对象
         String extra = pay.getExtra();
         Map<String, String> extraMap = gson.fromJson(extra, new TypeToken<Map<String, String>>() {
         }.getType());
-        PayHooks hooks = new PayHooks(pay.getId(), extraMap.get("notifyUrl"), new Date(), 1, null, gson.toJson(pay));
+        PayHooks hooks = new PayHooks(pay.getId(), extraMap.get("notifyUrl"), 0, gson.toJson(pay));
         payHooksService.insertSelective(hooks);
+        // 回调
+        logger.debug("start payhooks....");
+        hooksTask.run(hooks);
         return wechatPay.ok();
     }
 

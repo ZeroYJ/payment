@@ -32,7 +32,7 @@ public final class Pays extends Component {
     /**
      * 联图二维码转换
      */
-    private static final String LIANTU_URL = "http://qr.liantu.com/sandboxnew//api.php?text=";
+    private static final String LIANTU_URL = "http://qr.liantu.com/api.php?text=";
 
     protected Pays(Wepay wepay) {
         super(wepay);

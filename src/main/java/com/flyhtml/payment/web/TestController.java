@@ -8,13 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.flyhtml.payment.grpc.PaymentClient;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Map;
+
 /**
  * @author xiaowei
  * @time 17-4-12 上午10:10
  * @describe
  */
 @RestController
-public class TestController {
+public class TestController extends BaseController {
 
     @RequestMapping("/create")
     public String create() throws InterruptedException {
@@ -29,5 +31,14 @@ public class TestController {
         System.out.println(jsPayResponse);
         md.addObject("jsPay", jsPayResponse);
         return md;
+    }
+
+    @RequestMapping("/payNotify")
+    public String payNotify() {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        for (String s : parameterMap.keySet()) {
+            System.out.println(s + ":" + parameterMap.get(s)[0]);
+        }
+        return "success";
     }
 }

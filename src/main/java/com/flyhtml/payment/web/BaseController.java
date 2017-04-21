@@ -2,6 +2,7 @@ package com.flyhtml.payment.web;
 
 import com.flyhtml.payment.channel.alipay.AlipaySupport;
 import com.flyhtml.payment.channel.wechatpay.WechatSupport;
+import com.flyhtml.payment.common.task.PayHooksTask;
 import com.flyhtml.payment.db.service.PayHooksService;
 import com.flyhtml.payment.db.service.PayNotifyService;
 import com.flyhtml.payment.db.service.PayService;
@@ -24,7 +25,7 @@ import javax.servlet.http.HttpSession;
 public class BaseController {
 
     // 在Java类中创建 logger 实例
-    protected static Logger       logger = LoggerFactory.getLogger(BaseController.class);
+    protected final static Logger logger = LoggerFactory.getLogger(BaseController.class);
     // request,response 不可随意使用
     protected HttpServletRequest  request;
     protected HttpServletResponse response;
@@ -40,6 +41,8 @@ public class BaseController {
     protected AlipaySupport       alipay;
     @Autowired
     protected WechatSupport       wechatPay;
+    @Autowired
+    protected PayHooksTask        hooksTask;
 
     protected Gson                gson   = new GsonBuilder().serializeNulls().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
