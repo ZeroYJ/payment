@@ -36,6 +36,7 @@ public class ScheduledTaskService {
 
     @Scheduled(fixedRate = 2 * min)
     public void hooks() {
+        logger.info("Start hooks task service....");
         List<PayHooks> payHooks = payHooksService.notSuccessHooks();
         for (PayHooks payHook : payHooks) {
             payHooksTask.run(payHook);
