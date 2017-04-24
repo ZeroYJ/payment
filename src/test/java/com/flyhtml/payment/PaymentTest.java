@@ -89,4 +89,10 @@ public class PaymentTest {
         hooks.setHooksCount(0);
         payHooksService.insertSelective(hooks);
     }
+
+    @Test
+    public void notSuccess() {
+        List<PayHooks> payHooks = payHooksService.notSuccessHooks();
+        System.out.println(payHooks);
+    }
 }

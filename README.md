@@ -6,8 +6,6 @@
 相关
 --------------------------------
 * 测试地址：fuliaoyi.com:9090
-* 运行命令：nohup java -jar /opt/payment.jar >payment.log &
-* 查看后台运行：jobs
 * <a href="https://github.com/fuliaoyi/Zed/blob/master/src/main/proto/payment.proto">proto文件</a>
 * 创建订单[create]
 ```$xslt
