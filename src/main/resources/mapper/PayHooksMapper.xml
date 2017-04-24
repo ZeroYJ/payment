@@ -14,4 +14,8 @@
         <result column="response_data" property="responseData" jdbcType="VARCHAR"/>
         <result column="hooks_param" property="hooksParam" jdbcType="LONGVARCHAR"/>
     </resultMap>
+
+    <select id="notSuccessHooks" resultMap="BaseResultMap">
+        SELECT * FROM fly_payment.pay_hooks where response_data!='success' and hooks_count&lt;9;
+    </select>
 </mapper>

@@ -5,6 +5,8 @@ import com.flyhtml.payment.db.mapper.PayHooksMapper;
 import com.flyhtml.payment.db.model.PayHooks;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author xiaowei
  * @time 17-4-13 下午12:36
@@ -12,4 +14,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PayHooksService extends BaseService<PayHooks, PayHooksMapper> {
+
+    public List<PayHooks> notSuccessHooks() {
+        return m.notSuccessHooks();
+    }
 }
