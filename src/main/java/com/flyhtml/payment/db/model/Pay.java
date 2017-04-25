@@ -469,4 +469,9 @@ public class Pay extends BaseModel {
         this.channelNo = channelNo;
         this.payTime = payTime;
     }
+
+    public Pay(String channel, String orderNo) {
+        this.channel = channel;
+        this.orderNo = orderNo;
+    }
 }

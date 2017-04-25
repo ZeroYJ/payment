@@ -52,8 +52,11 @@ public class PaymentTest {
         // payment.setRows(1);
         // List<Pay> all = paymentService.selectAll(payment);
         // logger.info(new Gson().toJson(all));
-        Pay pa_rT9U8qfROsvGGmA8ODuUESHY = paymentService.selectById("pa_OrI24xAZjsnrzVpMj3B5ljHW");
-        System.out.println(new Gson().toJson(pa_rT9U8qfROsvGGmA8ODuUESHY));
+        Pay pay = new Pay();
+        pay.setOrderNo("O33UzF5gCOyvw1E7YyK0vJ6VANvw10m");
+        pay.setChannel("wx_qr");
+        Pay pay1 = paymentService.selectOne(pay);
+        System.out.println(pay1);
     }
 
     @Test

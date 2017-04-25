@@ -56,6 +56,11 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
             if (payType == null) {
                 throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("支付渠道未找到"));
             }
+            // 判断该订单号是否已经存在
+            Pay pay = paymentService.selectOne(new Pay(channel, request.getOrderNo()));
+            if (pay != null) {
+                throw new StatusRuntimeException(Status.ALREADY_EXISTS.withDescription("订单号重复"));
+            }
             String id = "pa_" + RandomStrs.generate(24);
             Pay payment = new Pay();
             payment.setId(id);
@@ -72,7 +77,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                     String openId = request.getExtraOrThrow("openId");
                     String notifyUrl = request.getExtraOrThrow("notifyUrl");
                     if (StringUtils.isAnyBlank(openId, notifyUrl)) {
-                        throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("extra错误"));
+                        throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
                     }
                     JsPayResponse payResponse = wechatPay.jsPay(openId, request.getOrderNo(), request.getAmount(),
                                                                 request.getBody(), request.getCustom(), request.getIp(),
@@ -87,7 +92,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                     String returnUrl = request.getExtraOrThrow("returnUrl");
                     String notifyUrl = request.getExtraOrThrow("notifyUrl");
                     if (StringUtils.isAnyBlank(returnUrl, notifyUrl)) {
-                        throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("extra错误"));
+                        throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
                     }
                     String form = alipay.mobilePay(payment.getSubject(), payment.getBody(), payment.getOrderNo(),
                                                    payment.getAmount().toString(), returnUrl, payment.getId());
@@ -100,7 +105,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                     String productId = request.getExtraOrThrow("productId");
                     String notifyUrl = request.getExtraOrThrow("notifyUrl");
                     if (StringUtils.isAnyBlank(productId, notifyUrl)) {
-                        throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("extra错误"));
+                        throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
                     }
                     String qrUrl = wechatPay.qrPay(productId, request.getOrderNo(), request.getAmount(),
                                                    request.getBody(), request.getCustom(), request.getIp(),
@@ -115,7 +120,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                     String notifyUrl = request.getExtraOrThrow("notifyUrl");
                     String errorUrl = request.getExtraOrThrow("errorUrl");
                     if (StringUtils.isAnyBlank(returnUrl, notifyUrl)) {
-                        throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("extra错误"));
+                        throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
                     }
                     String form = alipay.webPay(payment.getSubject(), payment.getBody(), payment.getCustom(),
                                                 payment.getOrderNo(), payment.getAmount().toString(), returnUrl,
@@ -135,7 +140,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
         } catch (StatusRuntimeException e) {
             responseObserver.onError(e);
         } catch (Exception e) {
-            responseObserver.onError(new StatusRuntimeException(Status.ABORTED.withDescription(e.getMessage())));
+            responseObserver.onError(new StatusRuntimeException(Status.UNKNOWN.withDescription(e.getMessage())));
         }
     }
 
