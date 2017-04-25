@@ -1,10 +1,7 @@
 package com.flyhtml.payment.common.exception;
 
-import io.grpc.Metadata;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
-
-import javax.annotation.Nullable;
 
 /**
  * @author xiaowei
@@ -13,7 +10,7 @@ import javax.annotation.Nullable;
  */
 public class PaymentException extends StatusRuntimeException {
 
-    public PaymentException(Status status, @Nullable Metadata trailers) {
-        super(status, trailers);
+    public PaymentException(Status status) {
+        super(status);
     }
 }

@@ -50,6 +50,7 @@ class ExceptionListener extends Listener {
         this.call = call;
     }
 
+    @Override
     public void onHalfClose() {
         try {
             this.delegate.onHalfClose();

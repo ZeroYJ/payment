@@ -106,4 +106,10 @@ public class PaymentTest {
         Voucher pay = PaymentClient.query();
         System.out.println(pay);
     }
+
+    @Test
+    public void grpcCreate() {
+        Voucher pay = PaymentClient.pay();
+        System.out.println(pay);
+    }
 }
