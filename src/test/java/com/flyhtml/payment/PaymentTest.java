@@ -103,7 +103,7 @@ public class PaymentTest {
 
     @Test
     public void grpcQuery() {
-        Voucher pay = PaymentClient.pay();
+        Voucher pay = PaymentClient.query();
         System.out.println(pay);
     }
 }

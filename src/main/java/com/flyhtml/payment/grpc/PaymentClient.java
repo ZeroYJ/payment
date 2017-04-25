@@ -42,7 +42,7 @@ public class PaymentClient {
     public Voucher create() {
         logger.info("Will try to createAlipay...");
         Make.Builder make = Make.newBuilder();
-        make.setOrderNo("O" + RandomStrs.generate(30));
+        make.setOrderNo("123124");
         make.setChannel(PayTypeEnum.wx_qr.getName());
         make.setSubject("iphone 7 plus");
         make.setBody("256G,蓝色");
@@ -76,10 +76,24 @@ public class PaymentClient {
         return null;
     }
 
-    public static Voucher pay() {
+    public static Voucher query() {
         PaymentClient client = new PaymentClient("localhost", 9090);
         try {
             Voucher voucher = client.query("pa_9kOlKhSezsnLe1S8k12pkF57dk");
+            return voucher;
+        } finally {
+            try {
+                client.shutdown();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static Voucher pay() {
+        PaymentClient client = new PaymentClient("localhost", 9090);
+        try {
+            Voucher voucher = client.create();
             return voucher;
         } finally {
             try {
