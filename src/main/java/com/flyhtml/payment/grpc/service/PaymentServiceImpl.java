@@ -16,7 +16,6 @@ import com.flyhtml.payment.common.util.BeanUtils;
 import com.flyhtml.payment.common.util.RandomStrs;
 import com.flyhtml.payment.db.model.Pay;
 import com.flyhtml.payment.db.service.PayService;
-import com.flyhtml.payment.grpc.interceptor.ExceptionInterceptor;
 import com.google.gson.Gson;
 
 import io.grpc.Status;
@@ -74,8 +73,8 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
             payment.setExtra(new Gson().toJson(request.getExtraMap()));
             switch (payType) {
                 case wx_pub: {
-                    String openId = request.getExtraOrThrow("openId");
-                    String notifyUrl = request.getExtraOrThrow("notifyUrl");
+                    String openId = request.getExtraOrDefault("openId", null);
+                    String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
                     if (StringUtils.isAnyBlank(openId, notifyUrl)) {
                         throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
                     }
@@ -89,8 +88,8 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                     break;
                 }
                 case alipay_wap: {
-                    String returnUrl = request.getExtraOrThrow("returnUrl");
-                    String notifyUrl = request.getExtraOrThrow("notifyUrl");
+                    String returnUrl = request.getExtraOrDefault("returnUrl", null);
+                    String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
                     if (StringUtils.isAnyBlank(returnUrl, notifyUrl)) {
                         throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
                     }
@@ -102,8 +101,8 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                     break;
                 }
                 case wx_qr: {
-                    String productId = request.getExtraOrThrow("productId");
-                    String notifyUrl = request.getExtraOrThrow("notifyUrl");
+                    String productId = request.getExtraOrDefault("productId", null);
+                    String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
                     if (StringUtils.isAnyBlank(productId, notifyUrl)) {
                         throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
                     }
@@ -116,9 +115,9 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                     break;
                 }
                 case alipay_web: {
-                    String returnUrl = request.getExtraOrThrow("returnUrl");
-                    String notifyUrl = request.getExtraOrThrow("notifyUrl");
-                    String errorUrl = request.getExtraOrThrow("errorUrl");
+                    String returnUrl = request.getExtraOrDefault("returnUrl", null);
+                    String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
+                    String errorUrl = request.getExtraOrDefault("errorUrl", null);
                     if (StringUtils.isAnyBlank(returnUrl, notifyUrl)) {
                         throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
                     }
@@ -140,6 +139,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
         } catch (StatusRuntimeException e) {
             responseObserver.onError(e);
         } catch (Exception e) {
+            e.printStackTrace();
             responseObserver.onError(new StatusRuntimeException(Status.UNKNOWN.withDescription(e.getMessage())));
         }
     }
