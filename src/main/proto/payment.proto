@@ -10,6 +10,13 @@ service PaymentService {
     // create order
     rpc create (Make) returns (Voucher) {
     }
+    // query order
+    rpc query (Query) returns (Voucher) {
+    }
+}
+
+message Query {
+    string id = 1;
 }
 
 message Make {

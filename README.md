@@ -37,6 +37,14 @@ string custom = 14;                         // 商户自定义参数
 map<string, string> credential = 15;        // 支付凭据，详情见支付凭据说明
 map<string, string> extra = 16;             // 商户自定义参数
 ```
+* 查询订单[query]
+```$xslt
+参数(Query):
+string id=1;            //支付ID
+
+结果(Voucher):
+同上;
+```
 * 支付渠道说明
 ```$xslt
 *所有支付渠道均需要参数[notifyUrl],此为支付成功后的通知商户的通知地址
@@ -77,4 +85,25 @@ alipay_wap:
         
 alipay_web:
     credential：同alipay_wap
+```
+* 支付成功回调参数
+```$xslt
+string id;              //支付id
+long gmtCreate;         //创建时间
+long gmtModified;       //修改时间
+bool isPay;             //是否已付款
+bool hasRefund;         //是否存在退款信息
+string channel;         //支付渠道
+string orderNo;         //商户订单id
+string ip;              //客户端ip
+decimal amount;         //订单金额
+string currency;        //货币代码
+string subject;         //商品标题
+string body;            //商品描述信息
+string channelNo;       //渠道交易号
+long payTime;           //支付时间
+long expireTime;        //失效时间
+string custom;          //自定义数据
+string credential;      //支付凭据
+string extra;           //额外参数
 ```

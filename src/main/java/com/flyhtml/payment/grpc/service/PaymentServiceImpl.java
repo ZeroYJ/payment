@@ -16,6 +16,7 @@ import com.flyhtml.payment.common.util.BeanUtils;
 import com.flyhtml.payment.common.util.RandomStrs;
 import com.flyhtml.payment.db.model.Pay;
 import com.flyhtml.payment.db.service.PayService;
+import com.flyhtml.payment.grpc.interceptor.ExceptionInterceptor;
 import com.google.gson.Gson;
 
 import io.grpc.Status;

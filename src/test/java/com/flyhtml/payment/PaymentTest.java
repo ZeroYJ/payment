@@ -8,12 +8,16 @@ import com.flyhtml.payment.db.model.PayHooks;
 import com.flyhtml.payment.db.model.PayNotify;
 import com.flyhtml.payment.db.service.PayHooksService;
 import com.flyhtml.payment.db.service.PayNotifyService;
+import com.flyhtml.payment.grpc.PaymentClient;
+import io.grpc.payment.Voucher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.flyhtml.payment.common.util.RandomStrs;
@@ -29,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Application.class)
+@Import(TestConfiguration.class)
 public class PaymentTest {
 
     // 在Java类中创建 logger 实例
@@ -94,5 +99,11 @@ public class PaymentTest {
     public void notSuccess() {
         List<PayHooks> payHooks = payHooksService.notSuccessHooks();
         System.out.println(payHooks);
+    }
+
+    @Test
+    public void grpcQuery() {
+        Voucher pay = PaymentClient.query();
+        System.out.println(pay);
     }
 }
