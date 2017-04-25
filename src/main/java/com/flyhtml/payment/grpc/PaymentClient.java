@@ -1,22 +1,24 @@
 package com.flyhtml.payment.grpc;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.flyhtml.payment.common.enums.PayTypeEnum;
 import com.flyhtml.payment.common.util.RandomStrs;
+
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import io.grpc.payment.Make;
 import io.grpc.payment.PaymentServiceGrpc;
+import io.grpc.payment.Query;
 import io.grpc.payment.Voucher;
 
 /**
- * Created by xiaowei on 17-3-23.
+ * @author xiaowei
+ * @time 17-4-24 下午3:09
+ * @describe
  */
 public class PaymentClient {
 
@@ -63,10 +65,21 @@ public class PaymentClient {
         return null;
     }
 
+    public Voucher query(String id) {
+        try {
+            Query query = Query.newBuilder().setId(id).build();
+            Voucher vo = blockingStub.query(query);
+            return vo;
+        } catch (StatusRuntimeException e) {
+            logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
+        }
+        return null;
+    }
+
     public static Voucher pay() {
         PaymentClient client = new PaymentClient("localhost", 9090);
         try {
-            Voucher voucher = client.create();
+            Voucher voucher = client.query("pa_9kOlKhSezsnLe1S8k12pkF57dk");
             return voucher;
         } finally {
             try {

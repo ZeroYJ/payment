@@ -80,38 +80,45 @@ public class BeanUtils {
                 }
                 ProtoType annotation = field.getAnnotation(ProtoType.class);
                 Method setMethod;
-                if (annotation != null) {
-                    if (value instanceof String) {
-                        if (annotation.type() == Map.class) {
-                            Map<String, String> map = new Gson().fromJson((String) value,
-                                                                          new TypeToken<Map<String, String>>() {
-                                                                          }.getType());
-                            setMethod = builder.getClass().getDeclaredMethod("putAll" + name, annotation.type());
-                            setMethod.invoke(builder, map);
-                        }
-                    } else if (value instanceof Date) {
-                        if (annotation.type() == long.class) {
-                            long time = ((Date) value).getTime() / 1000;
-                            setMethod = builder.getClass().getDeclaredMethod("set" + name, annotation.type());
-                            setMethod.invoke(builder, time);
-                        }
-                    } else if (value instanceof BigDecimal) {
-                        if (annotation.type() == int.class) {
-                            int intValue = ((BigDecimal) value).multiply(new BigDecimal(100)).intValue();
-                            setMethod = builder.getClass().getDeclaredMethod("set" + name, annotation.type());
-                            setMethod.invoke(builder, intValue);
-                        }
-                    } else if (value instanceof Integer) {
+                try {
+                    if (annotation != null) {
+                        if (value instanceof String) {
+                            if (annotation.type() == Map.class) {
+                                Map<String, String> map = new Gson().fromJson((String) value,
+                                                                              new TypeToken<Map<String, String>>() {
+                                                                              }.getType());
+                                setMethod = builder.getClass().getDeclaredMethod("putAll" + name, annotation.type());
+                                setMethod.invoke(builder, map);
+                            }
+                        } else if (value instanceof Date) {
+                            if (annotation.type() == long.class) {
+                                long time = ((Date) value).getTime() / 1000;
+                                setMethod = builder.getClass().getDeclaredMethod("set" + name, annotation.type());
+                                if (setMethod == null) {
+                                    continue;
+                                }
+                                setMethod.invoke(builder, time);
+                            }
+                        } else if (value instanceof BigDecimal) {
+                            if (annotation.type() == int.class) {
+                                int intValue = ((BigDecimal) value).multiply(new BigDecimal(100)).intValue();
+                                setMethod = builder.getClass().getDeclaredMethod("set" + name, annotation.type());
+                                setMethod.invoke(builder, intValue);
+                            }
+                        } else if (value instanceof Integer) {
 
-                    } else if (value instanceof Map) {
+                        } else if (value instanceof Map) {
 
-                    } else if (value instanceof Collection) {
+                        } else if (value instanceof Collection) {
 
+                        }
+                    } else {
+                        setMethod = builder.getClass().getDeclaredMethod("set" + name,
+                                                                         annotation != null ? annotation.type() : field.getType());
+                        setMethod.invoke(builder, value);
                     }
-                } else {
-                    setMethod = builder.getClass().getDeclaredMethod("set" + name,
-                                                                     annotation != null ? annotation.type() : field.getType());
-                    setMethod.invoke(builder, value);
+                } catch (NoSuchMethodException exception) {
+                    continue;
                 }
             }
             return (T) builder.getClass().getDeclaredMethod("build").invoke(builder);
