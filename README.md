@@ -37,6 +37,14 @@ string custom = 14;                         // 商户自定义参数
 map<string, string> credential = 15;        // 支付凭据，详情见支付凭据说明
 map<string, string> extra = 16;             // 商户自定义参数
 ```
+* 查询订单[query]
+```$xslt
+参数(Query):
+string id=1;            //支付ID
+
+结果(Voucher):
+同上;
+```
 * 支付渠道说明
 ```$xslt
 *所有支付渠道均需要参数[notifyUrl],此为支付成功后的通知商户的通知地址
