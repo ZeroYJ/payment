@@ -12,7 +12,6 @@ import com.flyhtml.payment.channel.alipay.AlipaySupport;
 import com.flyhtml.payment.channel.wechatpay.WechatSupport;
 import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayResponse;
 import com.flyhtml.payment.common.enums.PayTypeEnum;
-import com.flyhtml.payment.common.exception.PaymentException;
 import com.flyhtml.payment.common.util.BeanUtils;
 import com.flyhtml.payment.common.util.RandomStrs;
 import com.flyhtml.payment.db.model.Pay;
@@ -20,8 +19,10 @@ import com.flyhtml.payment.db.service.PayService;
 import com.google.gson.Gson;
 
 import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import io.grpc.payment.Make;
 import io.grpc.payment.PaymentServiceGrpc;
+import io.grpc.payment.Query;
 import io.grpc.payment.Voucher;
 import io.grpc.stub.StreamObserver;
 
@@ -34,7 +35,7 @@ import io.grpc.stub.StreamObserver;
 public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBase {
 
     @Autowired
-    private PayService paymentService;
+    private PayService    paymentService;
     @Autowired
     private WechatSupport wechatPay;
     @Autowired
@@ -44,13 +45,14 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
     public void create(Make request, StreamObserver<Voucher> responseObserver) {
         // 判断参数
         if (StringUtils.isAnyBlank(request.getOrderNo(), request.getChannel(), request.getSubject(), request.getBody(),
-                request.getIp())) {
-            responseObserver.onError(Status.DATA_LOSS.asRuntimeException());
+                                   request.getIp())) {
+            throw new StatusRuntimeException(Status.DATA_LOSS);
         }
+        System.out.println(request);
         String channel = request.getChannel();
         PayTypeEnum payType = PayTypeEnum.getByName(channel);
         if (payType == null) {
-            responseObserver.onError(new PaymentException("channel not fonud"));
+            // responseObserver.onError(new PaymentException("channel not fonud"));
         }
         String id = "pa_" + RandomStrs.generate(24);
         Pay payment = new Pay();
@@ -71,7 +73,8 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                     responseObserver.onError(new RuntimeException("openId is cannot be null"));
                 }
                 JsPayResponse payResponse = wechatPay.jsPay(openId, request.getOrderNo(), request.getAmount(),
-                        request.getBody(),request.getCustom(), request.getIp(), payment.getId());
+                                                            request.getBody(), request.getCustom(), request.getIp(),
+                                                            payment.getId());
 
                 Map<String, String> credential = new HashMap<>();
                 credential.put("credential", new Gson().toJson(payResponse));
@@ -85,7 +88,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                     responseObserver.onError(new RuntimeException("openId is cannot be null"));
                 }
                 String form = alipay.mobilePay(payment.getSubject(), payment.getBody(), payment.getOrderNo(),
-                        payment.getAmount().toString(), returnUrl, payment.getId());
+                                               payment.getAmount().toString(), returnUrl, payment.getId());
                 Map<String, String> credential = new HashMap<>();
                 credential.put("credential", form);
                 payment.setCredential(new Gson().toJson(credential));
@@ -98,7 +101,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                     responseObserver.onError(new RuntimeException("openId is cannot be null"));
                 }
                 String qrUrl = wechatPay.qrPay(productId, request.getOrderNo(), request.getAmount(), request.getBody(),
-                        request.getCustom(), request.getIp(), payment.getId());
+                                               request.getCustom(), request.getIp(), payment.getId());
                 Map<String, String> credential = new HashMap<>();
                 credential.put("credential", qrUrl);
                 payment.setCredential(new Gson().toJson(credential));
@@ -111,8 +114,9 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                 if (StringUtils.isAnyBlank(returnUrl, notifyUrl)) {
                     responseObserver.onError(new RuntimeException("openId is cannot be null"));
                 }
-                String form = alipay.webPay(payment.getSubject(), payment.getBody(),payment.getCustom(), payment.getOrderNo(),
-                        payment.getAmount().toString(), returnUrl, errorUrl, payment.getId());
+                String form = alipay.webPay(payment.getSubject(), payment.getBody(), payment.getCustom(),
+                                            payment.getOrderNo(), payment.getAmount().toString(), returnUrl, errorUrl,
+                                            payment.getId());
                 Map<String, String> credential = new HashMap<>();
                 credential.put("credential", form);
                 payment.setCredential(new Gson().toJson(credential));
@@ -124,6 +128,17 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
         paymentService.insertSelective(payment);
         Voucher voucher = BeanUtils.toProto(payment, Voucher.class);
         responseObserver.onNext(voucher);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void query(Query request, StreamObserver<Voucher> responseObserver) {
+        String id = request.getId();
+        Pay pay = paymentService.selectById(id);
+        if (pay == null) {
+            throw new StatusRuntimeException(Status.NOT_FOUND.withDescription("对象未找到"));
+        }
+        responseObserver.onNext(BeanUtils.toProto(pay, Voucher.class));
         responseObserver.onCompleted();
     }
 }
