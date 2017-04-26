@@ -150,6 +150,9 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
     public void query(Query request, StreamObserver<Voucher> responseObserver) {
         try {
             String id = request.getId();
+            if (id == null) {
+                throw new StatusRuntimeException(Status.NOT_FOUND.withDescription("id为空"));
+            }
             Pay pay = paymentService.selectById(id);
             if (pay == null) {
                 throw new StatusRuntimeException(Status.NOT_FOUND.withDescription("对象未找到"));
