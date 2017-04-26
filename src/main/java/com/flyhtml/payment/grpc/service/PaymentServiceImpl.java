@@ -51,6 +51,9 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                                        request.getBody(), request.getIp())) {
                 throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("参数不全"));
             }
+            if (request.getAmount() == 0) {
+                throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("金额为0"));
+            }
             System.out.println(request);
             String channel = request.getChannel();
             PayTypeEnum payType = PayTypeEnum.getByName(channel);
