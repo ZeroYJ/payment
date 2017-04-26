@@ -16,6 +16,6 @@
     </resultMap>
 
     <select id="notSuccessHooks" resultMap="BaseResultMap">
-        SELECT * FROM fly_payment.pay_hooks where response_data!='success' and hooks_count&lt;9;
+        SELECT * FROM fly_payment.pay_hooks where (response_data!='success' or response_data is null) and hooks_count&lt;9;
     </select>
 </mapper>

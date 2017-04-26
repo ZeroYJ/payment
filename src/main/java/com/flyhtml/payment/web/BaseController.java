@@ -2,6 +2,8 @@ package com.flyhtml.payment.web;
 
 import com.flyhtml.payment.channel.alipay.AlipaySupport;
 import com.flyhtml.payment.channel.wechatpay.WechatSupport;
+import com.flyhtml.payment.common.serializer.BigDecimalSerializer;
+import com.flyhtml.payment.common.serializer.DateSerializer;
 import com.flyhtml.payment.common.task.PayHooksTask;
 import com.flyhtml.payment.db.service.PayHooksService;
 import com.flyhtml.payment.db.service.PayNotifyService;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @author xiaowei
@@ -44,7 +48,9 @@ public class BaseController {
     @Autowired
     protected PayHooksTask        hooksTask;
 
-    protected Gson                gson   = new GsonBuilder().serializeNulls().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+    protected Gson                gson   = new GsonBuilder().serializeNulls().registerTypeAdapter(BigDecimal.class,
+                                                                                                  new BigDecimalSerializer()).registerTypeAdapter(Date.class,
+                                                                                                                                                  new DateSerializer()).create();
 
     @ModelAttribute
     public void setReqAndResp(HttpServletRequest request, HttpServletResponse response) {

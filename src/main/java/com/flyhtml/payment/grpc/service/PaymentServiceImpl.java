@@ -1,10 +1,12 @@
 package com.flyhtml.payment.grpc.service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -70,6 +72,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
             payment.setSubject(request.getSubject());
             payment.setBody(request.getBody());
             payment.setCustom(request.getCustom());
+            payment.setExpireTime(DateUtils.addHours(new Date(), 48));
             payment.setExtra(new Gson().toJson(request.getExtraMap()));
             switch (payType) {
                 case wx_pub: {

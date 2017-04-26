@@ -4,11 +4,14 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.flyhtml.payment.common.serializer.BigDecimalSerializer;
+import com.flyhtml.payment.common.serializer.DateSerializer;
 import com.flyhtml.payment.db.model.PayHooks;
 import com.flyhtml.payment.db.model.PayNotify;
 import com.flyhtml.payment.db.service.PayHooksService;
 import com.flyhtml.payment.db.service.PayNotifyService;
 import com.flyhtml.payment.grpc.PaymentClient;
+import com.google.gson.GsonBuilder;
 import io.grpc.payment.Voucher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,6 +48,10 @@ public class PaymentTest {
     @Autowired
     private PayHooksService  payHooksService;
 
+    private Gson             gson   = new GsonBuilder().serializeNulls().registerTypeAdapter(BigDecimal.class,
+                                                                                             new BigDecimalSerializer()).registerTypeAdapter(Date.class,
+                                                                                                                                             new DateSerializer()).create();
+
     @Test
     public void getAll() {
         // Pay payment = new Pay();
@@ -54,9 +61,12 @@ public class PaymentTest {
         // logger.info(new Gson().toJson(all));
         Pay pay = new Pay();
         pay.setOrderNo("O33UzF5gCOyvw1E7YyK0vJ6VANvw10m");
-        pay.setChannel("wx_qr");
-        Pay pay1 = paymentService.selectOne(pay);
-        System.out.println(pay1);
+        pay.setGmtCreate(new Date());
+        pay.setAmount(new BigDecimal("90.58"));
+        // Pay pay1 = paymentService.selectOne(pay);
+        // System.out.println(pay1);
+        String s = gson.toJson(pay);
+        System.out.println(s);
     }
 
     @Test

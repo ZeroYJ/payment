@@ -63,13 +63,15 @@ public class CallBackController extends BaseController {
         // 更新支付对象为已支付状态
         Pay upPay = new Pay(pay.getId(), true, notify.getTradeNo(), Dates.toDate(notify.getGmtPayment()));
         payService.update(upPay);
-        // 回调
-        logger.debug("start payhooks....");
+        // 插入回调对象
         String extra = pay.getExtra();
         Map<String, String> extraMap = gson.fromJson(extra, new TypeToken<Map<String, String>>() {
         }.getType());
         PayHooks hooks = new PayHooks(pay.getId(), extraMap.get("notifyUrl"), new Date(), 1, null, gson.toJson(pay));
         payHooksService.insertSelective(hooks);
+        // 回调
+        logger.debug("start payhooks....");
+        hooksTask.run(hooks);
         return validate.getName();
     }
 

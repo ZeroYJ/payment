@@ -96,7 +96,7 @@ bool hasRefund;         //是否存在退款信息
 string channel;         //支付渠道
 string orderNo;         //商户订单id
 string ip;              //客户端ip
-decimal amount;         //订单金额
+int amount;             //订单金额(单位为分)
 string currency;        //货币代码
 string subject;         //商品标题
 string body;            //商品描述信息
