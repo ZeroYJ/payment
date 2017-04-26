@@ -1,17 +1,20 @@
 package com.flyhtml.payment.common.task;
 
-import com.flyhtml.payment.db.model.PayHooks;
-import com.flyhtml.payment.db.service.PayHooksService;
-import me.hao0.common.http.Http;
+import java.util.Date;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.util.Date;
+import com.flyhtml.payment.db.model.PayHooks;
+import com.flyhtml.payment.db.service.PayHooksService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import me.hao0.common.http.Http;
 
 /**
  * @author xiaowei
@@ -35,7 +38,9 @@ public class PayHooksTask {
         logger.info("*****************Requset Hooks*********************");
         logger.info("request-url : {}", requestUrl);
         logger.info("request-param : {}", hooks.getHooksParam());
-        String response = Http.post(requestUrl).connTimeout(30).body(hooks.getHooksParam()).request();
+        Map<String, String> param = new Gson().fromJson(hooks.getHooksParam(), new TypeToken<Map<String, String>>() {
+        }.getType());
+        String response = Http.post(requestUrl).connTimeout(30).readTimeout(30).params(param).request();
         logger.info("response-data : {}", response);
         logger.info("update hooks...");
         PayHooks update = new PayHooks();

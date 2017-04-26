@@ -6,8 +6,20 @@
 相关
 --------------------------------
 * 测试地址：fuliaoyi.com:9090
+* 密钥(效验使用)：d3WltvlLEbCT8FztKrLGzfUp2Jj85xw03ajYbrORSpF8
 * <a href="https://github.com/fuliaoyi/Zed/blob/master/src/main/proto/payment.proto">proto文件</a>
-* 创建订单[create]
+
+目录
+--------------------------------
+* <a id="create">创建订单</a>
+* <a id="query">查询订单</a>
+* <a id="channel">支付渠道说明</a>
+* <a id="credential">支付凭据说明</a>
+* <a id="notify">回调通知及验签</a>
+    
+文档
+--------------------------------
+* 创建订单[create](#create)
 ```$xslt
 参数(Make):
 string orderNo = 1;                         // 商户订单ID
@@ -37,7 +49,7 @@ string custom = 14;                         // 商户自定义参数
 map<string, string> credential = 15;        // 支付凭据，详情见支付凭据说明
 map<string, string> extra = 16;             // 商户自定义参数
 ```
-* 查询订单[query]
+* 查询订单[query](#query)
 ```$xslt
 参数(Query):
 string id=1;            //支付ID
@@ -45,7 +57,7 @@ string id=1;            //支付ID
 结果(Voucher):
 同上;
 ```
-* 支付渠道说明
+* 支付渠道说明[](#channel)
 ```$xslt
 *所有支付渠道均需要参数[notifyUrl],此为支付成功后的通知商户的通知地址
 wx_pub:
@@ -69,7 +81,7 @@ alipay_web:
         returnUrl:支付成功后返回的页面地址
         errorUrl:支付失败后返回的页面地址
 ```
-* 支付凭据说明
+* 支付凭据说明[](#credential)
 ```$xslt
 *支付凭据需要取结果返回的credential里的credential对象，例Java: credential.get("credential")
 wx_pub:
@@ -86,8 +98,9 @@ alipay_wap:
 alipay_web:
     credential：同alipay_wap
 ```
-* 支付成功回调参数
+* 回调通知及验签[](#notify)
 ```$xslt
+回调参数：
 string id;              //支付id
 long gmtCreate;         //创建时间
 long gmtModified;       //修改时间
@@ -106,4 +119,11 @@ long expireTime;        //失效时间
 string custom;          //自定义数据
 string credential;      //支付凭据
 string extra;           //额外参数
+string sign;            //签名参数
+
+验签：
+1.参数名ASCII码从小到大排序（字典序）,剔除sign参数　例amount=7888&body=iphone&custom=custom
+2.排序到的字符串与支付密钥拼接　例amount=7888&body=iphone&custom=custom&key=密钥
+3.把拼接完的字符串进行MD5加密，得到sign
+4.把加密得到的sign与传过来的sign进行比较,相同效验通过
 ```

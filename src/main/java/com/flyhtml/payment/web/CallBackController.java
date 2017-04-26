@@ -6,26 +6,25 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.flyhtml.payment.channel.alipay.model.notify.AlipayNotify;
-import com.flyhtml.payment.channel.wechatpay.model.notify.WechatNotify;
-import com.flyhtml.payment.common.task.PayHooksTask;
-import com.google.common.base.Throwables;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alipay.api.AlipayApiException;
+import com.flyhtml.payment.channel.alipay.model.notify.AlipayNotify;
+import com.flyhtml.payment.channel.wechatpay.model.notify.WechatNotify;
 import com.flyhtml.payment.common.enums.Validate;
-import com.flyhtml.payment.common.util.Maps;
 import com.flyhtml.payment.common.util.BeanUtils;
+import com.flyhtml.payment.common.util.Maps;
 import com.flyhtml.payment.db.model.Pay;
 import com.flyhtml.payment.db.model.PayHooks;
 import com.flyhtml.payment.db.model.PayNotify;
+import com.google.common.base.Throwables;
 import com.google.gson.reflect.TypeToken;
 
 import me.hao0.common.date.Dates;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author xiaowei
@@ -67,7 +66,8 @@ public class CallBackController extends BaseController {
         String extra = pay.getExtra();
         Map<String, String> extraMap = gson.fromJson(extra, new TypeToken<Map<String, String>>() {
         }.getType());
-        PayHooks hooks = new PayHooks(pay.getId(), extraMap.get("notifyUrl"), new Date(), 1, null, gson.toJson(pay));
+        PayHooks hooks = new PayHooks(pay.getId(), extraMap.get("notifyUrl"), 1,
+                                      bulidHooksParam(payService.selectById(id)));
         payHooksService.insertSelective(hooks);
         // 回调
         logger.debug("start payhooks....");
@@ -112,7 +112,8 @@ public class CallBackController extends BaseController {
         String extra = pay.getExtra();
         Map<String, String> extraMap = gson.fromJson(extra, new TypeToken<Map<String, String>>() {
         }.getType());
-        PayHooks hooks = new PayHooks(pay.getId(), extraMap.get("notifyUrl"), 0, gson.toJson(pay));
+        PayHooks hooks = new PayHooks(pay.getId(), extraMap.get("notifyUrl"), 0,
+                                      bulidHooksParam(payService.selectById(id)));
         payHooksService.insertSelective(hooks);
         // 回调
         logger.debug("start payhooks....");

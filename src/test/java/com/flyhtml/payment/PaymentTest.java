@@ -122,7 +122,8 @@ public class PaymentTest {
 
     @Test
     public void grpcCreate() {
-        Voucher pay = PaymentClient.pay();
-        System.out.println(pay);
+        PaymentClient paymentClient = new PaymentClient("fuliaoyi.com", 9090);
+        Voucher voucher = paymentClient.create();
+        System.out.println(voucher);
     }
 }

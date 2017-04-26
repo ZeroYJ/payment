@@ -4,18 +4,21 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import com.flyhtml.payment.common.annotation.ProtoType;
+import com.flyhtml.payment.common.serializer.BigDecimalSerializer;
+import com.flyhtml.payment.common.serializer.DateSerializer;
 import com.flyhtml.payment.db.model.Pay;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.protobuf.Message;
 
 import io.grpc.payment.Voucher;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.factory.BeanFactoryUtils;
 
 /**
  * @author xiaowei
@@ -132,21 +135,9 @@ public class BeanUtils {
         return null;
     }
 
-    public <T extends Object> T formProto(Message proto, Class<T> clazz) {
-        return null;
-    }
-
-    public static void main(String[] args) {
-        // io.grpc.payment.Voucher$Builder.setId()
-        Pay payment = new Pay();
-        payment.setId("pa_" + RandomStrs.generate(24));
-        payment.setGmtCreate(new Date());
-        payment.setBody("abasdfas");
-        payment.setAmount(new BigDecimal(6488));
-        Map<String, String> sd = new HashMap<>();
-        sd.put("sd", "sd");
-        payment.setExtra(new Gson().toJson(sd));
-        Voucher voucher = toProto(payment, Voucher.class);
-        System.out.println(voucher.toString());
+    public static void main(String[] args) throws IllegalAccessException, NoSuchMethodException,
+                                           InvocationTargetException {
+        String generate = RandomStrs.generate(44);
+        System.out.println(generate);
     }
 }
