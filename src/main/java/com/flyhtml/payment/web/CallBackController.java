@@ -101,14 +101,11 @@ public class CallBackController extends BaseController {
         // TODO business logic
         logger.info("verify sign success: {}", notifyParams);
 
-        // 插入通知对象
         PayNotify payNotify = new PayNotify(request.getRequestURI(), wechatPay.ok(), gson.toJson(notifyParams));
         payNotifyService.insertSelective(payNotify);
-        // 更新支付对象为已支付状态
         Pay upPay = new Pay(pay.getId(), true, notify.getTransactionId(),
                             Dates.toDate(notify.getTimeEnd(), "yyyyMMddHHmmss"));
         payService.update(upPay);
-        // 插入回调对象
         String extra = pay.getExtra();
         Map<String, String> extraMap = gson.fromJson(extra, new TypeToken<Map<String, String>>() {
         }.getType());

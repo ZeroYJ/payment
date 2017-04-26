@@ -7,7 +7,7 @@
 --------------------------------
 * 测试地址：fuliaoyi.com:9090
 * 密钥(效验使用)：d3WltvlLEbCT8FztKrLGzfUp2Jj85xw03ajYbrORSpF8
-* <a href="https://github.com/fuliaoyi/Zed/blob/master/src/main/proto/payment.proto">proto文件</a>
+* [proto文件](https://github.com/fuliaoyi/Zed/blob/master/src/main/proto/payment.proto)
 
 目录
 --------------------------------
