@@ -11,15 +11,13 @@
 
 目录
 --------------------------------
-* <a id="create">创建订单</a>
-* <a id="query">查询订单</a>
-* <a id="channel">支付渠道说明</a>
-* <a id="credential">支付凭据说明</a>
-* <a id="notify">回调通知及验签</a>
+* [创建订单](#创建订单)
+* [查询订单](#查询订单)
+* [支付渠道说明](#支付渠道说明)
+* [支付凭据说明](#支付凭据说明)
+* [回调通知及验签](#回调通知及验签)
     
-文档
---------------------------------
-* 创建订单[create](#create)
+## 创建订单
 ```$xslt
 参数(Make):
 string orderNo = 1;                         // 商户订单ID
@@ -49,15 +47,15 @@ string custom = 14;                         // 商户自定义参数
 map<string, string> credential = 15;        // 支付凭据，详情见支付凭据说明
 map<string, string> extra = 16;             // 商户自定义参数
 ```
-* 查询订单[query](#query)
+## 查询订单
 ```$xslt
 参数(Query):
 string id=1;            //支付ID
 
 结果(Voucher):
-同上;
+同创建订单结果;
 ```
-* 支付渠道说明[](#channel)
+## 支付渠道说明
 ```$xslt
 *所有支付渠道均需要参数[notifyUrl],此为支付成功后的通知商户的通知地址
 wx_pub:
@@ -81,7 +79,7 @@ alipay_web:
         returnUrl:支付成功后返回的页面地址
         errorUrl:支付失败后返回的页面地址
 ```
-* 支付凭据说明[](#credential)
+## 支付凭据说明
 ```$xslt
 *支付凭据需要取结果返回的credential里的credential对象，例Java: credential.get("credential")
 wx_pub:
@@ -98,7 +96,7 @@ alipay_wap:
 alipay_web:
     credential：同alipay_wap
 ```
-* 回调通知及验签[](#notify)
+## 回调通知及验签
 ```$xslt
 回调参数：
 string id;              //支付id
