@@ -10,10 +10,10 @@ import javax.persistence.Transient;
 public class BaseModel {
 
     @Transient
-    private Integer page = 1;
+    private transient Integer page = 1;
 
     @Transient
-    private Integer rows = 10;
+    private transient Integer rows = 10;
 
     public Integer getPage() {
         return page;

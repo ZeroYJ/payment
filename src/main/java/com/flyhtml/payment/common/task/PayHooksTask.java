@@ -32,17 +32,17 @@ public class PayHooksTask {
             return;
         }
         String requestUrl = hooks.getHooksUrl();
-        logger.info("<<<<<<<----start payhooks------>>>>>>>");
-        logger.info("url:" + requestUrl);
-        logger.info("param:" + hooks.getHooksParam());
-        String request = Http.post(requestUrl).connTimeout(30).body(hooks.getHooksParam()).request();
-        logger.info("response:" + request);
-        // update hooks
+        logger.info("*****************Requset Hooks*********************");
+        logger.info("request-url : {}", requestUrl);
+        logger.info("request-param : {}", hooks.getHooksParam());
+        String response = Http.post(requestUrl).connTimeout(30).body(hooks.getHooksParam()).request();
+        logger.info("response-data : {}", response);
+        logger.info("update hooks...");
         PayHooks update = new PayHooks();
         update.setId(hooks.getId());
         update.setHooksTime(new Date());
         update.setHooksCount(hooks.getHooksCount() + 1);
-        update.setResponseData(request.equals("success") ? "success" : "error");
+        update.setResponseData(response.equals("success") ? "success" : "error");
         hooksService.update(update);
     }
 }
