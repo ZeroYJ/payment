@@ -142,7 +142,6 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
         } catch (StatusRuntimeException e) {
             responseObserver.onError(e);
         } catch (Exception e) {
-            e.printStackTrace();
             responseObserver.onError(new StatusRuntimeException(Status.UNKNOWN.withDescription(e.getMessage())));
         }
     }
