@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.flyhtml.payment.db.mapper.PayMapper">
-    <resultMap id="BaseResultMap" type="com.flyhtml.payment.db.model.Pay">
-        <!--
-          WARNING - @mbg.generated
-        -->
-        <id column="id" property="id" jdbcType="VARCHAR"/>
-        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
-        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
-        <result column="is_pay" property="isPay" jdbcType="BIT"/>
-        <result column="has_refund" property="hasRefund" jdbcType="BIT"/>
-        <result column="channel" property="channel" jdbcType="VARCHAR"/>
-        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
-        <result column="ip" property="ip" jdbcType="VARCHAR"/>
-        <result column="amount" property="amount" jdbcType="DECIMAL"/>
-        <result column="currency" property="currency" jdbcType="VARCHAR"/>
-        <result column="subject" property="subject" jdbcType="VARCHAR"/>
-        <result column="body" property="body" jdbcType="VARCHAR"/>
-        <result column="channel_no" property="channelNo" jdbcType="VARCHAR"/>
-        <result column="pay_time" property="payTime" jdbcType="TIMESTAMP"/>
-        <result column="expire_time" property="expireTime" jdbcType="TIMESTAMP"/>
-        <result column="custom" property="custom" jdbcType="VARCHAR"/>
-        <result column="credential" property="credential" jdbcType="LONGVARCHAR"/>
-        <result column="extra" property="extra" jdbcType="LONGVARCHAR"/>
-    </resultMap>
+  <resultMap id="BaseResultMap" type="com.flyhtml.payment.db.model.Pay">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+    <result column="is_pay" property="isPay" jdbcType="BIT"/>
+    <result column="has_refund" property="hasRefund" jdbcType="BIT"/>
+    <result column="channel" property="channel" jdbcType="VARCHAR"/>
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+    <result column="ip" property="ip" jdbcType="VARCHAR"/>
+    <result column="amount" property="amount" jdbcType="DECIMAL"/>
+    <result column="currency" property="currency" jdbcType="VARCHAR"/>
+    <result column="subject" property="subject" jdbcType="VARCHAR"/>
+    <result column="body" property="body" jdbcType="VARCHAR"/>
+    <result column="channel_no" property="channelNo" jdbcType="VARCHAR"/>
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP"/>
+    <result column="expire_time" property="expireTime" jdbcType="TIMESTAMP"/>
+    <result column="custom" property="custom" jdbcType="VARCHAR"/>
+    <result column="credential" property="credential" jdbcType="LONGVARCHAR"/>
+    <result column="extra" property="extra" jdbcType="LONGVARCHAR"/>
+  </resultMap>
 </mapper>

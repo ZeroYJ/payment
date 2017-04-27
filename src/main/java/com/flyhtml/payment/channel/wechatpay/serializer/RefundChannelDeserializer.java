@@ -16,12 +16,12 @@ import me.hao0.common.util.Strings;
  */
 public class RefundChannelDeserializer extends JsonDeserializer<RefundChannel> {
 
-    @Override
-    public RefundChannel deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-        String val = jp.getValueAsString();
-        if (Strings.isNullOrEmpty(val)) {
-            return null;
-        }
-        return RefundChannel.from(val);
+  @Override
+  public RefundChannel deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+    String val = jp.getValueAsString();
+    if (Strings.isNullOrEmpty(val)) {
+      return null;
     }
+    return RefundChannel.from(val);
+  }
 }

@@ -15,187 +15,190 @@ import org.apache.commons.lang3.time.DateUtils;
  */
 public class PayRequest implements Serializable {
 
-    /**
-     * 商品描述
-     */
-    private String  body;
+  /** 商品描述 */
+  private String body;
 
-    /**
-     * 业务系统唯一订单号
-     */
-    private String  outTradeNo;
+  /** 业务系统唯一订单号 */
+  private String outTradeNo;
 
-    /**
-     * 总金额(分)
-     */
-    private Integer totalFee;
+  /** 总金额(分) */
+  private Integer totalFee;
 
-    /**
-     * 客户端IP
-     */
-    private String  clientId;
+  /** 客户端IP */
+  private String clientId;
 
-    /**
-     * 通知URL
-     */
-    private String  notifyUrl;
+  /** 通知URL */
+  private String notifyUrl;
 
-    /**
-     * 设备号
-     */
-    @Optional
-    private String  deviceInfo;
+  /** 设备号 */
+  @Optional private String deviceInfo;
 
-    /**
-     * 附加信息
-     */
-    @Optional
-    private String  attach;
+  /** 附加信息 */
+  @Optional private String attach;
 
-    /**
-     * 商品详情
-     */
-    @Optional
-    private String  detail;
+  /** 商品详情 */
+  @Optional private String detail;
 
-    /**
-     * 货币类型
-     */
-    private FeeType feeType    = FeeType.CNY;
+  /** 货币类型 */
+  private FeeType feeType = FeeType.CNY;
 
-    /**
-     * 交易开始时间
-     */
-    private String  timeStart;
+  /** 交易开始时间 */
+  private String timeStart;
 
-    /**
-     * 交易结束时间
-     */
-    @Optional
-    private String  timeExpire = Dates.format(DateUtils.addHours(new Date(), 48), "yyyyMMddHHmmss");
+  /** 交易结束时间 */
+  @Optional
+  private String timeExpire = Dates.format(DateUtils.addHours(new Date(), 48), "yyyyMMddHHmmss");
 
-    /**
-     * 商品标记
-     */
-    @Optional
-    private String  goodsTag;
+  /** 商品标记 */
+  @Optional private String goodsTag;
 
-    /**
-     * 指定支付方式
-     */
-    @Optional
-    private String  limitPay;
+  /** 指定支付方式 */
+  @Optional private String limitPay;
 
-    public String getBody() {
-        return body;
-    }
+  public String getBody() {
+    return body;
+  }
 
-    public void setBody(String body) {
-        this.body = body;
-    }
+  public void setBody(String body) {
+    this.body = body;
+  }
 
-    public String getOutTradeNo() {
-        return outTradeNo;
-    }
+  public String getOutTradeNo() {
+    return outTradeNo;
+  }
 
-    public void setOutTradeNo(String outTradeNo) {
-        this.outTradeNo = outTradeNo;
-    }
+  public void setOutTradeNo(String outTradeNo) {
+    this.outTradeNo = outTradeNo;
+  }
 
-    public Integer getTotalFee() {
-        return totalFee;
-    }
+  public Integer getTotalFee() {
+    return totalFee;
+  }
 
-    public void setTotalFee(Integer totalFee) {
-        this.totalFee = totalFee;
-    }
+  public void setTotalFee(Integer totalFee) {
+    this.totalFee = totalFee;
+  }
 
-    public String getClientId() {
-        return clientId;
-    }
+  public String getClientId() {
+    return clientId;
+  }
 
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
-    }
+  public void setClientId(String clientId) {
+    this.clientId = clientId;
+  }
 
-    public String getNotifyUrl() {
-        return notifyUrl;
-    }
+  public String getNotifyUrl() {
+    return notifyUrl;
+  }
 
-    public void setNotifyUrl(String notifyUrl) {
-        this.notifyUrl = notifyUrl;
-    }
+  public void setNotifyUrl(String notifyUrl) {
+    this.notifyUrl = notifyUrl;
+  }
 
-    public String getDeviceInfo() {
-        return deviceInfo;
-    }
+  public String getDeviceInfo() {
+    return deviceInfo;
+  }
 
-    public void setDeviceInfo(String deviceInfo) {
-        this.deviceInfo = deviceInfo;
-    }
+  public void setDeviceInfo(String deviceInfo) {
+    this.deviceInfo = deviceInfo;
+  }
 
-    public String getAttach() {
-        return attach;
-    }
+  public String getAttach() {
+    return attach;
+  }
 
-    public void setAttach(String attach) {
-        this.attach = attach;
-    }
+  public void setAttach(String attach) {
+    this.attach = attach;
+  }
 
-    public String getDetail() {
-        return detail;
-    }
+  public String getDetail() {
+    return detail;
+  }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
+  public void setDetail(String detail) {
+    this.detail = detail;
+  }
 
-    public FeeType getFeeType() {
-        return feeType;
-    }
+  public FeeType getFeeType() {
+    return feeType;
+  }
 
-    public void setFeeType(FeeType feeType) {
-        this.feeType = feeType;
-    }
+  public void setFeeType(FeeType feeType) {
+    this.feeType = feeType;
+  }
 
-    public String getTimeStart() {
-        return timeStart;
-    }
+  public String getTimeStart() {
+    return timeStart;
+  }
 
-    public void setTimeStart(String timeStart) {
-        this.timeStart = timeStart;
-    }
+  public void setTimeStart(String timeStart) {
+    this.timeStart = timeStart;
+  }
 
-    public String getTimeExpire() {
-        return timeExpire;
-    }
+  public String getTimeExpire() {
+    return timeExpire;
+  }
 
-    public void setTimeExpire(String timeExpire) {
-        this.timeExpire = timeExpire;
-    }
+  public void setTimeExpire(String timeExpire) {
+    this.timeExpire = timeExpire;
+  }
 
-    public String getGoodsTag() {
-        return goodsTag;
-    }
+  public String getGoodsTag() {
+    return goodsTag;
+  }
 
-    public void setGoodsTag(String goodsTag) {
-        this.goodsTag = goodsTag;
-    }
+  public void setGoodsTag(String goodsTag) {
+    this.goodsTag = goodsTag;
+  }
 
-    public String getLimitPay() {
-        return limitPay;
-    }
+  public String getLimitPay() {
+    return limitPay;
+  }
 
-    public void setLimitPay(String limitPay) {
-        this.limitPay = limitPay;
-    }
+  public void setLimitPay(String limitPay) {
+    this.limitPay = limitPay;
+  }
 
-    @Override
-    public String toString() {
-        return "PayDetail{" + "body='" + body + '\'' + ", outTradeNo='" + outTradeNo + '\'' + ", totalFee=" + totalFee
-               + ", clientId='" + clientId + '\'' + ", notifyUrl='" + notifyUrl + '\'' + ", deviceInfo='" + deviceInfo
-               + '\'' + ", attach='" + attach + '\'' + ", detail='" + detail + '\'' + ", feeType=" + feeType
-               + ", timeStart='" + timeStart + '\'' + ", timeExpire='" + timeExpire + '\'' + ", goodsTag='" + goodsTag
-               + '\'' + ", limitPay='" + limitPay + '\'' + '}';
-    }
+  @Override
+  public String toString() {
+    return "PayDetail{"
+        + "body='"
+        + body
+        + '\''
+        + ", outTradeNo='"
+        + outTradeNo
+        + '\''
+        + ", totalFee="
+        + totalFee
+        + ", clientId='"
+        + clientId
+        + '\''
+        + ", notifyUrl='"
+        + notifyUrl
+        + '\''
+        + ", deviceInfo='"
+        + deviceInfo
+        + '\''
+        + ", attach='"
+        + attach
+        + '\''
+        + ", detail='"
+        + detail
+        + '\''
+        + ", feeType="
+        + feeType
+        + ", timeStart='"
+        + timeStart
+        + '\''
+        + ", timeExpire='"
+        + timeExpire
+        + '\''
+        + ", goodsTag='"
+        + goodsTag
+        + '\''
+        + ", limitPay='"
+        + limitPay
+        + '\''
+        + '}';
+  }
 }

@@ -36,134 +36,167 @@ import io.grpc.stub.StreamObserver;
 @GRpcService
 public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBase {
 
-    @Autowired
-    private PayService    paymentService;
-    @Autowired
-    private WechatSupport wechatPay;
-    @Autowired
-    private AlipaySupport alipay;
+  @Autowired private PayService paymentService;
+  @Autowired private WechatSupport wechatPay;
+  @Autowired private AlipaySupport alipay;
 
-    @Override
-    public void create(Make request, StreamObserver<Voucher> responseObserver) {
-        try {
-            // 判断参数
-            if (StringUtils.isAnyBlank(request.getOrderNo(), request.getChannel(), request.getSubject(),
-                                       request.getBody(), request.getIp())) {
-                throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("参数不全"));
+  @Override
+  public void create(Make request, StreamObserver<Voucher> responseObserver) {
+    try {
+      // 判断参数
+      if (StringUtils.isAnyBlank(
+          request.getOrderNo(),
+          request.getChannel(),
+          request.getSubject(),
+          request.getBody(),
+          request.getIp())) {
+        throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("参数不全"));
+      }
+      if (request.getAmount() == 0) {
+        throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("金额为0"));
+      }
+      System.out.println(request);
+      String channel = request.getChannel();
+      PayTypeEnum payType = PayTypeEnum.getByName(channel);
+      if (payType == null) {
+        throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("支付渠道未找到"));
+      }
+      // 判断该订单号是否已经存在
+      Pay pay = paymentService.selectOne(new Pay(channel, request.getOrderNo()));
+      if (pay != null) {
+        throw new StatusRuntimeException(Status.ALREADY_EXISTS.withDescription("订单号重复"));
+      }
+      String id = "pa_" + RandomStrs.generate(24);
+      Pay payment = new Pay();
+      payment.setId(id);
+      payment.setChannel(channel);
+      payment.setOrderNo(request.getOrderNo());
+      payment.setIp(request.getIp());
+      payment.setAmount(new BigDecimal(request.getAmount()).divide(new BigDecimal(100)));
+      payment.setSubject(request.getSubject());
+      payment.setBody(request.getBody());
+      payment.setCustom(request.getCustom());
+      payment.setExpireTime(DateUtils.addHours(new Date(), 48));
+      payment.setExtra(new Gson().toJson(request.getExtraMap()));
+      switch (payType) {
+        case wx_pub:
+          {
+            String openId = request.getExtraOrDefault("openId", null);
+            String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
+            if (StringUtils.isAnyBlank(openId, notifyUrl)) {
+              throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
             }
-            if (request.getAmount() == 0) {
-                throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("金额为0"));
-            }
-            System.out.println(request);
-            String channel = request.getChannel();
-            PayTypeEnum payType = PayTypeEnum.getByName(channel);
-            if (payType == null) {
-                throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("支付渠道未找到"));
-            }
-            // 判断该订单号是否已经存在
-            Pay pay = paymentService.selectOne(new Pay(channel, request.getOrderNo()));
-            if (pay != null) {
-                throw new StatusRuntimeException(Status.ALREADY_EXISTS.withDescription("订单号重复"));
-            }
-            String id = "pa_" + RandomStrs.generate(24);
-            Pay payment = new Pay();
-            payment.setId(id);
-            payment.setChannel(channel);
-            payment.setOrderNo(request.getOrderNo());
-            payment.setIp(request.getIp());
-            payment.setAmount(new BigDecimal(request.getAmount()).divide(new BigDecimal(100)));
-            payment.setSubject(request.getSubject());
-            payment.setBody(request.getBody());
-            payment.setCustom(request.getCustom());
-            payment.setExpireTime(DateUtils.addHours(new Date(), 48));
-            payment.setExtra(new Gson().toJson(request.getExtraMap()));
-            switch (payType) {
-                case wx_pub: {
-                    String openId = request.getExtraOrDefault("openId", null);
-                    String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
-                    if (StringUtils.isAnyBlank(openId, notifyUrl)) {
-                        throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
-                    }
-                    JsPayResponse payResponse = wechatPay.jsPay(openId, request.getOrderNo(), request.getAmount(),
-                                                                request.getBody(), request.getCustom(), request.getIp(),
-                                                                payment.getId());
+            JsPayResponse payResponse =
+                wechatPay.jsPay(
+                    openId,
+                    request.getOrderNo(),
+                    request.getAmount(),
+                    request.getBody(),
+                    request.getSubject(),
+                    request.getCustom(),
+                    request.getIp(),
+                    payment.getId());
 
-                    Map<String, String> credential = new HashMap<>();
-                    credential.put("credential", new Gson().toJson(payResponse));
-                    payment.setCredential(new Gson().toJson(credential));
-                    break;
-                }
-                case alipay_wap: {
-                    String returnUrl = request.getExtraOrDefault("returnUrl", null);
-                    String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
-                    if (StringUtils.isAnyBlank(returnUrl, notifyUrl)) {
-                        throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
-                    }
-                    String form = alipay.mobilePay(payment.getSubject(), payment.getBody(), payment.getOrderNo(),
-                                                   payment.getAmount().toString(), returnUrl, payment.getId());
-                    Map<String, String> credential = new HashMap<>();
-                    credential.put("credential", form);
-                    payment.setCredential(new Gson().toJson(credential));
-                    break;
-                }
-                case wx_qr: {
-                    String productId = request.getExtraOrDefault("productId", null);
-                    String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
-                    if (StringUtils.isAnyBlank(productId, notifyUrl)) {
-                        throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
-                    }
-                    String qrUrl = wechatPay.qrPay(productId, request.getOrderNo(), request.getAmount(),
-                                                   request.getBody(), request.getCustom(), request.getIp(),
-                                                   payment.getId());
-                    Map<String, String> credential = new HashMap<>();
-                    credential.put("credential", qrUrl);
-                    payment.setCredential(new Gson().toJson(credential));
-                    break;
-                }
-                case alipay_web: {
-                    String returnUrl = request.getExtraOrDefault("returnUrl", null);
-                    String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
-                    String errorUrl = request.getExtraOrDefault("errorUrl", null);
-                    if (StringUtils.isAnyBlank(returnUrl, notifyUrl)) {
-                        throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
-                    }
-                    String form = alipay.webPay(payment.getSubject(), payment.getBody(), payment.getCustom(),
-                                                payment.getOrderNo(), payment.getAmount().toString(), returnUrl,
-                                                errorUrl, payment.getId());
-                    Map<String, String> credential = new HashMap<>();
-                    credential.put("credential", form);
-                    payment.setCredential(new Gson().toJson(credential));
-                    break;
-                }
-                default:
-                    break;
+            Map<String, String> credential = new HashMap<>();
+            credential.put("credential", new Gson().toJson(payResponse));
+            payment.setCredential(new Gson().toJson(credential));
+            break;
+          }
+        case alipay_wap:
+          {
+            String returnUrl = request.getExtraOrDefault("returnUrl", null);
+            String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
+            if (StringUtils.isAnyBlank(returnUrl, notifyUrl)) {
+              throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
             }
-            paymentService.insertSelective(payment);
-            Voucher voucher = BeanUtils.toProto(payment, Voucher.class);
-            responseObserver.onNext(voucher);
-            responseObserver.onCompleted();
-        } catch (StatusRuntimeException e) {
-            responseObserver.onError(e);
-        } catch (Exception e) {
-            responseObserver.onError(new StatusRuntimeException(Status.UNKNOWN.withDescription(e.getMessage())));
-        }
+            String form =
+                alipay.mobilePay(
+                    payment.getSubject(),
+                    payment.getBody(),
+                    payment.getOrderNo(),
+                    payment.getAmount().toString(),
+                    returnUrl,
+                    payment.getId());
+            Map<String, String> credential = new HashMap<>();
+            credential.put("credential", form);
+            payment.setCredential(new Gson().toJson(credential));
+            break;
+          }
+        case wx_qr:
+          {
+            String productId = request.getExtraOrDefault("productId", null);
+            String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
+            if (StringUtils.isAnyBlank(productId, notifyUrl)) {
+              throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
+            }
+            String qrUrl =
+                wechatPay.qrPay(
+                    productId,
+                    request.getOrderNo(),
+                    request.getAmount(),
+                    request.getBody(),
+                    request.getSubject(),
+                    request.getCustom(),
+                    request.getIp(),
+                    payment.getId());
+            Map<String, String> credential = new HashMap<>();
+            credential.put("credential", qrUrl);
+            payment.setCredential(new Gson().toJson(credential));
+            break;
+          }
+        case alipay_web:
+          {
+            String returnUrl = request.getExtraOrDefault("returnUrl", null);
+            String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
+            String errorUrl = request.getExtraOrDefault("errorUrl", null);
+            if (StringUtils.isAnyBlank(returnUrl, notifyUrl)) {
+              throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
+            }
+            String form =
+                alipay.webPay(
+                    payment.getSubject(),
+                    payment.getBody(),
+                    payment.getCustom(),
+                    payment.getOrderNo(),
+                    payment.getAmount().toString(),
+                    returnUrl,
+                    errorUrl,
+                    payment.getId());
+            Map<String, String> credential = new HashMap<>();
+            credential.put("credential", form);
+            payment.setCredential(new Gson().toJson(credential));
+            break;
+          }
+        default:
+          break;
+      }
+      paymentService.insertSelective(payment);
+      Voucher voucher = BeanUtils.toProto(payment, Voucher.class);
+      responseObserver.onNext(voucher);
+      responseObserver.onCompleted();
+    } catch (StatusRuntimeException e) {
+      responseObserver.onError(e);
+    } catch (Exception e) {
+      responseObserver.onError(
+          new StatusRuntimeException(Status.UNKNOWN.withDescription(e.getMessage())));
     }
+  }
 
-    @Override
-    public void query(Query request, StreamObserver<Voucher> responseObserver) {
-        try {
-            String id = request.getId();
-            if (id == null) {
-                throw new StatusRuntimeException(Status.NOT_FOUND.withDescription("id为空"));
-            }
-            Pay pay = paymentService.selectById(id);
-            if (pay == null) {
-                throw new StatusRuntimeException(Status.NOT_FOUND.withDescription("对象未找到"));
-            }
-            responseObserver.onNext(BeanUtils.toProto(pay, Voucher.class));
-            responseObserver.onCompleted();
-        } catch (Exception e) {
-            responseObserver.onError(e);
-        }
+  @Override
+  public void query(Query request, StreamObserver<Voucher> responseObserver) {
+    try {
+      String id = request.getId();
+      if (id == null) {
+        throw new StatusRuntimeException(Status.NOT_FOUND.withDescription("id为空"));
+      }
+      Pay pay = paymentService.selectById(id);
+      if (pay == null) {
+        throw new StatusRuntimeException(Status.NOT_FOUND.withDescription("对象未找到"));
+      }
+      responseObserver.onNext(BeanUtils.toProto(pay, Voucher.class));
+      responseObserver.onCompleted();
+    } catch (Exception e) {
+      responseObserver.onError(e);
     }
+  }
 }

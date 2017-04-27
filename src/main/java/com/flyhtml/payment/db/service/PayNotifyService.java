@@ -11,5 +11,4 @@ import org.springframework.stereotype.Service;
  * @describe 支付通知表
  */
 @Service
-public class PayNotifyService extends BaseService<PayNotify, PayNotifyMapper> {
-}
+public class PayNotifyService extends BaseService<PayNotify, PayNotifyMapper> {}

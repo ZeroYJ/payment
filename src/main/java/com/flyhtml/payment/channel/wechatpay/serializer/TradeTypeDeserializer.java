@@ -10,14 +10,14 @@ import com.flyhtml.payment.channel.wechatpay.model.enums.TradeType;
 
 /**
  * 交易类型反序列化器
- * 
+ *
  * @since 1.0.0
  */
 public class TradeTypeDeserializer extends JsonDeserializer<TradeType> {
 
-    @Override
-    public TradeType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException,
-                                                                             JsonProcessingException {
-        return TradeType.from(jp.getValueAsString());
-    }
+  @Override
+  public TradeType deserialize(JsonParser jp, DeserializationContext ctxt)
+      throws IOException, JsonProcessingException {
+    return TradeType.from(jp.getValueAsString());
+  }
 }

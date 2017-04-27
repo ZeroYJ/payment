@@ -15,8 +15,9 @@ import com.google.gson.JsonSerializer;
  */
 public class DateSerializer implements JsonSerializer<Date> {
 
-    @Override
-    public JsonElement serialize(Date date, Type type, JsonSerializationContext jsonSerializationContext) {
-        return date == null ? null : new JsonPrimitive(date.getTime() / 1000);
-    }
+  @Override
+  public JsonElement serialize(
+      Date date, Type type, JsonSerializationContext jsonSerializationContext) {
+    return date == null ? null : new JsonPrimitive(date.getTime() / 1000);
+  }
 }

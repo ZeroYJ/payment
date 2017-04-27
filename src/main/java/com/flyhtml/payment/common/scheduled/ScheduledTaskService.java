@@ -21,26 +21,21 @@ import java.util.List;
 @Component
 public class ScheduledTaskService {
 
-    private final static Logger logger = LoggerFactory.getLogger(ScheduledTaskService.class);
+  private static final Logger logger = LoggerFactory.getLogger(ScheduledTaskService.class);
 
-    private final static long   min    = 1000 * 60;
+  private static final long min = 1000 * 60;
 
-    @Autowired
-    private PayService          paymentService;
-    @Autowired
-    private PayNotifyService    payNotifyService;
-    @Autowired
-    private PayHooksService     payHooksService;
-    @Autowired
-    private PayHooksTask        payHooksTask;
+  @Autowired private PayService paymentService;
+  @Autowired private PayNotifyService payNotifyService;
+  @Autowired private PayHooksService payHooksService;
+  @Autowired private PayHooksTask payHooksTask;
 
-    @Scheduled(fixedRate = 2 * min)
-    public void hooks() {
-        logger.info("Start hooks task service....");
-        List<PayHooks> payHooks = payHooksService.notSuccessHooks();
-        for (PayHooks payHook : payHooks) {
-            payHooksTask.run(payHook);
-        }
+  @Scheduled(fixedRate = 2 * min)
+  public void hooks() {
+    logger.info("Start hooks task service....");
+    List<PayHooks> payHooks = payHooksService.notSuccessHooks();
+    for (PayHooks payHook : payHooks) {
+      payHooksTask.run(payHook);
     }
-
+  }
 }

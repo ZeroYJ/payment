@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class PayHooksService extends BaseService<PayHooks, PayHooksMapper> {
 
-    public List<PayHooks> notSuccessHooks() {
-        return m.notSuccessHooks();
-    }
+  public List<PayHooks> notSuccessHooks() {
+    return m.notSuccessHooks();
+  }
 }

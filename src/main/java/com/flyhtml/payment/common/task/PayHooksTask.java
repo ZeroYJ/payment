@@ -24,30 +24,30 @@ import me.hao0.common.http.Http;
 @Component
 public class PayHooksTask {
 
-    private final static Logger logger = LoggerFactory.getLogger(PayHooksTask.class);
+  private static final Logger logger = LoggerFactory.getLogger(PayHooksTask.class);
 
-    @Autowired
-    private PayHooksService     hooksService;
+  @Autowired private PayHooksService hooksService;
 
-    @Async
-    public void run(PayHooks hooks) {
-        if (hooks.getResponseData() != null && hooks.getResponseData().equals("success")) {
-            return;
-        }
-        String requestUrl = hooks.getHooksUrl();
-        logger.info("*****************Requset Hooks*********************");
-        logger.info("request-url : {}", requestUrl);
-        logger.info("request-param : {}", hooks.getHooksParam());
-        Map<String, String> param = new Gson().fromJson(hooks.getHooksParam(), new TypeToken<Map<String, String>>() {
-        }.getType());
-        String response = Http.post(requestUrl).connTimeout(30).readTimeout(30).params(param).request();
-        logger.info("response-data : {}", response);
-        logger.info("update hooks...");
-        PayHooks update = new PayHooks();
-        update.setId(hooks.getId());
-        update.setHooksTime(new Date());
-        update.setHooksCount(hooks.getHooksCount() + 1);
-        update.setResponseData(response.equals("success") ? "success" : "error");
-        hooksService.update(update);
+  @Async
+  public void run(PayHooks hooks) {
+    if (hooks.getResponseData() != null && hooks.getResponseData().equals("success")) {
+      return;
     }
+    String requestUrl = hooks.getHooksUrl();
+    logger.info("*****************Requset Hooks*********************");
+    logger.info("request-url : {}", requestUrl);
+    logger.info("request-param : {}", hooks.getHooksParam());
+    Map<String, String> param =
+        new Gson()
+            .fromJson(hooks.getHooksParam(), new TypeToken<Map<String, String>>() {}.getType());
+    String response = Http.post(requestUrl).connTimeout(30).readTimeout(30).params(param).request();
+    logger.info("response-data : {}", response);
+    logger.info("update hooks...");
+    PayHooks update = new PayHooks();
+    update.setId(hooks.getId());
+    update.setHooksTime(new Date());
+    update.setHooksCount(hooks.getHooksCount() + 1);
+    update.setResponseData(response.equals("success") ? "success" : "error");
+    hooksService.update(update);
+  }
 }

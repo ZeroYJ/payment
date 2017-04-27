@@ -7,42 +7,34 @@ package com.flyhtml.payment.channel.wechatpay.model.enums;
  */
 public enum TradeType {
 
-                       /**
-                        * 公众号支付
-                        */
-                       JSAPI("JSAPI"),
+  /** 公众号支付 */
+  JSAPI("JSAPI"),
 
-                       /**
-                        * 原生扫码支付
-                        */
-                       NATIVE("NATIVE"),
+  /** 原生扫码支付 */
+  NATIVE("NATIVE"),
 
-                       /**
-                        * APP支付
-                        */
-                       APP("APP"),
+  /** APP支付 */
+  APP("APP"),
 
-                       /**
-                        * 刷卡支付
-                        */
-                       MICROPAY("MICROPAY");
+  /** 刷卡支付 */
+  MICROPAY("MICROPAY");
 
-    private String type;
+  private String type;
 
-    private TradeType(String type) {
-        this.type = type;
+  private TradeType(String type) {
+    this.type = type;
+  }
+
+  public String type() {
+    return type;
+  }
+
+  public static TradeType from(String s) {
+    for (TradeType tt : TradeType.values()) {
+      if (tt.type().equals(s)) {
+        return tt;
+      }
     }
-
-    public String type() {
-        return type;
-    }
-
-    public static TradeType from(String s) {
-        for (TradeType tt : TradeType.values()) {
-            if (tt.type().equals(s)) {
-                return tt;
-            }
-        }
-        throw new IllegalArgumentException("unknown trade type: " + s);
-    }
+    throw new IllegalArgumentException("unknown trade type: " + s);
+  }
 }

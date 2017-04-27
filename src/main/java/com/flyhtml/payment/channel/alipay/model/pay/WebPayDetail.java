@@ -7,68 +7,72 @@ package com.flyhtml.payment.channel.alipay.model.pay;
  */
 public class WebPayDetail extends PayDetail {
 
-    private static final long serialVersionUID = -1542442458795168095L;
+  private static final long serialVersionUID = -1542442458795168095L;
 
-    /**
-     * 客户端Ip
-     */
-    protected String          exterInvokeIp;
+  /** 客户端Ip */
+  protected String exterInvokeIp;
 
-    /**
-     * 防钓鱼时间戳
-     */
-    protected String          antiPhishingKey;
+  /** 防钓鱼时间戳 */
+  protected String antiPhishingKey;
 
-    /**
-     * 支付宝错误通知跳转
-     */
-    protected String          errorNotifyUrl;
+  /** 支付宝错误通知跳转 */
+  protected String errorNotifyUrl;
 
-    /**
-     * 公用回传参数
-     */
-    protected String          extraCommonParam;
+  /** 公用回传参数 */
+  protected String extraCommonParam;
 
-    public WebPayDetail(String outTradeNo, String orderName, String totalFee) {
-        super(outTradeNo, orderName, totalFee);
-    }
+  public WebPayDetail(String outTradeNo, String orderName, String totalFee) {
+    super(outTradeNo, orderName, totalFee);
+  }
 
-    public String getErrorNotifyUrl() {
-        return errorNotifyUrl;
-    }
+  public String getErrorNotifyUrl() {
+    return errorNotifyUrl;
+  }
 
-    public void setErrorNotifyUrl(String errorNotifyUrl) {
-        this.errorNotifyUrl = errorNotifyUrl;
-    }
+  public void setErrorNotifyUrl(String errorNotifyUrl) {
+    this.errorNotifyUrl = errorNotifyUrl;
+  }
 
-    public String getExterInvokeIp() {
-        return exterInvokeIp;
-    }
+  public String getExterInvokeIp() {
+    return exterInvokeIp;
+  }
 
-    public void setExterInvokeIp(String exterInvokeIp) {
-        this.exterInvokeIp = exterInvokeIp;
-    }
+  public void setExterInvokeIp(String exterInvokeIp) {
+    this.exterInvokeIp = exterInvokeIp;
+  }
 
-    public String getExtraCommonParam() {
-        return extraCommonParam;
-    }
+  public String getExtraCommonParam() {
+    return extraCommonParam;
+  }
 
-    public void setExtraCommonParam(String extraCommonParam) {
-        this.extraCommonParam = extraCommonParam;
-    }
+  public void setExtraCommonParam(String extraCommonParam) {
+    this.extraCommonParam = extraCommonParam;
+  }
 
-    public String getAntiPhishingKey() {
-        return antiPhishingKey;
-    }
+  public String getAntiPhishingKey() {
+    return antiPhishingKey;
+  }
 
-    public void setAntiPhishingKey(String antiPhishingKey) {
-        this.antiPhishingKey = antiPhishingKey;
-    }
+  public void setAntiPhishingKey(String antiPhishingKey) {
+    this.antiPhishingKey = antiPhishingKey;
+  }
 
-    @Override
-    public String toString() {
-        return "WebPayDetail{" + "exterInvokeIp='" + exterInvokeIp + '\'' + ", antiPhishingKey='" + antiPhishingKey
-               + '\'' + ", errorNotifyUrl='" + errorNotifyUrl + '\'' + ", extraCommonParam='" + extraCommonParam + '\''
-               + "} " + super.toString();
-    }
+  @Override
+  public String toString() {
+    return "WebPayDetail{"
+        + "exterInvokeIp='"
+        + exterInvokeIp
+        + '\''
+        + ", antiPhishingKey='"
+        + antiPhishingKey
+        + '\''
+        + ", errorNotifyUrl='"
+        + errorNotifyUrl
+        + '\''
+        + ", extraCommonParam='"
+        + extraCommonParam
+        + '\''
+        + "} "
+        + super.toString();
+  }
 }

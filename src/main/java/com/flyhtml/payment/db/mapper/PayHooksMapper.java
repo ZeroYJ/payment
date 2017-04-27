@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface PayHooksMapper extends BaseMapper<PayHooks> {
 
-    public List<PayHooks> notSuccessHooks();
+  public List<PayHooks> notSuccessHooks();
 }

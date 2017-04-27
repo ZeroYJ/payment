@@ -6,20 +6,19 @@ package com.flyhtml.payment.channel.alipay.model.enums;
  * @describe 签名方式
  */
 public enum SignType {
+  MD5("MD5"),
 
-                      MD5("MD5"),
+  DSA("DSA"),
 
-                      DSA("DSA"),
+  RSA("RSA");
 
-                      RSA("RSA");
+  private String value;
 
-    private String value;
+  private SignType(String value) {
+    this.value = value;
+  }
 
-    private SignType(String value) {
-        this.value = value;
-    }
-
-    public String value() {
-        return value;
-    }
+  public String value() {
+    return value;
+  }
 }

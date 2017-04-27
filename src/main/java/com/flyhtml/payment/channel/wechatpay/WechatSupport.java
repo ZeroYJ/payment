@@ -1,33 +1,19 @@
 package com.flyhtml.payment.channel.wechatpay;
 
-import javax.annotation.PostConstruct;
-
+import com.flyhtml.payment.channel.wechatpay.core.Wepay;
+import com.flyhtml.payment.channel.wechatpay.core.WepayBuilder;
 import com.flyhtml.payment.channel.wechatpay.model.notify.WechatNotify;
+import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayRequest;
+import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayResponse;
 import com.flyhtml.payment.channel.wechatpay.model.pay.PayRequest;
 import com.flyhtml.payment.channel.wechatpay.model.pay.QrPayRequest;
 import com.flyhtml.payment.common.enums.Validate;
-import com.flyhtml.payment.common.util.Maps;
-import com.flyhtml.payment.common.util.RandomStrs;
 import com.flyhtml.payment.db.model.Pay;
-import com.flyhtml.payment.grpc.PaymentClient;
-import io.grpc.payment.Voucher;
-import me.hao0.common.date.Dates;
-import me.hao0.common.http.Http;
-import me.hao0.common.security.MD5;
-import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.commons.lang3.time.DateUtils;
+import java.math.BigDecimal;
+import java.util.Map;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import com.flyhtml.payment.channel.wechatpay.core.Wepay;
-import com.flyhtml.payment.channel.wechatpay.core.WepayBuilder;
-import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayRequest;
-import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayResponse;
-
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author xiaowei
@@ -37,165 +23,176 @@ import java.util.Map;
 @Component
 public class WechatSupport {
 
-    @Value("${wechat.appId}")
-    private String appId;
+  @Value("${wechat.appId}")
+  private String appId;
 
-    @Value("${wechat.appKey}")
-    private String appKey;
+  @Value("${wechat.appKey}")
+  private String appKey;
 
-    @Value("${wechat.mchId}")
-    private String mchId;
+  @Value("${wechat.mchId}")
+  private String mchId;
 
-    @Value("${wechat.notifyUrl}")
-    private String notifyUrl;
+  @Value("${wechat.notifyUrl}")
+  private String notifyUrl;
 
-    private Wepay  wepay;
+  private Wepay wepay;
 
-    @PostConstruct
-    private void init() {
-        wepay = WepayBuilder.newBuilder(appId, appKey, mchId).build();
+  @PostConstruct
+  private void init() {
+    wepay = WepayBuilder.newBuilder(appId, appKey, mchId).build();
+  }
+
+  /**
+   * * 微信公众号支付
+   *
+   * @param openId OpenId
+   * @param orderId 订单编号
+   * @param totalFee 订单金额（分）
+   * @param body 商品描述（商家名称-销售商品类目）
+   * @param attach 附加数据
+   * @param clientIp 终端IP
+   * @return
+   */
+  public JsPayResponse jsPay(
+      String openId,
+      String orderId,
+      Integer totalFee,
+      String body,
+      String subject,
+      String attach,
+      String clientIp,
+      String payId) {
+    JsPayRequest jsPay = new JsPayRequest();
+    jsPay.setOpenId(openId);
+    buildPayRequest(jsPay, orderId, totalFee, body, subject, attach, clientIp, payId);
+    return wepay.pay().jsPay(jsPay);
+  }
+
+  /**
+   * * 微信二维码支付
+   *
+   * @param productId 商品ID
+   * @param orderId 订单ID
+   * @param totalFee 总金额
+   * @param body 商品描述
+   * @param attach 附加参数
+   * @param clientIp ip
+   * @param payId 对应平台支付ID
+   * @return
+   */
+  public String qrPay(
+      String productId,
+      String orderId,
+      Integer totalFee,
+      String body,
+      String subject,
+      String attach,
+      String clientIp,
+      String payId) {
+    QrPayRequest qrPay = new QrPayRequest();
+    qrPay.setProductId(productId);
+    buildPayRequest(qrPay, orderId, totalFee, body, subject, attach, clientIp, payId);
+    return wepay.pay().qrPay(qrPay, false);
+  }
+
+  /**
+   * * 设置一些支付公共参数
+   *
+   * @param request 支付对象
+   * @param orderId 订单ID
+   * @param totalFee 总金额
+   * @param body 商品标题
+   * @param subject 商品详情
+   * @param attach 附加参数
+   * @param clientIp ip
+   * @param payId 对应平台支付ID
+   */
+  private void buildPayRequest(
+      PayRequest request,
+      String orderId,
+      Integer totalFee,
+      String body,
+      String subject,
+      String attach,
+      String clientIp,
+      String payId) {
+    request.setOutTradeNo(orderId);
+    request.setTotalFee(totalFee);
+    request.setBody(body);
+    request.setDetail(subject);
+    request.setAttach(attach);
+    request.setClientId(clientIp);
+    request.setNotifyUrl(notifyUrl + "/" + payId);
+  }
+
+  /**
+   * * 微信签名效验
+   *
+   * @param paramMap
+   * @return
+   */
+  public Boolean verifySign(Map<String, Object> paramMap) {
+    return wepay.notifies().verifySign(paramMap);
+  }
+
+  /**
+   * * 验证订单准确性
+   *
+   * @param notify 微信通知对象
+   * @param pay 支付对象
+   * @return
+   */
+  public Validate verifyNotify(WechatNotify notify, Pay pay) {
+    try {
+      // 订单号
+      if (!pay.getOrderNo().equals(notify.getOutTradeNo())) {
+        return Validate.INVALID_OUT_TRADE_NO;
+      }
+      // 金额
+      if (pay.getAmount()
+              .compareTo(new BigDecimal(notify.getTotalFee()).divide(new BigDecimal(100)))
+          != 0) {
+        return Validate.INACCURATE_AMOUNT;
+      }
+      // seller_id
+      if (!notify.getMchId().equals(mchId)) {
+        return Validate.INACCURATE_SELLER_ID;
+      }
+      // APPID
+      if (!notify.getAppid().equals(appId)) {
+        return Validate.INACCURATE_APPID;
+      }
+      // 判断是否付款成功
+      if (!notify.getResultCode().equals("SUCCESS")) {
+        return Validate.INACCURATE_TRADE_STATUS;
+      }
+      // 通知重复发送
+      if (pay.getIsPay()) {
+        return Validate.NOTIFY_REPEAT;
+      }
+      return Validate.SUCCESS;
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+    return null;
+  }
 
-    /***
-     * 微信公众号支付
-     * 
-     * @param openId OpenId
-     * @param orderId 订单编号
-     * @param totalFee 订单金额（分）
-     * @param body 商品描述（商家名称-销售商品类目）
-     * @param attach 附加数据
-     * @param clientIp 终端IP
-     * @return
-     */
-    public JsPayResponse jsPay(String openId, String orderId, Integer totalFee, String body, String attach,
-                               String clientIp, String payId) {
-        JsPayRequest jsPay = new JsPayRequest();
-        jsPay.setOpenId(openId);
-        buildPayRequest(jsPay, orderId, totalFee, body, attach, clientIp, payId);
-        return wepay.pay().jsPay(jsPay);
-    }
+  /**
+   * * 返回微信失败信息
+   *
+   * @param validate 效验枚举
+   * @return
+   */
+  public String notOk(Validate validate) {
+    return wepay.notifies().notOk(validate.getName());
+  }
 
-    /***
-     * 微信二维码支付
-     * 
-     * @param productId 商品ID
-     * @param orderId 订单ID
-     * @param totalFee 总金额
-     * @param body 商品描述
-     * @param attach 附加参数
-     * @param clientIp ip
-     * @param payId 对应平台支付ID
-     * @return
-     */
-    public String qrPay(String productId, String orderId, Integer totalFee, String body, String attach, String clientIp,
-                        String payId) {
-        QrPayRequest qrPay = new QrPayRequest();
-        qrPay.setProductId(productId);
-        buildPayRequest(qrPay, orderId, totalFee, body, attach, clientIp, payId);
-        return wepay.pay().qrPay(qrPay, false);
-    }
-
-    /***
-     * 设置一些支付公共参数
-     * 
-     * @param request 支付对象
-     * @param orderId 订单ID
-     * @param totalFee 总金额
-     * @param body 商品描述
-     * @param attach 附加参数
-     * @param clientIp ip
-     * @param payId 对应平台支付ID
-     */
-    private void buildPayRequest(PayRequest request, String orderId, Integer totalFee, String body, String attach,
-                                 String clientIp, String payId) {
-        request.setOutTradeNo(orderId);
-        request.setTotalFee(totalFee);
-        request.setBody(body);
-        request.setAttach(attach);
-        request.setClientId(clientIp);
-        request.setNotifyUrl(notifyUrl + "/" + payId);
-    }
-
-    public static void main(String[] args) {
-        PaymentClient client = new PaymentClient("fuliaoyi.com", 9090);
-        try {
-            Voucher voucher = client.create();
-            System.out.println(voucher);
-        } finally {
-            try {
-                client.shutdown();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /***
-     * 微信签名效验
-     *
-     * @param paramMap
-     * @return
-     */
-    public Boolean verifySign(Map<String, Object> paramMap) {
-        return wepay.notifies().verifySign(paramMap);
-    }
-
-    /***
-     * 验证订单准确性
-     *
-     * @param notify 微信通知对象
-     * @param pay 支付对象
-     * @return
-     */
-    public Validate verifyNotify(WechatNotify notify, Pay pay) {
-        try {
-            // 订单号
-            if (!pay.getOrderNo().equals(notify.getOutTradeNo())) {
-                return Validate.invalid_out_trade_no;
-            }
-            // 金额
-            if (pay.getAmount().compareTo(new BigDecimal(notify.getTotalFee()).divide(new BigDecimal(100))) != 0) {
-                return Validate.inaccurate_amount;
-            }
-            // seller_id
-            if (!notify.getMchId().equals(mchId)) {
-                return Validate.inaccurate_seller_id;
-            }
-            // APPID
-            if (!notify.getAppid().equals(appId)) {
-                return Validate.inaccurate_appid;
-            }
-            // 判断是否付款成功
-            if (!notify.getResultCode().equals("SUCCESS")) {
-                return Validate.inaccurate_trade_status;
-            }
-            // 通知重复发送
-            if (pay.getIsPay()) {
-                return Validate.notify_repeat;
-            }
-            return Validate.success;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /***
-     * 返回微信失败信息
-     *
-     * @param validate 效验枚举
-     * @return
-     */
-    public String notOk(Validate validate) {
-        return wepay.notifies().notOk(validate.getName());
-    }
-
-    /***
-     * 返回微信成功信息
-     *
-     * @return
-     */
-    public String ok() {
-        return wepay.notifies().ok();
-    }
+  /**
+   * * 返回微信成功信息
+   *
+   * @return
+   */
+  public String ok() {
+    return wepay.notifies().ok();
+  }
 }

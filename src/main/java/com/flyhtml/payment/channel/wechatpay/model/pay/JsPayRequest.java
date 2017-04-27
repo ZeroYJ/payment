@@ -7,21 +7,19 @@ package com.flyhtml.payment.channel.wechatpay.model.pay;
  */
 public class JsPayRequest extends PayRequest {
 
-    /**
-     * 用户标识
-     */
-    private String openId;
+  /** 用户标识 */
+  private String openId;
 
-    public String getOpenId() {
-        return openId;
-    }
+  public String getOpenId() {
+    return openId;
+  }
 
-    public void setOpenId(String openId) {
-        this.openId = openId;
-    }
+  public void setOpenId(String openId) {
+    this.openId = openId;
+  }
 
-    @Override
-    public String toString() {
-        return "JsPayRequest{" + "openId='" + openId + '\'' + "} " + super.toString();
-    }
+  @Override
+  public String toString() {
+    return "JsPayRequest{" + "openId='" + openId + '\'' + "} " + super.toString();
+  }
 }

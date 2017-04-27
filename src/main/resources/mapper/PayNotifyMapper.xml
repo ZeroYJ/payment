@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.flyhtml.payment.db.mapper.PayNotifyMapper">
-    <resultMap id="BaseResultMap" type="com.flyhtml.payment.db.model.PayNotify">
-        <!--
-          WARNING - @mbg.generated
-        -->
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
-        <result column="notify_url" jdbcType="VARCHAR" property="notifyUrl"/>
-        <result column="response_data" jdbcType="VARCHAR" property="responseData"/>
-        <result column="notify_param" jdbcType="LONGVARCHAR" property="notifyParam"/>
-    </resultMap>
+  <resultMap id="BaseResultMap" type="com.flyhtml.payment.db.model.PayNotify">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+    <result column="notify_url" jdbcType="VARCHAR" property="notifyUrl"/>
+    <result column="response_data" jdbcType="VARCHAR" property="responseData"/>
+    <result column="notify_param" jdbcType="LONGVARCHAR" property="notifyParam"/>
+  </resultMap>
 </mapper>

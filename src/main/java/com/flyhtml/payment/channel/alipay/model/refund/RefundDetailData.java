@@ -9,59 +9,62 @@ import java.io.Serializable;
  */
 public class RefundDetailData implements Serializable {
 
-    private static final long serialVersionUID = -9178222896185599335L;
+  private static final long serialVersionUID = -9178222896185599335L;
 
-    /**
-     * 支付宝交易号
-     */
-    private String            tradeNo;
+  /** 支付宝交易号 */
+  private String tradeNo;
 
-    /**
-     * 退款金额(元)
-     */
-    private String            fee;
+  /** 退款金额(元) */
+  private String fee;
 
-    /**
-     * 退款原因
-     */
-    private String            reason;
+  /** 退款原因 */
+  private String reason;
 
-    public String getTradeNo() {
-        return tradeNo;
-    }
+  public String getTradeNo() {
+    return tradeNo;
+  }
 
-    public void setTradeNo(String tradeNo) {
-        this.tradeNo = tradeNo;
-    }
+  public void setTradeNo(String tradeNo) {
+    this.tradeNo = tradeNo;
+  }
 
-    public String getFee() {
-        return fee;
-    }
+  public String getFee() {
+    return fee;
+  }
 
-    public void setFee(String fee) {
-        this.fee = fee;
-    }
+  public void setFee(String fee) {
+    this.fee = fee;
+  }
 
-    public String getReason() {
-        return reason;
-    }
+  public String getReason() {
+    return reason;
+  }
 
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
+  public void setReason(String reason) {
+    this.reason = reason;
+  }
 
-    /**
-     * 格式化为支付宝需要的格式
-     * 
-     * @return tradeNo^fee^reason
-     */
-    public String format() {
-        return tradeNo + "^" + fee + "^" + reason;
-    }
+  /**
+   * 格式化为支付宝需要的格式
+   *
+   * @return tradeNo^fee^reason
+   */
+  public String format() {
+    return tradeNo + "^" + fee + "^" + reason;
+  }
 
-    @Override
-    public String toString() {
-        return "RefundDetailData{" + "tradeNo='" + tradeNo + '\'' + ", fee='" + fee + '\'' + ", reason='" + reason
-               + '\'' + '}';
-    }
+  @Override
+  public String toString() {
+    return "RefundDetailData{"
+        + "tradeNo='"
+        + tradeNo
+        + '\''
+        + ", fee='"
+        + fee
+        + '\''
+        + ", reason='"
+        + reason
+        + '\''
+        + '}';
+  }
 }

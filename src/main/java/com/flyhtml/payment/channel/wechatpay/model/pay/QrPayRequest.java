@@ -9,22 +9,20 @@ import com.flyhtml.payment.channel.wechatpay.annotation.Optional;
  */
 public class QrPayRequest extends PayRequest {
 
-    /**
-     * 商品ID
-     */
-    @Optional(any = false)
-    private String productId;
+  /** 商品ID */
+  @Optional(any = false)
+  private String productId;
 
-    public String getProductId() {
-        return productId;
-    }
+  public String getProductId() {
+    return productId;
+  }
 
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
+  public void setProductId(String productId) {
+    this.productId = productId;
+  }
 
-    @Override
-    public String toString() {
-        return "QrPayRequest{" + "productId='" + productId + '\'' + "} " + super.toString();
-    }
+  @Override
+  public String toString() {
+    return "QrPayRequest{" + "productId='" + productId + '\'' + "} " + super.toString();
+  }
 }

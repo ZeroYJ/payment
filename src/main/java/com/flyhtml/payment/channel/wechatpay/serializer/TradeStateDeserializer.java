@@ -15,9 +15,9 @@ import com.flyhtml.payment.channel.wechatpay.model.enums.TradeState;
  */
 public class TradeStateDeserializer extends JsonDeserializer<TradeState> {
 
-    @Override
-    public TradeState deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException,
-                                                                              JsonProcessingException {
-        return TradeState.from(jp.getValueAsString());
-    }
+  @Override
+  public TradeState deserialize(JsonParser jp, DeserializationContext ctxt)
+      throws IOException, JsonProcessingException {
+    return TradeState.from(jp.getValueAsString());
+  }
 }

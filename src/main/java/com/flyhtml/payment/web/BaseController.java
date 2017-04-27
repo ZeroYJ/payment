@@ -38,51 +38,48 @@ import me.hao0.common.security.MD5;
  */
 public class BaseController {
 
-    // 在Java类中创建 logger 实例
-    protected final static Logger logger = LoggerFactory.getLogger(BaseController.class);
-    // request,response 不可随意使用
-    protected HttpServletRequest  request;
-    protected HttpServletResponse response;
-    protected HttpSession         session;
+  // 在Java类中创建 logger 实例
+  protected static final Logger logger = LoggerFactory.getLogger(BaseController.class);
+  // request,response 不可随意使用
+  protected HttpServletRequest request;
+  protected HttpServletResponse response;
+  protected HttpSession session;
 
-    @Autowired
-    protected PayService          payService;
-    @Autowired
-    protected PayNotifyService    payNotifyService;
-    @Autowired
-    protected PayHooksService     payHooksService;
-    @Autowired
-    protected AlipaySupport       alipay;
-    @Autowired
-    protected WechatSupport       wechatPay;
-    @Autowired
-    protected PayHooksTask        hooksTask;
-    @Value("${payment.key}")
-    private String                paymentKey;
+  @Autowired protected PayService payService;
+  @Autowired protected PayNotifyService payNotifyService;
+  @Autowired protected PayHooksService payHooksService;
+  @Autowired protected AlipaySupport alipay;
+  @Autowired protected WechatSupport wechatPay;
+  @Autowired protected PayHooksTask hooksTask;
 
-    protected Gson                gson   = new GsonBuilder().registerTypeAdapter(BigDecimal.class,
-                                                                                 new BigDecimalSerializer()).registerTypeAdapter(Date.class,
-                                                                                                                                 new DateSerializer()).create();
+  @Value("${payment.key}")
+  private String paymentKey;
 
-    @ModelAttribute
-    public void setReqAndResp(HttpServletRequest request, HttpServletResponse response) {
-        this.request = request;
-        this.response = response;
-        this.session = request.getSession();
-    }
+  protected Gson gson =
+      new GsonBuilder()
+          .registerTypeAdapter(BigDecimal.class, new BigDecimalSerializer())
+          .registerTypeAdapter(Date.class, new DateSerializer())
+          .create();
 
-    /***
-     * 生成回调参数,加上了sign
-     * 
-     * @param pay
-     * @return
-     */
-    protected String bulidHooksParam(Pay pay) {
-        String payJson = gson.toJson(pay);
-        Map<String, String> payMap = gson.fromJson(payJson, new TypeToken<Map<String, String>>() {
-        }.getType());
-        String md5 = MD5.generate(Maps.toString(payMap) + "&key=" + paymentKey, false);
-        payMap.put("sign", md5);
-        return gson.toJson(payMap);
-    }
+  @ModelAttribute
+  public void setReqAndResp(HttpServletRequest request, HttpServletResponse response) {
+    this.request = request;
+    this.response = response;
+    this.session = request.getSession();
+  }
+
+  /**
+   * * 生成回调参数,加上了sign
+   *
+   * @param pay
+   * @return
+   */
+  protected String bulidHooksParam(Pay pay) {
+    String payJson = gson.toJson(pay);
+    Map<String, String> payMap =
+        gson.fromJson(payJson, new TypeToken<Map<String, String>>() {}.getType());
+    String md5 = MD5.generate(Maps.toString(payMap) + "&key=" + paymentKey, false);
+    payMap.put("sign", md5);
+    return gson.toJson(payMap);
+  }
 }

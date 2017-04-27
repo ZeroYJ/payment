@@ -15,8 +15,11 @@ import java.math.BigDecimal;
  */
 public class BigDecimalSerializer implements JsonSerializer<BigDecimal> {
 
-    @Override
-    public JsonElement serialize(BigDecimal bigDecimal, Type type, JsonSerializationContext jsonSerializationContext) {
-        return bigDecimal == null ? null : new JsonPrimitive(bigDecimal.multiply(new BigDecimal(100)).intValue());
-    }
+  @Override
+  public JsonElement serialize(
+      BigDecimal bigDecimal, Type type, JsonSerializationContext jsonSerializationContext) {
+    return bigDecimal == null
+        ? null
+        : new JsonPrimitive(bigDecimal.multiply(new BigDecimal(100)).intValue());
+  }
 }

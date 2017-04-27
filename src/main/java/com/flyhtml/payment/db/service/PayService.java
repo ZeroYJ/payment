@@ -12,5 +12,4 @@ import com.flyhtml.payment.db.model.Pay;
  * @describe 支付服务类
  */
 @Service
-public class PayService extends BaseService<Pay, PayMapper> {
-}
+public class PayService extends BaseService<Pay, PayMapper> {}

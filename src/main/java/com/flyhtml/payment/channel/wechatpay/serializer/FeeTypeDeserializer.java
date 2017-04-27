@@ -15,8 +15,9 @@ import com.flyhtml.payment.channel.wechatpay.model.enums.FeeType;
  */
 public class FeeTypeDeserializer extends JsonDeserializer<FeeType> {
 
-    @Override
-    public FeeType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        return FeeType.from(jp.getValueAsString());
-    }
+  @Override
+  public FeeType deserialize(JsonParser jp, DeserializationContext ctxt)
+      throws IOException, JsonProcessingException {
+    return FeeType.from(jp.getValueAsString());
+  }
 }

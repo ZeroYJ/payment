@@ -16,14 +16,14 @@ import com.alibaba.druid.pool.DruidDataSource;
 @Configuration
 public class DruidAutoConfiguration {
 
-    @ConfigurationProperties(prefix = "druid")
-    @Bean(name = "datasource", initMethod = "init", destroyMethod = "close")
-    public DruidDataSource dataSource() {
-        return new DruidDataSource();
-    }
+  @ConfigurationProperties(prefix = "druid")
+  @Bean(name = "datasource", initMethod = "init", destroyMethod = "close")
+  public DruidDataSource dataSource() {
+    return new DruidDataSource();
+  }
 
-    @Bean
-    public PlatformTransactionManager transactionManager() {
-        return new DataSourceTransactionManager(dataSource());
-    }
+  @Bean
+  public PlatformTransactionManager transactionManager() {
+    return new DataSourceTransactionManager(dataSource());
+  }
 }

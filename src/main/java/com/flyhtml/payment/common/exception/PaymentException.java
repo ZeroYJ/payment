@@ -10,7 +10,7 @@ import io.grpc.StatusRuntimeException;
  */
 public class PaymentException extends StatusRuntimeException {
 
-    public PaymentException(Status status) {
-        super(status);
-    }
+  public PaymentException(Status status) {
+    super(status);
+  }
 }

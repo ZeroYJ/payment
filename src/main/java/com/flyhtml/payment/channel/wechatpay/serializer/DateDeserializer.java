@@ -16,8 +16,8 @@ import me.hao0.common.date.Dates;
  */
 public class DateDeserializer extends JsonDeserializer<Date> {
 
-    @Override
-    public Date deserialize(JsonParser parser, DeserializationContext context) throws IOException {
-        return Dates.toDate(parser.getValueAsString(), "yyyyMMddHHmmss");
-    }
+  @Override
+  public Date deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+    return Dates.toDate(parser.getValueAsString(), "yyyyMMddHHmmss");
+  }
 }

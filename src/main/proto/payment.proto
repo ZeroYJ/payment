@@ -7,44 +7,44 @@ option java_outer_classname = "PaymentProto";
 package payment;
 
 service PaymentService {
-    // create order
-    rpc create (Make) returns (Voucher) {
-    }
-    // query order
-    rpc query (Query) returns (Voucher) {
-    }
+  // create order
+  rpc create (Make) returns (Voucher) {
+  }
+  // query order
+  rpc query (Query) returns (Voucher) {
+  }
 }
 
 message Query {
-    string id = 1;
+  string id = 1;
 }
 
 message Make {
-    string orderNo = 1;
-    string channel = 2;
-    string subject = 3;
-    string body = 4;
-    int32 amount = 5;
-    string ip = 6;
-    map<string, string> extra = 7;
-    string custom = 8;
+  string orderNo = 1;
+  string channel = 2;
+  string subject = 3;
+  string body = 4;
+  int32 amount = 5;
+  string ip = 6;
+  map<string, string> extra = 7;
+  string custom = 8;
 }
 
 message Voucher {
-    string id = 1;
-    int64 gmtCreate = 2;
-    bool isPay = 3;
-    bool hasRefund = 4;
-    string channel = 5;
-    string orderNo = 6;
-    string ip = 7;
-    int32 amount = 8;
-    string currency = 9;
-    string subject = 10;
-    string body = 11;
-    int64 payTime = 12;
-    int64 expireTime = 13;
-    string custom = 14;
-    map<string, string> credential = 15;
-    map<string, string> extra = 16;
+  string id = 1;
+  int64 gmtCreate = 2;
+  bool isPay = 3;
+  bool hasRefund = 4;
+  string channel = 5;
+  string orderNo = 6;
+  string ip = 7;
+  int32 amount = 8;
+  string currency = 9;
+  string subject = 10;
+  string body = 11;
+  int64 payTime = 12;
+  int64 expireTime = 13;
+  string custom = 14;
+  map<string, string> credential = 15;
+  map<string, string> extra = 16;
 }

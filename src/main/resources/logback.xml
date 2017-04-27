@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %c{2} - %m%n</pattern>
-        </encoder>
-    </appender>
-    <logger name="org.springframework" level="ERROR"/>
-    <logger name="druid.sql" level="ERROR"/>
-    <logger name="druid.sql.DataSource" level="ERROR"/>
-    <logger name="druid.sql.Connection" level="ERROR"/>
-    <logger name="druid.sql.Statement" level="ERROR"/>
-    <logger name="druid.sql.ResultSet" level="ERROR"/>
-    <root level="DEBUG">
-        <appender-ref ref="console"/>
-    </root>
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %c{2} - %m%n</pattern>
+    </encoder>
+  </appender>
+  <logger name="org.springframework" level="ERROR"/>
+  <logger name="druid.sql" level="ERROR"/>
+  <logger name="druid.sql.DataSource" level="ERROR"/>
+  <logger name="druid.sql.Connection" level="ERROR"/>
+  <logger name="druid.sql.Statement" level="ERROR"/>
+  <logger name="druid.sql.ResultSet" level="ERROR"/>
+  <root level="DEBUG">
+    <appender-ref ref="console"/>
+  </root>
 </configuration>
