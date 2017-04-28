@@ -155,6 +155,14 @@ public class AlipaySupport {
    */
   public Validate verifyNotify(AlipayNotify notify, Pay pay) {
     try {
+      // 是否为空
+      if (pay == null) {
+        return Validate.INVALID_OUT_TRADE_NO;
+      }
+      // 是否已经支付
+      if (pay.getIsPay()) {
+        return Validate.REPEAT;
+      }
       // 订单号
       if (!pay.getOrderNo().equals(notify.getOutTradeNo())) {
         return Validate.INVALID_OUT_TRADE_NO;
@@ -170,10 +178,6 @@ public class AlipaySupport {
       // 判断是否付款成功
       if (!notify.getTradeStatus().equals("TRADE_SUCCESS")) {
         return Validate.INACCURATE_TRADE_STATUS;
-      }
-      // 通知重复发送
-      if (pay.getIsPay()) {
-        return Validate.NOTIFY_REPEAT;
       }
       return Validate.SUCCESS;
     } catch (Exception e) {

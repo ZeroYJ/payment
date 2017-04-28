@@ -14,8 +14,7 @@ public enum Validate {
   INACCURATE_APPID("inaccurate appid", "APPID不准确"),
   INACCURATE_TRADE_STATUS("inaccurate trade_status", "交易状态不准确"),
   INACCURATE_SELLER_ID("inaccurate seller_id", "seller_id不准确"),
-  NOTIFY_REPEAT("notify repeat", "通知重复");
-
+  REPEAT("repeat", "重复发送");
   private String name;
   private String desc;
 

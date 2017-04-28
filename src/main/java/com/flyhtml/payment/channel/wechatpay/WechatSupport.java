@@ -136,7 +136,7 @@ public class WechatSupport {
   }
 
   /**
-   * * 验证订单准确性
+   * * 验证订单准确性，返回结果
    *
    * @param notify 微信通知对象
    * @param pay 支付对象
@@ -144,6 +144,14 @@ public class WechatSupport {
    */
   public Validate verifyNotify(WechatNotify notify, Pay pay) {
     try {
+      // 是否为空
+      if (pay == null) {
+        return Validate.INVALID_OUT_TRADE_NO;
+      }
+      // 是否已经支付
+      if (pay.getIsPay()) {
+        return Validate.REPEAT;
+      }
       // 订单号
       if (!pay.getOrderNo().equals(notify.getOutTradeNo())) {
         return Validate.INVALID_OUT_TRADE_NO;
@@ -165,10 +173,6 @@ public class WechatSupport {
       // 判断是否付款成功
       if (!notify.getResultCode().equals("SUCCESS")) {
         return Validate.INACCURATE_TRADE_STATUS;
-      }
-      // 通知重复发送
-      if (pay.getIsPay()) {
-        return Validate.NOTIFY_REPEAT;
       }
       return Validate.SUCCESS;
     } catch (Exception e) {
