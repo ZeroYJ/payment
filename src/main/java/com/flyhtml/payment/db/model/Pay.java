@@ -15,72 +15,109 @@ import javax.persistence.*;
  */
 public class Pay extends BaseModel {
 
-  /** 主键 */
-  @Id private String id;
+  /**
+   * 主键
+   */
+  @Id
+  private String id;
 
-  /** 创建时间 */
+  /**
+   * 创建时间
+   */
   @ProtoType(type = long.class)
   @Column(name = "gmt_create")
   private Date gmtCreate;
 
-  /** 修改时间 */
+  /**
+   * 修改时间
+   */
   @ProtoType(type = long.class)
   @Column(name = "gmt_modified")
   private Date gmtModified;
 
-  /** 是否已付款 */
+  /**
+   * 是否已付款
+   */
   @Column(name = "is_pay")
   private Boolean isPay;
 
-  /** 是否存在退款信息 */
+  /**
+   * 是否存在退款信息
+   */
   @Column(name = "has_refund")
   private Boolean hasRefund;
 
-  /** 支付渠道 */
+  /**
+   * 支付渠道
+   */
   private String channel;
 
-  /** 订单ID */
+  /**
+   * 订单ID
+   */
   @Column(name = "order_no")
   private String orderNo;
 
-  /** 客户端IP */
+  /**
+   * 客户端IP
+   */
   private String ip;
 
-  /** 订单金额 */
+  /**
+   * 订单金额
+   */
   @ProtoType(type = int.class)
   private BigDecimal amount;
 
-  /** 货币代码,目前仅支持cny */
+  /**
+   * 货币代码,目前仅支持cny
+   */
   private String currency;
 
-  /** 商品标题 */
+  /**
+   * 商品标题
+   */
   private String subject;
 
-  /** 商品描述信息 */
+  /**
+   * 商品描述信息
+   */
   private String body;
 
-  /** 支付渠道交易号 */
+  /**
+   * 支付渠道交易号
+   */
   @Column(name = "channel_no")
   private String channelNo;
 
-  /** 支付时间 */
+  /**
+   * 支付时间
+   */
   @ProtoType(type = long.class)
   @Column(name = "pay_time")
   private Date payTime;
 
-  /** 失效时间 */
+  /**
+   * 失效时间
+   */
   @ProtoType(type = long.class)
   @Column(name = "expire_time")
   private Date expireTime;
 
-  /** 自定义数据 */
+  /**
+   * 自定义数据
+   */
   private String custom;
 
-  /** 支付凭证,JSON格式 */
+  /**
+   * 支付凭证,JSON格式
+   */
   @ProtoType(type = Map.class)
   private String credential;
 
-  /** 额外参数,JSON格式 */
+  /**
+   * 额外参数,JSON格式
+   */
   @ProtoType(type = Map.class)
   private String extra;
 
@@ -433,7 +470,8 @@ public class Pay extends BaseModel {
     this.extra = extra;
   }
 
-  public Pay() {}
+  public Pay() {
+  }
 
   public Pay(String id, Boolean isPay, String channelNo, Date payTime) {
     this.id = id;

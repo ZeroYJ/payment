@@ -45,12 +45,18 @@ public class BaseController {
   protected HttpServletResponse response;
   protected HttpSession session;
 
-  @Autowired protected PayService payService;
-  @Autowired protected PayNotifyService payNotifyService;
-  @Autowired protected PayHooksService payHooksService;
-  @Autowired protected AlipaySupport alipay;
-  @Autowired protected WechatSupport wechatPay;
-  @Autowired protected PayHooksTask hooksTask;
+  @Autowired
+  protected PayService payService;
+  @Autowired
+  protected PayNotifyService payNotifyService;
+  @Autowired
+  protected PayHooksService payHooksService;
+  @Autowired
+  protected AlipaySupport alipay;
+  @Autowired
+  protected WechatSupport wechatPay;
+  @Autowired
+  protected PayHooksTask hooksTask;
 
   @Value("${payment.key}")
   private String paymentKey;
@@ -70,14 +76,12 @@ public class BaseController {
 
   /**
    * * 生成回调参数,加上了sign
-   *
-   * @param pay
-   * @return
    */
   protected String bulidHooksParam(Pay pay) {
     String payJson = gson.toJson(pay);
     Map<String, String> payMap =
-        gson.fromJson(payJson, new TypeToken<Map<String, String>>() {}.getType());
+        gson.fromJson(payJson, new TypeToken<Map<String, String>>() {
+        }.getType());
     String md5 = MD5.generate(Maps.toString(payMap) + "&key=" + paymentKey, false);
     payMap.put("sign", md5);
     return gson.toJson(payMap);

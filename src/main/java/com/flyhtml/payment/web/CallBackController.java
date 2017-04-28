@@ -116,7 +116,8 @@ public class CallBackController extends BaseController {
       // 异步回调通知对象
       String extra = pay.getExtra();
       Map<String, String> extraMap =
-          gson.fromJson(extra, new TypeToken<Map<String, String>>() {}.getType());
+          gson.fromJson(extra, new TypeToken<Map<String, String>>() {
+          }.getType());
       PayHooks hooks = new PayHooks();
       hooks.setId(pay.getId());
       hooks.setHooksUrl(extraMap.get("notifyUrl"));
@@ -131,9 +132,6 @@ public class CallBackController extends BaseController {
 
   /**
    * * 获取request xml内容
-   *
-   * @param request
-   * @return
    */
   public static String getPostRequestBody(HttpServletRequest request) {
     if (request.getMethod().equals("POST")) {

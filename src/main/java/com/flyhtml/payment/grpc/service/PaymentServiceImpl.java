@@ -36,9 +36,12 @@ import io.grpc.stub.StreamObserver;
 @GRpcService
 public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBase {
 
-  @Autowired private PayService paymentService;
-  @Autowired private WechatSupport wechatPay;
-  @Autowired private AlipaySupport alipay;
+  @Autowired
+  private PayService paymentService;
+  @Autowired
+  private WechatSupport wechatPay;
+  @Autowired
+  private AlipaySupport alipay;
 
   @Override
   public void create(Make request, StreamObserver<Voucher> responseObserver) {
@@ -79,94 +82,90 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
       payment.setExpireTime(DateUtils.addHours(new Date(), 48));
       payment.setExtra(new Gson().toJson(request.getExtraMap()));
       switch (payType) {
-        case wx_pub:
-          {
-            String openId = request.getExtraOrDefault("openId", null);
-            String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
-            if (StringUtils.isAnyBlank(openId, notifyUrl)) {
-              throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
-            }
-            JsPayResponse payResponse =
-                wechatPay.jsPay(
-                    openId,
-                    request.getOrderNo(),
-                    request.getAmount(),
-                    request.getBody(),
-                    request.getSubject(),
-                    request.getCustom(),
-                    request.getIp(),
-                    payment.getId());
+        case wx_pub: {
+          String openId = request.getExtraOrDefault("openId", null);
+          String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
+          if (StringUtils.isAnyBlank(openId, notifyUrl)) {
+            throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
+          }
+          JsPayResponse payResponse =
+              wechatPay.jsPay(
+                  openId,
+                  request.getOrderNo(),
+                  request.getAmount(),
+                  request.getBody(),
+                  request.getSubject(),
+                  request.getCustom(),
+                  request.getIp(),
+                  payment.getId());
 
-            Map<String, String> credential = new HashMap<>();
-            credential.put("credential", new Gson().toJson(payResponse));
-            payment.setCredential(new Gson().toJson(credential));
-            break;
+          Map<String, String> credential = new HashMap<>();
+          credential.put("credential", new Gson().toJson(payResponse));
+          payment.setCredential(new Gson().toJson(credential));
+          break;
+        }
+        case alipay_wap: {
+          String returnUrl = request.getExtraOrDefault("returnUrl", null);
+          String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
+          if (StringUtils.isAnyBlank(returnUrl, notifyUrl)) {
+            throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
           }
-        case alipay_wap:
-          {
-            String returnUrl = request.getExtraOrDefault("returnUrl", null);
-            String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
-            if (StringUtils.isAnyBlank(returnUrl, notifyUrl)) {
-              throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
-            }
-            String form =
-                alipay.mobilePay(
-                    payment.getSubject(),
-                    payment.getBody(),
-                    payment.getOrderNo(),
-                    payment.getAmount().toString(),
-                    returnUrl,
-                    payment.getId());
-            Map<String, String> credential = new HashMap<>();
-            credential.put("credential", form);
-            payment.setCredential(new Gson().toJson(credential));
-            break;
+          String form =
+              alipay.mobilePay(
+                  payment.getSubject(),
+                  payment.getBody(),
+                  payment.getOrderNo(),
+                  payment.getAmount().toString(),
+                  returnUrl,
+                  payment.getId());
+          Map<String, String> credential = new HashMap<>();
+          credential.put("credential", form);
+          payment.setCredential(new Gson().toJson(credential));
+          break;
+        }
+        case wx_qr: {
+          String productId = request.getExtraOrDefault("productId", null);
+          String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
+          if (StringUtils.isAnyBlank(productId, notifyUrl)) {
+            throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
           }
-        case wx_qr:
-          {
-            String productId = request.getExtraOrDefault("productId", null);
-            String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
-            if (StringUtils.isAnyBlank(productId, notifyUrl)) {
-              throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
-            }
-            String qrUrl =
-                wechatPay.qrPay(
-                    productId,
-                    request.getOrderNo(),
-                    request.getAmount(),
-                    request.getBody(),
-                    request.getSubject(),
-                    request.getCustom(),
-                    request.getIp(),
-                    payment.getId());
-            Map<String, String> credential = new HashMap<>();
-            credential.put("credential", qrUrl);
-            payment.setCredential(new Gson().toJson(credential));
-            break;
+          String qrUrl =
+              wechatPay.qrPay(
+                  productId,
+                  request.getOrderNo(),
+                  request.getAmount(),
+                  request.getBody(),
+                  request.getSubject(),
+                  request.getCustom(),
+                  request.getIp(),
+                  payment.getId());
+          Map<String, String> credential = new HashMap<>();
+          credential.put("credential", qrUrl);
+          payment.setCredential(new Gson().toJson(credential));
+          break;
+        }
+        case alipay_web: {
+          String returnUrl = request.getExtraOrDefault("returnUrl", null);
+          String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
+          String errorUrl = request.getExtraOrDefault("errorUrl", null);
+          if (StringUtils.isAnyBlank(returnUrl, notifyUrl)) {
+            throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
           }
-        case alipay_web:
-          {
-            String returnUrl = request.getExtraOrDefault("returnUrl", null);
-            String notifyUrl = request.getExtraOrDefault("notifyUrl", null);
-            String errorUrl = request.getExtraOrDefault("errorUrl", null);
-            if (StringUtils.isAnyBlank(returnUrl, notifyUrl)) {
-              throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
-            }
-            String form =
-                alipay.webPay(
-                    payment.getSubject(),
-                    payment.getBody(),
-                    payment.getCustom(),
-                    payment.getOrderNo(),
-                    payment.getAmount().toString(),
-                    returnUrl,
-                    errorUrl,
-                    payment.getId());
-            Map<String, String> credential = new HashMap<>();
-            credential.put("credential", form);
-            payment.setCredential(new Gson().toJson(credential));
-            break;
-          }
+          String form =
+              alipay.webPay(
+                  payment.getSubject(),
+                  payment.getBody(),
+                  payment.getCustom(),
+                  payment.getOrderNo(),
+                  payment.getAmount().toString(),
+                  returnUrl,
+                  errorUrl,
+                  payment.getId());
+          Map<String, String> credential = new HashMap<>();
+          credential.put("credential", form);
+          payment.setCredential(new Gson().toJson(credential));
+          break;
+        }
         default:
           break;
       }
