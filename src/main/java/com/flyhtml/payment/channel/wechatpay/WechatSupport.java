@@ -51,7 +51,6 @@ public class WechatSupport {
    * @param body 商品描述（商家名称-销售商品类目）
    * @param attach 附加数据
    * @param clientIp 终端IP
-   * @return
    */
   public JsPayResponse jsPay(
       String openId,
@@ -78,7 +77,6 @@ public class WechatSupport {
    * @param attach 附加参数
    * @param clientIp ip
    * @param payId 对应平台支付ID
-   * @return
    */
   public String qrPay(
       String productId,
@@ -127,9 +125,6 @@ public class WechatSupport {
 
   /**
    * * 微信签名效验
-   *
-   * @param paramMap
-   * @return
    */
   public Boolean verifySign(Map<String, Object> paramMap) {
     return wepay.notifies().verifySign(paramMap);
@@ -140,7 +135,6 @@ public class WechatSupport {
    *
    * @param notify 微信通知对象
    * @param pay 支付对象
-   * @return
    */
   public Validate verifyNotify(WechatNotify notify, Pay pay) {
     try {
@@ -158,7 +152,7 @@ public class WechatSupport {
       }
       // 金额
       if (pay.getAmount()
-              .compareTo(new BigDecimal(notify.getTotalFee()).divide(new BigDecimal(100)))
+          .compareTo(new BigDecimal(notify.getTotalFee()).divide(new BigDecimal(100)))
           != 0) {
         return Validate.INACCURATE_AMOUNT;
       }
@@ -185,7 +179,6 @@ public class WechatSupport {
    * * 返回微信失败信息
    *
    * @param validate 效验枚举
-   * @return
    */
   public String notOk(Validate validate) {
     return wepay.notifies().notOk(validate.getName());
@@ -193,8 +186,6 @@ public class WechatSupport {
 
   /**
    * * 返回微信成功信息
-   *
-   * @return
    */
   public String ok() {
     return wepay.notifies().ok();

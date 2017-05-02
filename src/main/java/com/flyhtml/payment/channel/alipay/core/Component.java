@@ -1,11 +1,17 @@
 package com.flyhtml.payment.channel.alipay.core;
 
+import com.flyhtml.payment.channel.alipay.exception.AliPayException;
+import com.flyhtml.payment.channel.wechatpay.exception.WepayException;
+import com.flyhtml.payment.channel.wechatpay.model.enums.WepayField;
+import com.flyhtml.payment.common.util.Maps;
 import java.util.*;
 
 import com.flyhtml.payment.channel.alipay.model.enums.AlipayField;
 import com.flyhtml.payment.channel.alipay.model.enums.SignType;
+import me.hao0.common.http.Http;
 import me.hao0.common.security.MD5;
 import me.hao0.common.util.Strings;
+import me.hao0.common.xml.XmlReaders;
 
 /**
  * @author xiaowei
@@ -18,6 +24,27 @@ public abstract class Component {
 
   protected Component(Alipay alipay) {
     this.alipay = alipay;
+  }
+
+  protected Map<String, Object> doPost(final Map<String, String> params) {
+    String resp = Http.post(Alipay.GATEWAY).params(params).request();
+    Map<String, Object> respMap = Maps.toMap(readResp(resp), "trade");
+    return respMap;
+  }
+
+  /**
+   * 读取支付宝xml响应
+   *
+   * @param xml xml字符串
+   * @return 若成功，返回对应Reader，反之抛WepayException
+   */
+  private XmlReaders readResp(final String xml) {
+    XmlReaders readers = XmlReaders.create(xml, alipay.inputCharset);
+    String returnCode = readers.getNodeStr(AlipayField.IS_SUCCESS.field());
+    if ("T".equals(returnCode)) {
+      return readers;
+    }
+    throw new AliPayException(readers.getNodeStr(AlipayField.ERROR_CODE.field()));
   }
 
   /**

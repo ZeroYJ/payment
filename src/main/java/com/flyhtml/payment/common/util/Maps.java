@@ -18,7 +18,7 @@ import me.hao0.common.xml.XmlWriters;
 /**
  * @author xiaowei
  * @time 17-3-29 上午10:19
- * @describe Map,XML转化类
+ * @describe Map, XML转化类
  */
 public class Maps {
 
@@ -44,7 +44,17 @@ public class Maps {
    * @return Map对象
    */
   public static Map<String, Object> toMap(XmlReaders readers) {
-    Node root = readers.getNode("xml");
+    return toMap(readers, "xml");
+  }
+
+  /***
+   * 转换指定tagname下的xml
+   * @param readers
+   * @param tagName
+   * @return
+   */
+  public static Map<String, Object> toMap(XmlReaders readers, String tagName) {
+    Node root = readers.getNode(tagName);
     if (root == null) {
       return Collections.emptyMap();
     }

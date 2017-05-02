@@ -25,7 +25,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class AlipaySupport {
 
-  /** * 以下参数是使用alipayClient所需要 */
+  /**
+   * 以下参数是使用alipayClient所需要
+   */
   @Value("${alipay.gateway}")
   private String gateway;
 
@@ -55,7 +57,9 @@ public class AlipaySupport {
 
   @Value("${alipay.timeout}")
   private String timeout;
-  /** * 以下是使用mapi网关所需要 */
+  /**
+   * 以下是使用mapi网关所需要
+   */
   @Value("${alipay.mapi.pId}")
   private String pId;
 
@@ -70,7 +74,7 @@ public class AlipaySupport {
   private void init() {
     alipayClient =
         new DefaultAlipayClient(gateway, appId, privateKey, format, charset, publicKey, signType);
-    alipay = AlipayBuilder.newBuilder(pId, md5).build();
+    alipay = AlipayBuilder.newBuilder(pId, md5).expired("48h").build();
   }
 
   /**
@@ -83,7 +87,6 @@ public class AlipaySupport {
    * @param returnUrl 交易成功地址
    * @param errorUrl 交易失败地址
    * @param payId 对应平台ID
-   * @return
    */
   public String webPay(
       String subject,
@@ -109,7 +112,6 @@ public class AlipaySupport {
    * @param body 商品描述
    * @param returnUrl 订单号
    * @param amount 订单总金额
-   * @return
    */
   public String mobilePay(
       String subject, String body, String orderId, String amount, String returnUrl, String payId) {
@@ -135,11 +137,15 @@ public class AlipaySupport {
     return null;
   }
 
+  public Map<String, Object> tradeQuery(String orderNo) {
+    Map<String, Object> map = alipay.orders().tradeQuery(orderNo);
+    return map;
+  }
+
   /**
    * * 签名检查
    *
    * @param paramMap 参数
-   * @return
    */
   public Boolean verifySign(Map<String, String> paramMap) {
     boolean bool = alipay.verify().md5(paramMap);
@@ -151,7 +157,6 @@ public class AlipaySupport {
    *
    * @param notify 支付宝通知对象
    * @param pay 支付对象
-   * @return
    */
   public Validate verifyNotify(AlipayNotify notify, Pay pay) {
     try {
@@ -188,9 +193,6 @@ public class AlipaySupport {
 
   /**
    * * 返回支付宝失败信息
-   *
-   * @param validate
-   * @return
    */
   public String notOk(Validate validate) {
     return validate.getName();
@@ -198,8 +200,6 @@ public class AlipaySupport {
 
   /**
    * * 返回支付宝success信息
-   *
-   * @return
    */
   public String ok() {
     return "success";
