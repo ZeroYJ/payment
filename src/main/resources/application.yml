@@ -15,6 +15,3 @@ pagehelper:
     reasonable: true
     supportMethodsArguments: true
     params: count=countSql
-
-payment:
-    key: d3WltvlLEbCT8FztKrLGzfUp2Jj85xw03ajYbrORSpF8

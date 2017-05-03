@@ -24,7 +24,7 @@ druid:
 grpc:
   port: 9090
 
-localhost: http://fuliaoyi.com:8080
+localhost: http://fuliaoyi.com:${server.port}
 
 wechat:
   appId: wxc995ba40913d605d
@@ -47,4 +47,7 @@ alipay:
   mapi:
     pId: 2088421837490657
     md5: zsustkn9wuwrhymh3omn07ohbnudxpl4
+
+payment:
+    key: Y5W8bP6WffJqE84S2L6pCXG8nNIkJN66jy7A01dyIV6I
 

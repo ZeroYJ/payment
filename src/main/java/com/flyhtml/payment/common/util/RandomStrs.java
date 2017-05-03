@@ -28,9 +28,4 @@ public final class RandomStrs {
     }
     return sb.toString();
   }
-
-  public static void main(String[] args) {
-    String generate = generate(44);
-    System.out.println(generate);
-  }
 }

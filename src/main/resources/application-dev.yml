@@ -4,7 +4,7 @@ server:
     timeout: 30
 
 druid:
-  url: jdbc:mysql://fuliaoyi.com:3306/fly_payment?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=true
+  url: jdbc:mysql://fuliaoyi.com:3306/fly_test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=true
   username: fly
   password: fly@2016
   filters: stat,wall,slf4j
@@ -47,3 +47,7 @@ alipay:
   mapi:
     pId: 2088421837490657
     md5: zsustkn9wuwrhymh3omn07ohbnudxpl4
+
+
+payment:
+    key: d3WltvlLEbCT8FztKrLGzfUp2Jj85xw03ajYbrORSpF8
