@@ -212,6 +212,6 @@
                 </dependencies>
             </plugin>
         </plugins>
-        <finalName>payment</finalName>
+        <finalName>paymentdev</finalName>
     </build>
 </project>
