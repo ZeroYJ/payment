@@ -107,7 +107,7 @@ string id;              //支付id
 long gmtCreate;         //创建时间
 long gmtModified;       //修改时间
 bool isPay;             //是否已付款，true=已付款，false=未付款
-bool hasRefund;         //是否存在退款信息，true=有退款信息，false=未付款
+bool hasRefund;         //是否存在退款信息，true=有退款信息，false=无退款信息
 string channel;         //支付渠道
 string orderNo;         //商户订单id
 string ip;              //客户端ip
