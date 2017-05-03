@@ -6,7 +6,7 @@
 相关
 --------------------------------
 * 测试地址：fuliaoyi.com:9090
-* 密钥(效验使用)：d3WltvlLEbCT8FztKrLGzfUp2Jj85xw03ajYbrORSpF8
+* 密钥(效验使用)：测试`d3WltvlLEbCT8FztKrLGzfUp2Jj85xw03ajYbrORSpF8`,生产`Y5W8bP6WffJqE84S2L6pCXG8nNIkJN66jy7A01dyIV6I`
 * [proto文件](https://github.com/fuliaoyi/Zed/blob/master/src/main/proto/payment.proto)
 
 目录
