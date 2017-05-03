@@ -118,9 +118,9 @@ string body;            //商品描述信息
 string channelNo;       //渠道交易号
 long payTime;           //支付时间
 long expireTime;        //失效时间
-string custom;          //自定义数据
-string credential;      //支付凭据
-string extra;           //额外参数
+string custom;          //自定义数据，生成订单时传的自定义参数
+string credential;      //支付凭据，生成订单时获取到的凭据，格式json
+string extra;           //额外参数，生成订单时传的参数，格式json
 string sign;            //签名参数
 
 验签：
