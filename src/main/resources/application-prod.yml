@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8016
   session:
     timeout: 30
 
@@ -22,7 +22,7 @@ druid:
   maxPoolPreparedStatementPerConnectionSize: 20
 
 grpc:
-  port: 9090
+  port: 9016
 
 localhost: http://fuliaoyi.com:${server.port}
 

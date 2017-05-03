@@ -1,5 +1,5 @@
 server:
-  port: 8016
+  port: 8080
   session:
     timeout: 30
 
@@ -7,7 +7,7 @@ druid:
   url: jdbc:mysql://fuliaoyi.com:3306/fly_test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=true
   username: fly
   password: fly@2016
-  filters: stat,wall,slf4j
+  filters: stat,slf4j
   initialSize: 10
   maxActive: 100
   maxWait: 60000
@@ -22,7 +22,7 @@ druid:
   maxPoolPreparedStatementPerConnectionSize: 20
 
 grpc:
-  port: 9016
+  port: 9090
 
 localhost: http://fuliaoyi.com:${server.port}
 
