@@ -56,9 +56,7 @@ public class BeanUtils {
     return null;
   }
 
-  /**
-   * * 对象转Proto对象
-   */
+  /** * 对象转Proto对象 */
   public static <T extends Message> T toProto(Object object, Class<T> clazz) {
     try {
       Class<?> objectClass = object.getClass();
@@ -82,8 +80,7 @@ public class BeanUtils {
                 Map<String, String> map =
                     new Gson()
                         .fromJson(
-                            (String) value, new TypeToken<Map<String, String>>() {
-                            }.getType());
+                            (String) value, new TypeToken<Map<String, String>>() {}.getType());
                 setMethod =
                     builder.getClass().getDeclaredMethod("putAll" + name, annotation.type());
                 setMethod.invoke(builder, map);
@@ -115,11 +112,7 @@ public class BeanUtils {
             if (value instanceof Boolean) {
               type = boolean.class;
             }
-            setMethod =
-                builder
-                    .getClass()
-                    .getDeclaredMethod(
-                        "set" + name, type);
+            setMethod = builder.getClass().getDeclaredMethod("set" + name, type);
             setMethod.invoke(builder, value);
           }
         } catch (NoSuchMethodException exception) {

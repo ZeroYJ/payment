@@ -14,79 +14,49 @@ import com.flyhtml.payment.channel.alipay.model.enums.PaymentType;
  */
 public final class Alipay {
 
-  /**
-   * 支付宝网关
-   */
+  /** 支付宝网关 */
   static final String GATEWAY = "https://mapi.alipay.com/gateway.do?";
 
-  /**
-   * 签约的支付宝账号对应的支付宝唯一用户号，以2088开头的16位纯数字组成。
-   */
+  /** 签约的支付宝账号对应的支付宝唯一用户号，以2088开头的16位纯数字组成。 */
   String merchantId;
 
-  /**
-   * 商户密钥
-   */
+  /** 商户密钥 */
   String secret;
 
-  /**
-   * 商户邮箱帐号
-   */
+  /** 商户邮箱帐号 */
   String email;
 
-  /**
-   * 商户网站使用的编码格式，如utf-8、gbk、gb2312等
-   */
+  /** 商户网站使用的编码格式，如utf-8、gbk、gb2312等 */
   String inputCharset = "UTF-8";
 
-  /**
-   * 支付类型
-   */
+  /** 支付类型 */
   String paymentType = PaymentType.BUY.value();
 
-  /**
-   * 默认支付方式
-   */
+  /** 默认支付方式 */
   String payMethod = PayMethod.DIRECT_PAY.value();
 
-  /**
-   * 支付超时时间
-   */
+  /** 支付超时时间 */
   String expired;
 
-  /**
-   * APP RSA私钥
-   */
+  /** APP RSA私钥 */
   String appPriKey;
 
-  /**
-   * APP RSA公钥
-   */
+  /** APP RSA公钥 */
   String appPubKey;
 
-  /**
-   * 二维码 RSA私钥
-   */
+  /** 二维码 RSA私钥 */
   String qrPriKey;
 
-  /**
-   * 二维码 RSA公钥
-   */
+  /** 二维码 RSA公钥 */
   String qrPubKey;
 
-  /**
-   * 支付配置参数，不需每次请求都生成
-   */
+  /** 支付配置参数，不需每次请求都生成 */
   Map<String, String> payConfig;
 
-  /**
-   * 退款配置参数，不需每次请求都生成
-   */
+  /** 退款配置参数，不需每次请求都生成 */
   Map<String, String> refundConfig;
 
-  /**
-   * 查询配置参数，不需要每次请求都生成
-   */
+  /** 查询配置参数，不需要每次请求都生成 */
   Map<String, String> queryConfig;
 
   Map<String, Component> components = new HashMap<>();

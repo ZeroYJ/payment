@@ -5,6 +5,4 @@ package com.flyhtml.payment.channel.alipay.model.order;
  * @time 17-5-2 下午2:19
  * @describe
  */
-public class TradeOrder {
-
-}
+public class TradeOrder {}

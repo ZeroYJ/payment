@@ -47,8 +47,9 @@ public class Maps {
     return toMap(readers, "xml");
   }
 
-  /***
-   * 转换指定tagname下的xml
+  /**
+   * * 转换指定tagname下的xml
+   *
    * @param readers
    * @param tagName
    * @return
