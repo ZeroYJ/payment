@@ -30,11 +30,7 @@ public class BeanUtils {
   /**
    * * paramMap转Obejct
    *
-   * @param paramMap
-   * @param clazz
    * @param _toCamel 是否需要下划线转驼峰命名
-   * @param <T>
-   * @return
    */
   public static <T extends Object> T toObject(
       Map<String, ?> paramMap, Class<T> clazz, Boolean _toCamel) {
@@ -62,11 +58,6 @@ public class BeanUtils {
 
   /**
    * * 对象转Proto对象
-   *
-   * @param object
-   * @param clazz
-   * @param <T>
-   * @return
    */
   public static <T extends Message> T toProto(Object object, Class<T> clazz) {
     try {
@@ -91,7 +82,8 @@ public class BeanUtils {
                 Map<String, String> map =
                     new Gson()
                         .fromJson(
-                            (String) value, new TypeToken<Map<String, String>>() {}.getType());
+                            (String) value, new TypeToken<Map<String, String>>() {
+                            }.getType());
                 setMethod =
                     builder.getClass().getDeclaredMethod("putAll" + name, annotation.type());
                 setMethod.invoke(builder, map);
@@ -119,11 +111,15 @@ public class BeanUtils {
 
             }
           } else {
+            Class<?> type = field.getType();
+            if (value instanceof Boolean) {
+              type = boolean.class;
+            }
             setMethod =
                 builder
                     .getClass()
                     .getDeclaredMethod(
-                        "set" + name, annotation != null ? annotation.type() : field.getType());
+                        "set" + name, type);
             setMethod.invoke(builder, value);
           }
         } catch (NoSuchMethodException exception) {
