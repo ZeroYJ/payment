@@ -123,9 +123,7 @@ public class WechatSupport {
     request.setNotifyUrl(notifyUrl + "/" + payId);
   }
 
-  /**
-   * * 微信签名效验
-   */
+  /** * 微信签名效验 */
   public Boolean verifySign(Map<String, Object> paramMap) {
     return wepay.notifies().verifySign(paramMap);
   }
@@ -152,7 +150,7 @@ public class WechatSupport {
       }
       // 金额
       if (pay.getAmount()
-          .compareTo(new BigDecimal(notify.getTotalFee()).divide(new BigDecimal(100)))
+              .compareTo(new BigDecimal(notify.getTotalFee()).divide(new BigDecimal(100)))
           != 0) {
         return Validate.INACCURATE_AMOUNT;
       }
@@ -184,9 +182,7 @@ public class WechatSupport {
     return wepay.notifies().notOk(validate.getName());
   }
 
-  /**
-   * * 返回微信成功信息
-   */
+  /** * 返回微信成功信息 */
   public String ok() {
     return wepay.notifies().ok();
   }

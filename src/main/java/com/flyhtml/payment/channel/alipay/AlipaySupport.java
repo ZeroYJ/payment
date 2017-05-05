@@ -25,9 +25,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AlipaySupport {
 
-  /**
-   * 以下参数是使用alipayClient所需要
-   */
+  /** 以下参数是使用alipayClient所需要 */
   @Value("${alipay.gateway}")
   private String gateway;
 
@@ -57,9 +55,7 @@ public class AlipaySupport {
 
   @Value("${alipay.timeout}")
   private String timeout;
-  /**
-   * 以下是使用mapi网关所需要
-   */
+  /** 以下是使用mapi网关所需要 */
   @Value("${alipay.mapi.pId}")
   private String pId;
 
@@ -191,16 +187,12 @@ public class AlipaySupport {
     return null;
   }
 
-  /**
-   * * 返回支付宝失败信息
-   */
+  /** * 返回支付宝失败信息 */
   public String notOk(Validate validate) {
     return validate.getName();
   }
 
-  /**
-   * * 返回支付宝success信息
-   */
+  /** * 返回支付宝success信息 */
   public String ok() {
     return "success";
   }

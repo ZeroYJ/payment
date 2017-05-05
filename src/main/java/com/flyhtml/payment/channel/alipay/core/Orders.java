@@ -15,8 +15,9 @@ public class Orders extends Component {
     super(alipay);
   }
 
-  /***
-   * 根据商户订单号查询订单
+  /**
+   * * 根据商户订单号查询订单
+   *
    * @param orderNo
    * @return
    */
@@ -27,8 +28,9 @@ public class Orders extends Component {
     return doPost(ordersParam);
   }
 
-  /***
-   * 构建查询公共参数
+  /**
+   * * 构建查询公共参数
+   *
    * @param service
    * @return
    */
