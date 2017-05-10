@@ -4,9 +4,9 @@ server:
     timeout: 30
 
 druid:
-  url: jdbc:mysql://fuliaoyi.com:3306/fly_test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=true
-  username: fly
-  password: fly@2016
+  url: jdbc:mysql://rm-uf6heaa126w5mxav7.mysql.rds.aliyuncs.com:3306/db_fly_payment_test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=true
+  username: xiaowei
+  password: helloxiaowei
   filters: stat,slf4j
   initialSize: 10
   maxActive: 100
