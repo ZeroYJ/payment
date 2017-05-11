@@ -41,7 +41,7 @@ public class PaymentClient {
     logger.info("Will try to createAlipay...");
     Make.Builder make = Make.newBuilder();
     make.setOrderNo("T_O" + RandomStrs.generate(25));
-    make.setChannel(PayTypeEnum.alipay_web.getName());
+    make.setChannel(PayTypeEnum.alipay_wap.getName());
     make.setSubject("iphone 7 plus");
     make.setBody("256G,蓝色");
     make.setAmount(1);
@@ -50,7 +50,6 @@ public class PaymentClient {
     // make.putExtra("productId", "9as12sdfasd");
     make.putExtra("notifyUrl", "http://helloxw.viphk.ngrok.org/payNotify");
     make.putExtra("returnUrl", "http://helloxw.viphk.ngrok.org/pay/success");
-    make.putExtra("errorUrl", "http://helloxw.viphk.ngrok.org/pay/pay/error");
     make.setCustom("custom param");
     Make payment = make.build();
     Voucher result;

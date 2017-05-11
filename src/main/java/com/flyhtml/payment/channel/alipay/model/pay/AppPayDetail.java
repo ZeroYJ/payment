@@ -27,15 +27,11 @@ public class AppPayDetail extends PayDetail {
   /** 商户业务扩展参数 */
   @Optional private String outContext;
 
-  /** 商品详情 */
-  private String body;
-
   /** 商品类型 */
   @Optional private GoodsType goodsType;
 
   public AppPayDetail(String outTradeNo, String orderName, String totalFee, String body) {
-    super(outTradeNo, orderName, totalFee);
-    this.body = body;
+    super(outTradeNo, orderName, totalFee, body);
   }
 
   public String getAppId() {
@@ -78,14 +74,6 @@ public class AppPayDetail extends PayDetail {
     this.outContext = outContext;
   }
 
-  public String getBody() {
-    return body;
-  }
-
-  public void setBody(String body) {
-    this.body = body;
-  }
-
   public GoodsType getGoodsType() {
     return goodsType;
   }
@@ -111,9 +99,6 @@ public class AppPayDetail extends PayDetail {
         + '\''
         + ", outContext='"
         + outContext
-        + '\''
-        + ", body='"
-        + body
         + '\''
         + ", goodsType="
         + goodsType

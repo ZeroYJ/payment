@@ -1,0 +1,53 @@
+server:
+  port: 8080
+  session:
+    timeout: 30
+
+druid:
+  url: jdbc:mysql://localhost:3306/db_fly_payment_test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=true
+  username: xiaowei
+  password: helloxiaowei
+  filters: stat,slf4j
+  initialSize: 10
+  maxActive: 100
+  maxWait: 60000
+  minIdle: 5
+  timeBetweenEvictionRunsMillis: 60000
+  minEvictableIdleTimeMillis: 300000
+  validationQuery: SELECT 'x'
+  testWhileIdle: true
+  testOnBorrow: false
+  testOnReturn: false
+  poolPreparedStatements: true
+  maxPoolPreparedStatementPerConnectionSize: 20
+
+grpc:
+  port: 9090
+
+localhost: http://helloxw.viphk.ngrok.org
+
+wechat:
+  appId: wxc995ba40913d605d
+  appSecret: add3136cebac319f2ffa4b0e2a95e42b
+  appKey: b81fc761fe654f619f150558c490ea49
+  mchId: 1366385702
+  notifyUrl: ${localhost}/notify/wechat
+
+alipay:
+  appId: 2016080100140284
+  gateway: https://openapi.alipaydev.com/gateway.do
+  privateKey: MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCcMOneZkAS697pBu+LSvqAu23QAYq/Bom7+xS3Py3otnfGnJwWo95BxuKYtK5H3DONFZb9yCcVZUUqXUrSJfs0EnXQllS7lABwLKss+eOq7PROHUiJ6ABFqdY25CKEGUgn7wiaem4DHEifLxBY+TqwYjJN1hXRQ5Q4fmOMTvyk7sz1BwbmuEu8CMbsIDIAPK0dPL8cf2eGy6CXb7cKZ5xdgoRpeAqSJltvoy52cWsrTm3IGho9rcyLgbTSpMG6eX6oN7klKGwjdRP8deYhxEI1kLLQgEf3YNM/CfDxSUiE1w0o8msV2LH9q6MH6LkLqua64EAS3174Nl0os2zMC+mHAgMBAAECggEAFi7sSGYFW6qcckRF6WawxW/ZXN2bMx5emZBDlPMoNhEUWeUMVjrX6kexDzc6OYKQ38zdMRYoVuWXOTke01IJp4+npAR17F5M4aG2fiDPsQsOd7m4/70vrLU+c3VbYZ+lm+ZbNnWFAnQV7GXm0Hw1Va/crSlm193dQ1jQErF1OIdpT1S3eEOvUfMgPA1/2gZFE6IKLCTdEmh+cdM/luqVLIS/BkNb7YfRIjkGPlXsoNDZD4nClg04wL/APD6v+5w+9CWFo6rB/bYWNxH79hJ0yzvus65X8zrDCQv9M8GlZ3R3yrrXyE5/IsQ78s0ousjct/HlUCCRuLuNMd8IemEhgQKBgQDJYeGL40uWRclZNM4YyMe6Lx7ggzniK1hSr8Xc0113eBtmT6q0KJzZp7ADJiSFgGlfQ0Zisl0jnE7r1lwTIr76RAwwair0FoNkQOSEZkBn3dBVyEJK10k9mbogxGNTtKNFRM3vq2nyqcTsks1oHlqE2DIdDG+LF/B+DFTge3Yh9wKBgQDGjV64X6OBtfzrtBUna9/n/I17oxbXjpA22TSKLRQnHv8q/+IuA1eZDDViVnTcPbirfyOHJMnRJRdBOs0FcI7FghSaMJU9uxeklu2ZZb+e/9TFxmz5c6CZK+JmBRrzWlO0jQzCnhNzttH0pClpIaLn2+XEzGiEFLbNP+WweF2Q8QKBgFLP43YpA/5JuGDsrAvZFPjlQ6dDj1wIQwvNqGoEqRzl0S6jeCkZwlZm9KR23PHhOnOoMJuJiW+JaZLl1XsxAKPds719CyjQ0Ts6zD395mJP/sonzcsE+ONSAg5TdB0J3VIw1xbFwI2/bnFydPFp+gNC/GihooTqVUUgQQ8G9i9FAoGAc4y6XxppkYdT1ehLl1GUUPINdLKJDJGPJBxsEy4A2HOVlHSuMJEJXaxZNQ2TnMjevA+VoYSrXufzDKcnwc6riA4X51P2xqInNEYRqIAqcGH6dc7whIviHsIHU9AMyyr6I80ia/CK6YCv12viHajRoZW7tjgvaw6TBAf3qCekbEECgYA1VLSJprCj0NF0LrZfqTz8OjauYQhaWa3gVNc76ewfMuu7L2rIK4+I4qtc/Rm3fsh4sAdvTJdPwhkTDqNdlaJPOTjxtLHno1Ht1fGoAbMwQPCr0KykSTV0IZYbjYzmDVFkv8rzMQQigrswDwbwEX1l8F7bSrcryzXZAjv0U4IkTg==
+  publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA9jxODLYHC9WAfgxHI4jKlGX37r55gvIC1pi1ENAMfTvviok6xH7S126imLa7m0+WLa6D6eEZer1gcmY7ll0c0HOzTVOins3rC/besqukf/Drrmf7/B9MnN815b6DSSp9T0E8EePDPzu/9L1lQ9+/tHKpBaaRkTC9hKW37y/ja4elo9MkqxdNgQ2mk0bpxG7oiDuKfKuEuVB7Fs/O1zAdceLsaZ5g3OfmMHklvx8qizH9ncvysfJNhA4mqIhfwnaSu6OZCJzow4JRHtzZnB85s9bvNxjs+m7NDPVA9iJAdzxu2FNpDQrJcAujwDFMvaym6x6eREYDKkV2aHtYZC5WUwIDAQAB
+  mchId: 2088102169433522
+  notifyUrl: ${localhost}/notify/alipay
+  signType: RSA2
+  charset: UTF-8
+  format: json
+  timeout: 1d
+  mapi:
+    pId: 2088421837490657
+    md5: zsustkn9wuwrhymh3omn07ohbnudxpl4
+
+
+payment:
+    key: d3WltvlLEbCT8FztKrLGzfUp2Jj85xw03ajYbrORSpF8

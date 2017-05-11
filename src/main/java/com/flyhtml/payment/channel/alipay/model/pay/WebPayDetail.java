@@ -21,8 +21,8 @@ public class WebPayDetail extends PayDetail {
   /** 公用回传参数 */
   protected String extraCommonParam;
 
-  public WebPayDetail(String outTradeNo, String orderName, String totalFee) {
-    super(outTradeNo, orderName, totalFee);
+  public WebPayDetail(String outTradeNo, String orderName, String totalFee, String body) {
+    super(outTradeNo, orderName, totalFee, body);
   }
 
   public String getErrorNotifyUrl() {

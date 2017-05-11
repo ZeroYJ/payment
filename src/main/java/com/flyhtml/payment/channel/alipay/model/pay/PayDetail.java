@@ -22,16 +22,20 @@ public class PayDetail implements Serializable {
   /** 商品金额(元) */
   protected String totalFee;
 
+  /** 商品描述 */
+  @Optional protected String body;
+
   /** 支付宝后置通知url，若为空，则使用Alipay类中的notifyUrl */
   @Optional protected String notifyUrl;
 
   /** 支付宝前端跳转url，若为空，则使用Alipay类中的returnUrl */
   @Optional protected String returnUrl;
 
-  public PayDetail(String outTradeNo, String orderName, String totalFee) {
+  public PayDetail(String outTradeNo, String orderName, String totalFee, String body) {
     this.outTradeNo = outTradeNo;
     this.orderName = orderName;
     this.totalFee = totalFee;
+    this.body = body;
   }
 
   public String getOutTradeNo() {
@@ -72,6 +76,14 @@ public class PayDetail implements Serializable {
 
   public void setReturnUrl(String returnUrl) {
     this.returnUrl = returnUrl;
+  }
+
+  public String getBody() {
+    return body;
+  }
+
+  public void setBody(String body) {
+    this.body = body;
   }
 
   @Override

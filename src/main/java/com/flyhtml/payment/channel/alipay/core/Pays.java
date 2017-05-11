@@ -15,6 +15,7 @@ import com.flyhtml.payment.channel.alipay.model.pay.AppPayDetail;
 import com.flyhtml.payment.channel.alipay.model.pay.PayDetail;
 import com.flyhtml.payment.channel.alipay.model.pay.WapPayDetail;
 import com.flyhtml.payment.channel.alipay.model.pay.WebPayDetail;
+import java.util.TreeMap;
 import me.hao0.common.security.RSA;
 
 /**
@@ -53,7 +54,6 @@ public class Pays extends Component {
     // PC特有参数
     putIfNotEmpty(webPayParams, AlipayField.EXTER_INVOKE_IP, webPayDetail.getExterInvokeIp());
     putIfNotEmpty(webPayParams, AlipayField.ANTI_PHISHING_KEY, webPayDetail.getAntiPhishingKey());
-    putIfNotEmpty(webPayParams, AlipayField.ERROR_NOTIFY_URL, webPayDetail.getErrorNotifyUrl());
     putIfNotEmpty(webPayParams, AlipayField.EXTRA_COMMON_PARAM, webPayDetail.getExtraCommonParam());
 
     // md5签名参数
@@ -108,25 +108,20 @@ public class Pays extends Component {
    * @return 支付表单
    */
   private String buildPayForm(Map<String, String> payParams) {
-    StringBuilder form = new StringBuilder();
-
-    form.append("<form id=\"pay_form\" name=\"pay_form\"")
-        .append(" action=\"" + Alipay.GATEWAY)
-        .append(AlipayField.INPUT_CHARSET + "=")
-        .append(alipay.inputCharset)
-        .append("\" method=\"POST\">");
-    for (Map.Entry<String, String> param : payParams.entrySet()) {
-      form.append("<input type=\"hidden\" name=\"")
-          .append(param.getKey())
-          .append("\" value=\"")
-          .append(param.getValue())
-          .append("\" />");
+    try {
+      Map<String, String> validParams = new TreeMap<>();
+      validParams.putAll(payParams);
+      StringBuilder form = new StringBuilder();
+      form.append(Alipay.GATEWAY);
+      for (Map.Entry<String, String> param : validParams.entrySet()) {
+        form.append(param.getKey() + "=" + URLEncoder.encode(param.getValue(), "utf-8"));
+        form.append("&");
+      }
+      return form.toString().substring(0, form.length() - 1);
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
     }
-    form.append("<input type=\"submit\" value=\"去支付\" style=\"display:none;\" />");
-    form.append("</form>");
-    form.append("<script>document.forms['pay_form'].submit();</script>");
-
-    return form.toString();
+    return null;
   }
 
   /**
@@ -209,6 +204,7 @@ public class Pays extends Component {
     checkNotNullAndEmpty(payDetail.getTotalFee(), "totalFee");
     payParams.put(AlipayField.TOTAL_FEE.field(), payDetail.getTotalFee());
 
+    putIfNotEmpty(payParams, AlipayField.BODY, payDetail.getBody());
     putIfNotEmpty(payParams, AlipayField.NOTIFY_URL, payDetail.getNotifyUrl());
     putIfNotEmpty(payParams, AlipayField.RETURN_URL, payDetail.getReturnUrl());
 

@@ -5,6 +5,7 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
+import com.alipay.api.response.AlipayTradeWapPayResponse;
 import com.flyhtml.payment.channel.alipay.core.Alipay;
 import com.flyhtml.payment.channel.alipay.core.AlipayBuilder;
 import com.flyhtml.payment.channel.alipay.model.notify.AlipayNotify;
@@ -78,10 +79,10 @@ public class AlipaySupport {
    *
    * @param subject 商品标题
    * @param body 商品描述
+   * @param custom 商户自定义参数
    * @param orderId 订单编号
    * @param amount 订单金额
    * @param returnUrl 交易成功地址
-   * @param errorUrl 交易失败地址
    * @param payId 对应平台ID
    */
   public String webPay(
@@ -91,12 +92,10 @@ public class AlipaySupport {
       String orderId,
       String amount,
       String returnUrl,
-      String errorUrl,
       String payId) {
-    WebPayDetail payDetail = new WebPayDetail(orderId, subject, amount);
+    WebPayDetail payDetail = new WebPayDetail(orderId, subject, amount, body);
     payDetail.setReturnUrl(returnUrl);
     payDetail.setNotifyUrl(notifyUrl + "/" + payId);
-    payDetail.setErrorNotifyUrl(errorUrl);
     payDetail.setExtraCommonParam(custom);
     return alipay.pay().webPay(payDetail);
   }
@@ -125,7 +124,8 @@ public class AlipaySupport {
       model.setTimeoutExpress(timeout);
       model.setProductCode("QUICK_WAP_PAY");
       alipayRequest.setBizModel(model);
-      String form = alipayClient.pageExecute(alipayRequest).getBody();
+      AlipayTradeWapPayResponse alipay = alipayClient.pageExecute(alipayRequest);
+      String form = alipay.getBody();
       return form;
     } catch (AlipayApiException e) {
       e.printStackTrace();

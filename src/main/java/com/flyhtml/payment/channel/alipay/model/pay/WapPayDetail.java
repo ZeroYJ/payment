@@ -35,8 +35,8 @@ public class WapPayDetail extends PayDetail {
   /** 收单场景 */
   @Optional private String scene;
 
-  public WapPayDetail(String outTradeNo, String orderName, String totalFee) {
-    super(outTradeNo, orderName, totalFee);
+  public WapPayDetail(String outTradeNo, String orderName, String totalFee, String body) {
+    super(outTradeNo, orderName, totalFee, body);
   }
 
   public String getShowUrl() {

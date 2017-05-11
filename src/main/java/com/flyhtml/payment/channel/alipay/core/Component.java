@@ -16,7 +16,7 @@ import me.hao0.common.xml.XmlReaders;
 /**
  * @author xiaowei
  * @time 17-4-12 下午3:28
- * @describe
+ * @describe 父组件
  */
 public abstract class Component {
 
