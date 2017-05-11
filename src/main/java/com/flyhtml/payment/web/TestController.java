@@ -23,7 +23,9 @@ public class TestController extends BaseController {
 
   @RequestMapping("/create")
   public String create() throws InterruptedException {
-    return PaymentClient.pay().getCredentialOrThrow("credential");
+    String credential = PaymentClient.pay().getCredentialOrThrow("credential");
+    System.out.println(credential);
+    return credential;
   }
 
   @RequestMapping("/goPay")
