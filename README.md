@@ -81,7 +81,6 @@ alipay_web:
     支付宝即时到帐支付
     所需额外参数:
         returnUrl:支付成功后返回的页面地址
-        errorUrl:支付失败后返回的页面地址
 ```
 ## 支付凭据说明
 ```$xslt
@@ -98,7 +97,7 @@ alipay_wap:
     获取到此form后直接输出到页面即可进行支付
         
 alipay_web:
-    credential：同alipay_wap
+    credential：支付宝支付地址，跳转即可
 ```
 ## 回调通知及验签
 ```$xslt
