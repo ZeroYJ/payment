@@ -41,7 +41,7 @@ public class PaymentClient {
     logger.info("Will try to createAlipay...");
     Make.Builder make = Make.newBuilder();
     make.setOrderNo("T_O" + RandomStrs.generate(25));
-    make.setChannel(PayTypeEnum.alipay_web.getName());
+    make.setChannel(PayTypeEnum.alipay_wap.getName());
     make.setSubject("iphone 7 plus");
     make.setBody("256G,蓝色");
     make.setAmount(1);

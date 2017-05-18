@@ -3,11 +3,13 @@ package com.flyhtml.payment.channel.alipay.sdk;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.domain.AlipayTradePagePayModel;
 import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.internal.util.AlipaySignature;
+import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
+import com.alipay.api.response.AlipayTradePagePayResponse;
 import com.alipay.api.response.AlipayTradeWapPayResponse;
-import com.flyhtml.payment.channel.alipay.mapi.model.notify.MapiNotify;
 import com.flyhtml.payment.channel.alipay.sdk.model.SdkNotify;
 import com.flyhtml.payment.common.enums.Validate;
 import com.flyhtml.payment.db.model.Pay;
@@ -25,7 +27,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class AlipaySdkSupport {
 
-  /** 以下参数是使用alipayClient所需要 */
   @Value("${alipay.sdk.gateway}")
   private String gateway;
 
@@ -65,15 +66,25 @@ public class AlipaySdkSupport {
   }
 
   /**
-   * * 支付宝H5支付
+   * 支付宝H5支付
    *
    * @param subject 商品标题
-   * @param body 商品描述
-   * @param returnUrl 订单号
-   * @param amount 订单总金额
+   * @param body　商品内容
+   * @param custom　商户自定义参数
+   * @param orderId　订单ID
+   * @param amount　订单金额
+   * @param returnUrl　支付成功回调地址
+   * @param payId　支付ID
+   * @return
    */
   public String mobilePay(
-      String subject, String body, String orderId, String amount, String returnUrl, String payId) {
+      String subject,
+      String body,
+      String custom,
+      String orderId,
+      String amount,
+      String returnUrl,
+      String payId) {
     try {
       AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest(); // 创建API对应的request
       // 在公共参数中设置回跳和通知地址
@@ -87,8 +98,53 @@ public class AlipaySdkSupport {
       model.setTotalAmount(amount);
       model.setTimeoutExpress(timeout);
       model.setProductCode("QUICK_WAP_PAY");
+      model.setPassbackParams(custom);
       alipayRequest.setBizModel(model);
       AlipayTradeWapPayResponse alipay = alipayClient.pageExecute(alipayRequest);
+      String form = alipay.getBody();
+      return form;
+    } catch (AlipayApiException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  /**
+   * 支付宝电脑网站支付
+   *
+   * @param subject 商品标题
+   * @param body　商品内容
+   * @param custom　商户自定义参数
+   * @param orderId　订单ID
+   * @param amount　订单金额
+   * @param returnUrl　支付成功回调地址
+   * @param payId　支付ID
+   * @return
+   */
+  public String webPay(
+      String subject,
+      String body,
+      String custom,
+      String orderId,
+      String amount,
+      String returnUrl,
+      String payId) {
+    try {
+      AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest(); // 创建API对应的request
+      // 在公共参数中设置回跳和通知地址
+      alipayRequest.setReturnUrl(returnUrl);
+      alipayRequest.setNotifyUrl(notifyUrl + "/" + payId);
+      // 封装请求支付信息
+      AlipayTradePagePayModel model = new AlipayTradePagePayModel();
+      model.setSubject(subject);
+      model.setBody(body);
+      model.setOutTradeNo(orderId);
+      model.setTotalAmount(amount);
+      model.setTimeoutExpress(timeout);
+      model.setProductCode("QUICK_WAP_PAY");
+      model.setPassbackParams(custom);
+      alipayRequest.setBizModel(model);
+      AlipayTradePagePayResponse alipay = alipayClient.pageExecute(alipayRequest);
       String form = alipay.getBody();
       return form;
     } catch (AlipayApiException e) {
