@@ -1,6 +1,6 @@
 package com.flyhtml.payment;
 
-import com.flyhtml.payment.channel.alipay.AlipaySupport;
+import com.flyhtml.payment.channel.alipay.mapi.AlipayMapiSupport;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +29,6 @@ import com.flyhtml.payment.common.util.RandomStrs;
 import com.flyhtml.payment.db.model.Pay;
 import com.flyhtml.payment.db.service.PayService;
 import com.google.gson.Gson;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author xiaowei
@@ -50,7 +49,7 @@ public class PaymentTest {
   @Autowired
   private PayHooksService payHooksService;
   @Autowired
-  private AlipaySupport alipay;
+  private AlipayMapiSupport alipay;
 
   private Gson gson = new GsonBuilder().serializeNulls().registerTypeAdapter(BigDecimal.class,
       new BigDecimalSerializer()).registerTypeAdapter(Date.class,

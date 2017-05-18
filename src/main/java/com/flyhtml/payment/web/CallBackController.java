@@ -1,7 +1,8 @@
 package com.flyhtml.payment.web;
 
 import com.alipay.api.AlipayApiException;
-import com.flyhtml.payment.channel.alipay.model.notify.AlipayNotify;
+import com.flyhtml.payment.channel.alipay.mapi.model.notify.MapiNotify;
+import com.flyhtml.payment.channel.alipay.sdk.model.SdkNotify;
 import com.flyhtml.payment.channel.wechatpay.model.notify.WechatNotify;
 import com.flyhtml.payment.common.enums.Validate;
 import com.flyhtml.payment.common.util.BeanUtils;
@@ -31,22 +32,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/notify")
 public class CallBackController extends BaseController {
 
-  @RequestMapping("/alipay/{id}")
-  public String alipay(@PathVariable("id") String id) throws AlipayApiException, IOException {
+  @RequestMapping("/alipay/sdk/{id}")
+  public String alipay(@PathVariable("id") String id) {
     // 验签
     Map<String, String[]> parameterMap = request.getParameterMap();
     Map<String, String> paramMap = new HashMap<>();
     for (String key : parameterMap.keySet()) {
       paramMap.put(key, parameterMap.get(key)[0]);
     }
-    Boolean signCheck = alipay.verifySign(paramMap);
+    Boolean signCheck = alipaySdkPay.verifySign(paramMap);
     if (!signCheck) {
-      return alipay.notOk(Validate.INVALID_SIGNATURE);
+      logger.error("verify sign failed: {}", paramMap);
+      return alipaySdkPay.notOk(Validate.INVALID_SIGNATURE);
     }
     // 验证订单准确性
     Pay pay = payService.selectById(id);
-    AlipayNotify notify = BeanUtils.toObject(paramMap, AlipayNotify.class, true);
-    Validate validate = alipay.verifyNotify(notify, pay);
+    SdkNotify notify = BeanUtils.toObject(paramMap, SdkNotify.class, true);
+    Validate validate = alipaySdkPay.verifyNotify(notify, pay);
 
     logger.info(">>>>>>>>>>>>>>>>>>>>>>Start Business Logic>>>>>>>>>>>>>>>>>>>>>>");
 
@@ -54,8 +56,38 @@ public class CallBackController extends BaseController {
     String channelNo = notify.getTradeNo();
     String res =
         validate.equals(Validate.SUCCESS)
-            ? alipay.ok()
-            : validate.equals(Validate.REPEAT) ? alipay.ok() : alipay.notOk(validate);
+            ? alipaySdkPay.ok()
+            : validate.equals(Validate.REPEAT) ? alipaySdkPay.ok() : alipaySdkPay.notOk(validate);
+    notifyLogic(validate.equals(Validate.SUCCESS), pay, notify, payTime, channelNo, res);
+    return res;
+  }
+
+  @RequestMapping("/alipay/mapi/{id}")
+  public String mapiAlipay(@PathVariable("id") String id) throws AlipayApiException, IOException {
+    // 验签
+    Map<String, String[]> parameterMap = request.getParameterMap();
+    Map<String, String> paramMap = new HashMap<>();
+    for (String key : parameterMap.keySet()) {
+      paramMap.put(key, parameterMap.get(key)[0]);
+    }
+    Boolean signCheck = alipayMapiPay.verifySign(paramMap);
+    if (!signCheck) {
+      logger.error("verify sign failed: {}", paramMap);
+      return alipayMapiPay.notOk(Validate.INVALID_SIGNATURE);
+    }
+    // 验证订单准确性
+    Pay pay = payService.selectById(id);
+    MapiNotify notify = BeanUtils.toObject(paramMap, MapiNotify.class, true);
+    Validate validate = alipayMapiPay.verifyNotify(notify, pay);
+
+    logger.info(">>>>>>>>>>>>>>>>>>>>>>Start Business Logic>>>>>>>>>>>>>>>>>>>>>>");
+
+    Date payTime = Dates.toDate(notify.getGmtPayment());
+    String channelNo = notify.getTradeNo();
+    String res =
+        validate.equals(Validate.SUCCESS)
+            ? alipayMapiPay.ok()
+            : validate.equals(Validate.REPEAT) ? alipayMapiPay.ok() : alipayMapiPay.notOk(validate);
     notifyLogic(validate.equals(Validate.SUCCESS), pay, notify, payTime, channelNo, res);
     return res;
   }
@@ -129,7 +161,7 @@ public class CallBackController extends BaseController {
     }
   }
 
-  /** * 获取request xml内容 */
+  /** 获取request xml内容 */
   public static String getPostRequestBody(HttpServletRequest request) {
     if (request.getMethod().equals("POST")) {
       StringBuilder sb = new StringBuilder();

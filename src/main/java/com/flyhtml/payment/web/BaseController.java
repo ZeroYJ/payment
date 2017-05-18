@@ -1,24 +1,10 @@
 package com.flyhtml.payment.web;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.flyhtml.payment.common.serializer.DateSerializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ModelAttribute;
-
-import com.flyhtml.payment.channel.alipay.AlipaySupport;
+import com.flyhtml.payment.channel.alipay.mapi.AlipayMapiSupport;
+import com.flyhtml.payment.channel.alipay.sdk.AlipaySdkSupport;
 import com.flyhtml.payment.channel.wechatpay.WechatSupport;
 import com.flyhtml.payment.common.serializer.BigDecimalSerializer;
+import com.flyhtml.payment.common.serializer.DateSerializer;
 import com.flyhtml.payment.common.task.PayHooksTask;
 import com.flyhtml.payment.common.util.Maps;
 import com.flyhtml.payment.db.model.Pay;
@@ -28,8 +14,18 @@ import com.flyhtml.payment.db.service.PayService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import me.hao0.common.security.MD5;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**
  * @author xiaowei
@@ -48,7 +44,8 @@ public class BaseController {
   @Autowired protected PayService payService;
   @Autowired protected PayNotifyService payNotifyService;
   @Autowired protected PayHooksService payHooksService;
-  @Autowired protected AlipaySupport alipay;
+  @Autowired protected AlipayMapiSupport alipayMapiPay;
+  @Autowired protected AlipaySdkSupport alipaySdkPay;
   @Autowired protected WechatSupport wechatPay;
   @Autowired protected PayHooksTask hooksTask;
 

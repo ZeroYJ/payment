@@ -1,5 +1,6 @@
 package com.flyhtml.payment.grpc.service;
 
+import com.flyhtml.payment.channel.alipay.sdk.AlipaySdkSupport;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,7 +11,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.flyhtml.payment.channel.alipay.AlipaySupport;
+import com.flyhtml.payment.channel.alipay.mapi.AlipayMapiSupport;
 import com.flyhtml.payment.channel.wechatpay.WechatSupport;
 import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayResponse;
 import com.flyhtml.payment.common.enums.PayTypeEnum;
@@ -38,7 +39,8 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
 
   @Autowired private PayService paymentService;
   @Autowired private WechatSupport wechatPay;
-  @Autowired private AlipaySupport alipay;
+  @Autowired private AlipayMapiSupport alipayMapiPay;
+  @Autowired private AlipaySdkSupport alipaySdkPay;
 
   @Override
   public void create(Make request, StreamObserver<Voucher> responseObserver) {
@@ -110,7 +112,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
               throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
             }
             String form =
-                alipay.mobilePay(
+                alipaySdkPay.mobilePay(
                     payment.getSubject(),
                     payment.getBody(),
                     payment.getOrderNo(),
@@ -152,7 +154,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
               throw new StatusRuntimeException(Status.INVALID_ARGUMENT.withDescription("缺少extra"));
             }
             String form =
-                alipay.webPay(
+                alipayMapiPay.webPay(
                     payment.getSubject(),
                     payment.getBody(),
                     payment.getCustom(),
