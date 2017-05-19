@@ -115,6 +115,7 @@ public class PaymentServiceImpl extends PaymentServiceGrpc.PaymentServiceImplBas
                 alipaySdkPay.mobilePay(
                     payment.getSubject(),
                     payment.getBody(),
+                    payment.getCustom(),
                     payment.getOrderNo(),
                     payment.getAmount().toString(),
                     returnUrl,
