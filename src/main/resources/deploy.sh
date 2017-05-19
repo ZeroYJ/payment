@@ -3,7 +3,7 @@ cd /opt/JavaPro/payment
 echo "mvn package..."
 mvn clean compile package -DskipTests
 echo "scp payment.jar..."
-scp target/paymentdev.jar root@fuliaoyi.com:/opt
+scp target/payment.jar root@fuliaoyi.com:/opt
 echo "connect fuliaoyi.com..."
 cd src/main/resources
 ./ssh-service.sh
