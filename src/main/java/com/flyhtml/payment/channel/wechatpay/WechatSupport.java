@@ -7,9 +7,15 @@ import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayRequest;
 import com.flyhtml.payment.channel.wechatpay.model.pay.JsPayResponse;
 import com.flyhtml.payment.channel.wechatpay.model.pay.PayRequest;
 import com.flyhtml.payment.channel.wechatpay.model.pay.QrPayRequest;
+import com.flyhtml.payment.channel.wechatpay.model.refund.RefundApplyRequest;
+import com.flyhtml.payment.channel.wechatpay.model.refund.RefundApplyResponse;
+import com.flyhtml.payment.channel.wechatpay.model.refund.RefundQueryResponse;
 import com.flyhtml.payment.common.enums.Validate;
 import com.flyhtml.payment.db.model.Pay;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,11 +41,21 @@ public class WechatSupport {
   @Value("${wechat.notifyUrl}")
   private String notifyUrl;
 
+  @Value("${wechat.cert}")
+  private String cert;
+
   private Wepay wepay;
 
   @PostConstruct
   private void init() {
-    wepay = WepayBuilder.newBuilder(appId, appKey, mchId).build();
+    try {
+      //证书
+      Path path = Paths.get(cert);
+      byte[] data = Files.readAllBytes(path);
+      wepay = WepayBuilder.newBuilder(appId, appKey, mchId).certPasswd(mchId).certs(data).build();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -93,6 +109,34 @@ public class WechatSupport {
     return wepay.pay().qrPay(qrPay, false);
   }
 
+  /***
+   * 申请退款
+   * @param outTradeNo　商户订单号
+   * @param refundNo　退款订单号
+   * @param totalFee　订单金额
+   * @param refundFee　退款金额
+   * @return
+   */
+  public RefundApplyResponse applyRefund(String outTradeNo, String refundNo, Integer totalFee, Integer refundFee,
+      String opUserId) {
+    RefundApplyRequest request = new RefundApplyRequest();
+    request.setOutTradeNo(outTradeNo);
+    request.setOutRefundNo(refundNo);
+    request.setTotalFee(totalFee);
+    request.setRefundFee(refundFee);
+    request.setOpUserId(opUserId);
+    return wepay.refund().apply(request);
+  }
+
+  /***
+   * 根据退款id查询退款信息
+   * @param refundId
+   * @return
+   */
+  public RefundQueryResponse queryRefund(String refundId) {
+    return wepay.refund().queryByOutRefundNo(refundId);
+  }
+
   /**
    * * 设置一些支付公共参数
    *
@@ -123,7 +167,9 @@ public class WechatSupport {
     request.setNotifyUrl(notifyUrl + "/" + payId);
   }
 
-  /** * 微信签名效验 */
+  /**
+   * 微信签名效验
+   */
   public Boolean verifySign(Map<String, Object> paramMap) {
     return wepay.notifies().verifySign(paramMap);
   }
@@ -150,7 +196,7 @@ public class WechatSupport {
       }
       // 金额
       if (pay.getAmount()
-              .compareTo(new BigDecimal(notify.getTotalFee()).divide(new BigDecimal(100)))
+          .compareTo(new BigDecimal(notify.getTotalFee()).divide(new BigDecimal(100)))
           != 0) {
         return Validate.INACCURATE_AMOUNT;
       }
@@ -182,7 +228,9 @@ public class WechatSupport {
     return wepay.notifies().notOk(validate.getName());
   }
 
-  /** * 返回微信成功信息 */
+  /**
+   * 返回微信成功信息
+   */
   public String ok() {
     return wepay.notifies().ok();
   }

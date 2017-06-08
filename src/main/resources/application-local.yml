@@ -32,6 +32,7 @@ wechat:
   appKey: b81fc761fe654f619f150558c490ea49
   mchId: 1366385702
   notifyUrl: ${localhost}/notify/wechat
+  cert: /opt/cert/wechat/apiclient_cert.p12
 
 alipay:
   sdk:
@@ -52,4 +53,4 @@ alipay:
 
 
 payment:
-    key: d3WltvlLEbCT8FztKrLGzfUp2Jj85xw03ajYbrORSpF8
+  key: d3WltvlLEbCT8FztKrLGzfUp2Jj85xw03ajYbrORSpF8
