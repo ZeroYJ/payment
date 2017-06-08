@@ -4,12 +4,17 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradePagePayModel;
+import com.alipay.api.domain.AlipayTradeRefundModel;
 import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipayTradePagePayResponse;
+import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.alipay.api.response.AlipayTradeWapPayResponse;
+import com.flyhtml.payment.channel.alipay.mapi.exception.AliPayException;
+import com.flyhtml.payment.channel.alipay.sdk.exception.AlipayException;
 import com.flyhtml.payment.channel.alipay.sdk.model.SdkNotify;
 import com.flyhtml.payment.common.enums.Validate;
 import com.flyhtml.payment.db.model.Pay;
@@ -69,13 +74,12 @@ public class AlipaySdkSupport {
    * 支付宝H5支付
    *
    * @param subject 商品标题
-   * @param body　商品内容
-   * @param custom　商户自定义参数
-   * @param orderId　订单ID
-   * @param amount　订单金额
-   * @param returnUrl　支付成功回调地址
-   * @param payId　支付ID
-   * @return
+   * @param body 　商品内容
+   * @param custom 　商户自定义参数
+   * @param orderId 　订单ID
+   * @param amount 　订单金额
+   * @param returnUrl 　支付成功回调地址
+   * @param payId 　支付ID
    */
   public String mobilePay(
       String subject,
@@ -113,13 +117,12 @@ public class AlipaySdkSupport {
    * 支付宝电脑网站支付
    *
    * @param subject 商品标题
-   * @param body　商品内容
-   * @param custom　商户自定义参数
-   * @param orderId　订单ID
-   * @param amount　订单金额
-   * @param returnUrl　支付成功回调地址
-   * @param payId　支付ID
-   * @return
+   * @param body 　商品内容
+   * @param custom 　商户自定义参数
+   * @param orderId 　订单ID
+   * @param amount 　订单金额
+   * @param returnUrl 　支付成功回调地址
+   * @param payId 　支付ID
    */
   public String webPay(
       String subject,
@@ -147,6 +150,37 @@ public class AlipaySdkSupport {
       AlipayTradePagePayResponse alipay = alipayClient.pageExecute(alipayRequest);
       String form = alipay.getBody();
       return form;
+    } catch (AlipayApiException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  /***
+   * 申请退款
+   * @param outTradeNo 商户订单号
+   * @param refundNo　退款订单号
+   * @param refundFee　退款金额
+   * @param opUserId　操作用户Id
+   * @param reason 退款原因
+   * @return
+   */
+  public AlipayTradeRefundResponse applyRefund(String outTradeNo, String refundNo, BigDecimal refundFee,
+      String opUserId, String reason) {
+    try {
+      AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
+      AlipayTradeRefundModel model = new AlipayTradeRefundModel();
+      model.setOutTradeNo(outTradeNo);
+      model.setRefundAmount(refundFee + "");
+      model.setRefundReason(reason);
+      model.setOutRequestNo(refundNo);
+      model.setOperatorId(opUserId);
+      request.setBizModel(model);
+      AlipayTradeRefundResponse response = alipayClient.execute(request);
+      if (!response.getCode().equals("10000")) {
+        throw new AlipayException(response.getCode(), response.getSubMsg());
+      }
+      return response;
     } catch (AlipayApiException e) {
       e.printStackTrace();
     }
@@ -211,12 +245,16 @@ public class AlipaySdkSupport {
     return null;
   }
 
-  /** 返回支付宝失败信息 */
+  /**
+   * 返回支付宝失败信息
+   */
   public String notOk(Validate validate) {
     return validate.getName();
   }
 
-  /** 返回支付宝success信息 */
+  /**
+   * 返回支付宝success信息
+   */
   public String ok() {
     return "success";
   }

@@ -1,6 +1,13 @@
 package com.flyhtml.payment;
 
+import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.flyhtml.payment.channel.alipay.mapi.AlipayMapiSupport;
+import com.flyhtml.payment.channel.alipay.sdk.AlipaySdkSupport;
+import com.flyhtml.payment.channel.wechatpay.WechatSupport;
+import com.flyhtml.payment.channel.wechatpay.model.refund.RefundApplyResponse;
+import com.flyhtml.payment.channel.wechatpay.model.refund.RefundQueryResponse;
+import com.flyhtml.payment.db.model.Refund;
+import com.flyhtml.payment.db.service.RefundService;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -49,7 +56,13 @@ public class PaymentTest {
   @Autowired
   private PayHooksService payHooksService;
   @Autowired
+  private RefundService refundService;
+  @Autowired
   private AlipayMapiSupport alipay;
+  @Autowired
+  private AlipaySdkSupport alipaySdk;
+  @Autowired
+  private WechatSupport wechat;
 
   private Gson gson = new GsonBuilder().serializeNulls().registerTypeAdapter(BigDecimal.class,
       new BigDecimalSerializer()).registerTypeAdapter(Date.class,
@@ -136,5 +149,40 @@ public class PaymentTest {
     for (String s : map.keySet()) {
       System.out.println(s);
     }
+  }
+
+  @Test
+  public void wechatRefund() {
+    RefundApplyResponse resp = wechat
+        .applyRefund("d00add9d45244f478b9c312253d1bc35", "re_d00add9d45244f478b9c312253d1bc35_1", 1, 1, "111");
+    System.out.println(resp);
+  }
+
+  @Test
+  public void alipayRefund() {
+    AlipayTradeRefundResponse response = alipaySdk
+        .applyRefund("35ef4d42ae7a471c8c2a9362e10045f0", "re_35ef4d42ae7a471c8c2a9362e10045f0_1",
+            new BigDecimal("0.01"),
+            "111", "测试退款");
+    System.out.println(new Gson().toJson(response));
+  }
+
+  @Test
+  public void queryRefund() {
+    RefundQueryResponse refund = wechat.queryRefund("re_d00add9d45244f478b9c312253d1bc35");
+    System.out.println(refund);
+  }
+
+  @Test
+  public void insertRefund() {
+    Refund refund = new Refund();
+    refund.setId("re_" + RandomStrs.generate(24));
+    refund.setPayId("aaa");
+    refund.setStatus(0);
+    refund.setOrderNo("bbb");
+    refund.setAmount(new BigDecimal(1).divide(new BigDecimal(100)));
+    refund.setReason("测试退款");
+    refund.setOpUserId("0qwqsadfasdf");
+    refundService.insertSelective(refund);
   }
 }

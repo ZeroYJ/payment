@@ -27,10 +27,14 @@ import me.hao0.common.util.Strings;
  */
 public final class Refunds extends Component {
 
-  /** 申请退款 */
+  /**
+   * 申请退款
+   */
   private static final String APPLY = "https://api.mch.weixin.qq.com/secapi/pay/refund";
 
-  /** 查询退款 */
+  /**
+   * 查询退款
+   */
   private static final String QUERY = "https://api.mch.weixin.qq.com/pay/refundquery";
 
   Refunds(Wepay wepay) {

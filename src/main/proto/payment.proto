@@ -13,6 +13,12 @@ service PaymentService {
   // query order
   rpc query (Query) returns (Voucher) {
   }
+  //　list query order
+  rpc list (stream Query) returns (stream Voucher) {
+  }
+  // apply refund
+  rpc refund (ApplyRefund) returns (RefundRes) {
+  }
 }
 
 message Query {
@@ -47,4 +53,25 @@ message Voucher {
   string custom = 14;
   map<string, string> credential = 15;
   map<string, string> extra = 16;
+}
+
+message ApplyRefund {
+  string id = 1;
+  int32 amount = 2;
+  string desc = 3;
+  string opUserId = 4;
+}
+
+message RefundRes {
+  string id = 1;
+  int64 gmtCreate = 2;
+  bool isSucceed = 3;
+  int64 status = 4;
+  string payId = 5;
+  string orderNo = 6;
+  int32 amount = 7;
+  string desc = 8;
+  int64 succeedTime = 9;
+  string errorCode = 10;
+  string errorMsg = 11;
 }

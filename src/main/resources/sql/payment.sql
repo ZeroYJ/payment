@@ -48,3 +48,23 @@ CREATE TABLE `pay_hooks` (
   `response_data` VARCHAR(200) NULL COMMENT '响应数据',
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = `utf8mb4` COMMENT '支付回调表';
+
+##退款表
+DROP TABLE IF EXISTS `refund`;
+CREATE TABLE `refund` (
+  `id`            VARCHAR(32) NOT NULL COMMENT '主键',
+  `gmt_create`    DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified`  DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `is_succeed`    TINYINT(1) NOT NULL  DEFAULT 0 COMMENT '是否成功',
+  `status`        INT(1)      NOT NULL COMMENT '0=处理中,1=成功,2=失败',
+  `pay_id`        VARCHAR(32) NOT NULL COMMENT '支付对象ID',
+  `order_no`      VARCHAR(32) NOT NULL COMMENT '订单ID',
+  `amount`        DECIMAL(10,2) NOT NULL COMMENT '退款金额',
+  `reason`          VARCHAR(255)  NOT NULL COMMENT '退款原因',
+  `op_user_id`      VARCHAR(32) NOT NULL COMMENT '操作人ID',
+  `succeed_time`  DATETIME NULL COMMENT '退款成功时间',
+  `error_code`    VARCHAR(100) NULL  COMMENT '退款错误码',
+  `error_msg`     VARCHAR(100) NULL  COMMENT '退款错误信息',
+  `remarks`       TEXT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = `utf8mb4` COMMENT '退款表';
