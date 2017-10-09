@@ -131,8 +131,10 @@
         <!--local-sdk-->
         <dependency>
             <groupId>com.alipay</groupId>
-            <artifactId>sdk-java</artifactId>
-            <version>20170209153223</version>
+            <artifactId>alipay-sdk</artifactId>
+            <version>20170307171631</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/alipay-sdk-java20170307171631.jar</systemPath>
         </dependency>
     </dependencies>
 
